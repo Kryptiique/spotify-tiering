@@ -20,9 +20,9 @@ This is the actual website, built using [React](https://reactjs.org/). To test l
 
 
 ```
-cd [repo location]/spotify-tiering/tiering-site 
-npm i
-npm start
+$ cd [repo location]/spotify-tiering/tiering-site 
+$ npm i
+$ npm start
 ```
 
 # Contributors
