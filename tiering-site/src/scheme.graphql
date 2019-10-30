@@ -22,9 +22,11 @@ type Circle {
 
   # SETTINGS
 
-  # Cap on the number of s
+  # Limit on the number of swaps that can be made per session per user
   swapCap: Int
-  # Generated link to join the Circl
+  # Limit on the number of songs that can be added per session per user
+  addCap: Int
+  # Generated link to join the Circle
   joinLink: String
   # Whether the songs can be rated by the owner only
   # or all participants
@@ -41,6 +43,8 @@ type User {
   spotifyLink: String
   # circles the user is participating in
   circles: [UCLink]
+  # list of message threads the user is participating in
+  threads: [Thread]
 
   # PREFERENCES 
 
@@ -65,18 +69,18 @@ type Song {
   id: ID!
   # The circle where the song was added to
   circle: Circle
+  # The user who added the song to the playlist
+  adder: User!
   # The name of the song
   name: String!
   # The name of the artist
   artist: String!
   # The name of the album
   album: String!
-  # The user who added the song to the playlist
-  adder: User!
   # date song was added to the circle's playlist
   dateAdded: String!
   # Rating given by owner or by all users
-  tier: Int!
+  tier: Int
   # The link to the song on spotify
   spotifyLink: String!
   # Comments added by users!
@@ -105,6 +109,33 @@ type Comment {
   date: String!
   # The main text of the comment
   body: String!
+}
+
+# M:M link between users and threads
+type UTLink {
+  id: ID!
+  user: User
+  thread: Thread
+}
+
+# A string of messages between users
+type Thread {
+  id: ID!
+  # The users who can view the thread
+  users: [User]
+  # The thread of messages sent through the system
+  messages: [Message]
+}
+
+# Message between users
+type Message {
+  id: ID!
+  # The thread in which the message was sent
+  thread: Thread!
+  # The user who sent the message
+  sender: User!
+  # The timestamp when the message was sent
+  dateSent: String!
 }
 
 # Order by which songs can be sorted
@@ -140,12 +171,18 @@ input CreateUserInput {
 
 input CreateUCLinkInput {
   id: ID
-  
+  linkCircleId: ID!
+  linkUserId: ID! 
 }
 
 input CreateSongInput {
   id: ID
-  
+  circleId: ID!
+  name: String!
+  artist: String!
+  album: String!
+  spotifyLink: String!
+  dateAdded: String!
 }
 
 input CreateSwapInput {

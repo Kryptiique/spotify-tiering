@@ -3,7 +3,8 @@
   --primary: #88A57D;
   --primary_dark: #507065;
   --secondary: #28323B;
-  --secondary_dark: #1D252B;
+  --secondary_mid: #1D252B;
+  --secondary_dark: #14181C;
   --tertiary: #D7C097;
   --quarnary: #F05553;
   --background: #28323B;
@@ -35,12 +36,15 @@
   display: none;
 }
 
-*[disabled], *[aria-diabled="true"]{
+
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn, 
+.btn.disabled:hover, .btn[disabled]:hover, fieldset[disabled] .btn:hover {
+  filter:saturate(0) !important;
   pointer-events: none;
+  opacity: 1;
 }
-*[disabled]:hover,*[aria-diabled="true"]:hover{
-  cursor: default;
-}
+
 
 .full-anchor{
   position: absolute;
