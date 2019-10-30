@@ -1,0 +1,26 @@
+.Home .lander {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.Home .lander h1 {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.Home .lander p {
+  color: var(--text);
+}
+
+.Home .lander div a:first-child {
+  margin-right: 20px;
+}
+
+.Home .lander div {
+  padding-top: 20px;
+}
+.Home .lander div a:first-child {
+  margin-right: 20px;
+}
+

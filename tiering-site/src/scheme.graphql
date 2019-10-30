@@ -1,0 +1,231 @@
+
+# Models =====================================================================
+
+type Circle {
+  id: ID!
+  # The name of the circle
+  name: String!
+  # Songs active in th e playlist
+  playlist: [Song]
+  # (deprecated) Number of songs currently active in the playlist
+  songCount: Int
+  # Songs removed from the playlist
+  removed: [Song]
+  # User currently managing the circle
+  owner: User!
+  # Users participating in the rating
+  users: [UCLink]
+  # Active swaps between songs
+  swaps: [Swap]
+  # Link to the active playlist on Spotify
+  spotifyLink: String!
+
+  # SETTINGS
+
+  # Cap on the number of s
+  swapCap: Int
+  # Generated link to join the Circl
+  joinLink: String
+  # Whether the songs can be rated by the owner only
+  # or all participants
+  jointEffort: Boolean
+}
+
+type User {
+  id: ID!
+  # Display name in the app
+  name: String
+  # name as seen on spotify
+  spotifyUsername: String
+  # link to the user's spotify account
+  spotifyLink: String
+  # circles the user is participating in
+  circles: [UCLink]
+
+  # PREFERENCES 
+
+  # Field by which to sort songs  
+  sortCategory: SortOrder
+  # Sort sort order
+  sortDirection: ModelSortDirection
+  
+  # Songs the user enjoys from a specific circle
+  # favorites: [Favorite]
+}
+
+# M:M link between Users and Circles
+type UCLink {
+  id: ID!
+  user: User
+  circle: Circle
+}
+
+# Singular spotify song
+type Song {
+  id: ID!
+  # The circle where the song was added to
+  circle: Circle
+  # The name of the song
+  name: String!
+  # The name of the artist
+  artist: String!
+  # The name of the album
+  album: String!
+  # The user who added the song to the playlist
+  adder: User!
+  # date song was added to the circle's playlist
+  dateAdded: String!
+  # Rating given by owner or by all users
+  tier: Int!
+  # The link to the song on spotify
+  spotifyLink: String!
+  # Comments added by users!
+  comments: [Comment]
+}
+
+type Swap {
+  id: ID!
+  # The user requesting the swap
+  author: User!
+  # Date the swap was created
+  date: String!
+  # The song that is to be replaced
+  original: Song!
+  # The song to replace the original
+  replacement: Song!
+}
+
+type Comment {
+  id: ID!
+  # The user who wrote the comment
+  author: User!
+  # The song on which the comment was made
+  song: Song!
+  # The date the comment was created
+  date: String!
+  # The main text of the comment
+  body: String!
+}
+
+# Order by which songs can be sorted
+enum SortOrder {
+  NAME
+  ARTIST
+  ALBUM
+  LENGTH
+  RATING
+  DATEADDED
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+# Input Models =====================================================
+
+input CreateCircleInput {
+  id: ID
+  name: String!
+  ownerID: ID!
+  spotifyLink: String!
+}
+
+input CreateUserInput {
+  id: ID
+  name: String!
+  spotifyUsername: String!
+  spotifyLink: String!
+}
+
+input CreateUCLinkInput {
+  id: ID
+  
+}
+
+input CreateSongInput {
+  id: ID
+  
+}
+
+input CreateSwapInput {
+  id: ID
+  
+}
+
+input CreateCommentInput {
+  id: ID
+  
+}
+
+# Mutations and Query ====================================================
+
+type Query {
+  
+}
+
+type Mutation {
+
+}
+
+type Subscription {
+
+}
+
+
+# Utility ================================================================
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelID!FilterInput {
+  ne: ID!
+  eq: ID!
+  le: ID!
+  lt: ID!
+  ge: ID!
+  gt: ID!
+  contains: ID!
+  notContains: ID!
+  between: [ID!]
+  beginsWith: ID!
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelImageFilterInput {
+  id: ModelID!FilterInput
+  name: ModelStringFilterInput
+  url: ModelStringFilterInput
+  rating: ModelFloatFilterInput
+  lastRated: ModelStringFilterInput
+  dateDownloaded: ModelStringFilterInput
+  and: [ModelImageFilterInput]
+  or: [ModelImageFilterInput]
+  not: ModelImageFilterInput
+}
