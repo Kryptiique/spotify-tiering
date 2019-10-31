@@ -1,3 +1,19 @@
+
+:root {
+  --primary: #88A57D;
+  --primary_dark: #507065;
+  --secondary: #28323B;
+  --secondary_mid: #1D252B;
+  --secondary_dark: #14181C;
+  --tertiary: #D7C097;
+  --quarnary: #F05553;
+  --background: #1D252B;
+  --text:#fff;
+
+  --gutter: 20px;
+  --bright: 115%;
+}
+
 html, body {
   height: 100%;
 }
@@ -9,7 +25,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--beckground);
+  background-color: var(--background);
   color: var(--text);
   height: 100%
 }

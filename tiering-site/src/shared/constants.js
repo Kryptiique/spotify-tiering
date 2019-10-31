@@ -24,11 +24,7 @@ export const sortDir = {
 export const initialState = {
   // User details
   user: {
-    theme: '',
-    profile_pic:'',
-    profile_link:'',
-    name: '',
-    circles: []
+    name: '...'
   },
 
   // page for circle
@@ -49,27 +45,6 @@ export const initialState = {
 }
 
 /**
- * default construction for an image
- */
-export const base_image = {
-  url: '',            // Location on S3 to source the image
-  name: '',           // Name of the image
-  comments: 0,        // Number of comments on the image
-  rating: 0,          // How good the image is
-  dateDownloaded: '', // The date it was first added to the system
-  lastRated: 'Never', // The last time the image was rated
-  tags: [],           // The list of tags associated with the image
-  lookAlike: [],      // List of positive matches in the 
-}
-
-export const base_tag = {
-  name: '',           // The name, formatted for readability
-  category: '',       // Can be either Character / Artist / Descriptor / Copyright
-  count: 0,           // How many other images use this tag
-}
-
-
-/**
  * Categorizes all pages with names and subdirectory links
  */
 export const pages = {
@@ -80,7 +55,16 @@ export const pages = {
   circleSettings: '/circles/settings/:circleid/',
   // comment: '/song/comment',
   profile: '/user/:userid/',
+  my_profile: 'user/profile',
   song: '/song/:songid'
+}
+
+/**
+ * All the cookies used by the site
+ */
+export const cookies = {
+  accessToken: 'access_token',
+  refreshToken: 'refresh_token'
 }
 
 /**

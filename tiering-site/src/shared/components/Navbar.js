@@ -2,14 +2,14 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 // import { bindActionCreators } from 'redux'
 import { withToastManager } from 'react-toast-notifications';
+import logo from '../static/spoofy logo site.svg'
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
 
 // import * as sharedActions from '../reducers/actions'
-import { themes } from '../constants'
-import UserCard from './UserCard'
+// import UserCard from './UserCard'
 
-import { pages } from '../constants'
+import { themes, pages } from '../constants'
 import '../styles/Navbar.css'
 
 /**
@@ -31,14 +31,16 @@ class Navbar extends Component {
       <div className="nav-header">
         { this.props.isAuthenticated
         ? <Fragment>
-            <Link to={ pages.home } className="left">Spoofy</Link>
-            <UserCard 
+            <Link to={ pages.landing } className="logo left">
+              <img src={ logo } className="App-logo" alt="logo" />''
+            </Link>
+            {/* <UserCard 
               user= { this.state.user }
               logout= { this.props.logout } 
               { ...this.props.actions }
-            />
+            /> */}
 
-            <Link to= { pages.circles }><i className="fas fa-play-circle"></i>Circles</Link>
+            {/* <Link to= { pages.circles }><i className="fas fa-play-circle"></i>Circles</Link> */}
             
             {/* <div onClick={this.props.handleLogout}>Logout</div> */}
           </Fragment>

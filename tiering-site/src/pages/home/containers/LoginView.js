@@ -1,206 +1,104 @@
 import React, { Component } from "react"
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import Helmet from 'react-helmet'
-import Tabs, { TabPane }  from 'rc-tabs'
-import ScrollableInkTabBar from 'rc-tabs/lib/ScrollableInkTabBar';
-import TabContent from 'rc-tabs/lib/TabContent'
-import logo from '../styles/spoofy logo.svg'
-import { 
-  Col,
-  Row,
-  Form,
-  FormGroup, 
-  FormControl, 
-} from "react-bootstrap"
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
 
-import LoaderButton from "../../../shared/components/generic/LoaderButton"
-import { app_name } from '../../../shared/constants'
+import * as userActions from '../../../shared/reducers/user/actions'
+import { pages, app_name, cookies } from '../../../shared/constants'
 import "../styles/Credentials.css"
 
+
 /**
- * Page for handling user login
+ * This is the page that the user lands on from the Spotify OAuth flow.
+ * From here we must determine if we already have the user in our system.
+ * It has no purpose other than to process authentication.
+ * 
+ * If this is a new user, we need to add them to the database and get them
+ * setup to use the app.
+ * 
+ * Otherwise, we just pull the main information from the database and update
+ * any new profile information from Spotify's database (for example, if
+ * the user has changed their display name or username)
+ * 
+ * The final user object gets added to the Redux store for further user
+ * across the site.
  */
-export default class LoginView extends Component {
-  constructor(props) {
-    super(props)
+class LoginView extends Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
 
-    this.state = {
-      isLoading: false,
-      tab: '1',
-      email: "",
-      password: "",
-      showPass: false,
+  componentDidMount(){
+    // Check querystring for Spotify Access token
+    const params = getHashParams()
+    
+    // If access token is invalid, redirect to the homepage
+    if(!params.access_token){
+      this.props.history.push(pages.login); 
+    } else {
+      var user = {
+        token: params.access_token,
+        refreshToken: params.refresh_token
+      }
 
-      spotify: '',
-      regPassword: '',
-      showRegPass: false,
-    }
+      // Store it in cookies so we can accses it later!
+      
+      this.props.cookies.set(cookies.accessToken, 
+        params.access_token, { path: pages.landing });
+      this.props.cookies.set(cookies.refreshToken, 
+        params.refresh_token, { path: pages.landing });
 
-    this.togglePass = this.togglePass.bind(this)
-  }
-
-  /**
-   * This will make sure a password gets entered before the user trys to login
-   */
-  validateForm() {
-    if(this.state.tab === '1')
-      return this.state.email.length > 0 
-        && this.state.password.length > 0
-    else
-      return this.state.spotify.length > 0
-        && this.state.regPassword.length > 0
-  }
-
-  /**
-   * This will update the state when the user types something into these fields.
-   */
-  handleChange = event => {
-    this.setState({
-      [event.target.id]: event.target.value
-    })
-  }
-
-  tabChangeCallback = event => {
-    this.setState({ tab: event })
-  }
-
-  togglePass = event => {
-    this.setState({
-      [event.target.id]: !this.state[event.target.id]
-    })
-  }
-
-  /**
-   * This will handle auth when the form has been submitted
-   */
-  handleSubmit = async event => {
-    event.preventDefault()
-  
-    this.setState({ isLoading: true })
-  
-    try {
-      // await Auth.signIn(this.state.email, this.state.password)
-      // this.props.userHasAuthenticated(true)
-    } catch (e) {
-      alert(e.message)
-      this.setState({ isLoading: false })
+      console.debug(user)
+      this.props.actions.loginUser(user)
+      // this.props.history.push(pages.profile); 
     }
   }
-
+  
   render() {
     return (
       <div className="Login">
         <Helmet>
           <title>{ app_name } | Login</title>
         </Helmet>
-        <div className='body'>
-          <div className='logo'>
-            
-            <img src={ logo } className="App-logo" alt="logo" />
-            <span>{ app_name.toUpperCase() }</span>
-          </div>
-          <Form onSubmit={ this.handleSubmit }>
-            <Tabs
-              defaultActiveKey="1"
-              onChange={ this.tabChangeCallback  }
-              renderTabBar={ () => <ScrollableInkTabBar /> }
-              renderTabContent={ () => <TabContent /> }
-            >
-              
-              <TabPane tab='Login' key="1">
-                <FormGroup controlId="email" bsSize="large">
-                  <FormControl
-                    autoFocus
-                    type="text"
-                    placeholder='Email'
-                    value={ this.state.email }
-                    onChange={ this.handleChange }
-                  />
-                </FormGroup>
-
-                <Row>
-                  <Col sm={ 10 }>
-                    <FormGroup controlId="password" bsSize="large">
-                      {/* <FormControl
-                        value={ this.state.password}
-                        onChange={ this.handleChange }
-                        placeholder='Password'
-                        type={ this.showPass ? 'text' : 'password' }
-                      >
-                      </FormControl> */}
-                      <input className='form-control'
-                        autoComplete="on"
-                        id='password'
-                        value={ this.state.password }
-                        onChange={ this.handleChange }
-                        placeholder='Password'
-                        type={ this.state.showPass ? 'text' : 'password' }
-                      />
-                    </FormGroup>
-                  </Col>
-                    
-                  <Col sm={ 1 }>
-                    <i id='showPass' onClick={ this.togglePass } 
-                    className={ `fas fa-eye${ !this.state.showPass ? '-slash' : '' }` }></i>
-                  </Col>
-                </Row>
-                
-                <LoaderButton
-                  block
-                  bsSize="large"
-                  disabled={ !this.validateForm() }
-                  type="submit"
-                  isLoading={ this.state.isLoading }
-                  text="OK"
-                  loadingText="Logging in…"
-                />
-              </TabPane>
-
-              <TabPane tab='Register' key='2'>
-                <FormGroup controlId='spotify'>
-                  <FormControl
-                    value={ this.state.spotify }
-                    autoComplete="on"
-                    onChange={ this.handleChange }
-                    placeholder='Spotify Username'
-                    type="password"
-                  />
-                </FormGroup>
-                <Row>
-                  <Col sm={ 10 }>
-                    <FormGroup controlId='regPassword'>
-                      <FormControl
-                        value={ this.state.password }
-                        onChange={ this.handleChange }
-                        autoComplete="on"
-                        placeholder='Password'
-                        type={ this.state.showRegPass ? 'text' : 'password' }
-                      />
-                    </FormGroup>
-                  </Col>
-                    
-                  <Col sm={ 1 }>
-                    <i id='showRegPass' onClick={ this.togglePass } 
-                    className={ `fas fa-eye${ !this.state.showPass ? '-slash' : '' }` }></i>
-                  </Col>
-                </Row>
-                
-                <LoaderButton
-                  block
-                  bsSize="large"
-                  disabled={ !this.validateForm() }
-                  type="submit"
-                  isLoading={ this.state.isLoading }
-                  text="OK"
-                  loadingText="Logging in…"
-                />
-              </TabPane>
-            </Tabs>
-            
-
-          </Form>
+        
+        <div className='spinner'>
+          Logging you in...
+          <i className='fas fa-sync spin'></i>
         </div>
       </div>
         
     )
   }
 }
+
+/**
+ * Obtains parameters from the hash of the URL
+ * @return Object
+ */
+function getHashParams() {
+  var hashParams = {};
+  var e, r = /([^&;=]+)=?([^&;]*)/g,
+      q = window.location.hash.substring(1);
+      // eslint-disable-next-line
+  while ( e = r.exec(q)) {
+      hashParams[e[1]] = decodeURIComponent(e[2]);
+  }
+  return hashParams;
+}
+
+// ====================== Redux mapping ======================
+
+// Not used, but necessary for connect()
+const mapState = state => ({
+  user: state.user
+})
+const mapDispatch = dispatch => ({
+  actions: bindActionCreators(userActions, dispatch),
+})
+
+export default connect(
+  mapState,
+  mapDispatch
+)(withCookies(LoginView))

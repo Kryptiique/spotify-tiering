@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
+import { pages } from '../constants'
 
 /**
  * 
@@ -13,7 +14,7 @@ export default ({ component: C, props: cProps, ...rest }) =>
       cProps.isAuthenticated
         ? <C {...props} {...cProps} />
         : <Redirect
-            to={`/login?redirect=${props.location.pathname}${props.location
+            to={`${ pages.landing }?redirect=${ props.location.pathname }${ props.location
               .search}`}
           />}
   />;

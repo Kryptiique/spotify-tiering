@@ -4,6 +4,7 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter as Router } from "react-router-dom";
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
+import { CookiesProvider } from 'react-cookie';
 import { ToastProvider, DefaultToastContainer } from 'react-toast-notifications'
 // import axios from 'axios'
 // import http from 'http'
@@ -18,70 +19,8 @@ import rootReducer from './shared/reducers/index'
 // Amplify.configure(config)
 const store = createStore(rootReducer)
 
-
-// request.post(authOptions, function(error, response, body) {
-//   if (!error && response.statusCode === 200) {
-
-//     // use the access token to access the Spotify Web API
-//     var token = body.access_token;
-//     var options = {
-//       url: 'https://api.spotify.com/v1/users/jmperezperez',
-//       headers: {
-//         'Authorization': 'Bearer ' + token
-//       },
-//       json: true
-//     };
-//     request.get(options, function(error, response, body) {
-//       console.log(body);
-//     });
-//   }
-// });
-
-// const authOptions = {
-//   url: 'https://accounts.spotify.com/api/token',
-//   method: 'post',
-//   headers: {
-//     'Authorization': 'Basic ' + (new Buffer(spotify_config.client_id + ':' + spotify_config.client_secret).toString('base64'))
-//   },
-//   form: {
-//     grant_type: 'client_credentials'
-//   },
-//   json: true,
-// }
-// console.debug('AuthOptions: ', authOptions)
-
-// // Request OAuth path to Spotify
-// axios(authOptions).then(response => {
-//   console.debug(response)
-// }).catch(err => {
-//   console.error('There was an getting OAuth route to spotify.',
-//     err)
-// })
-
-
-// Storage.configure({ 
-//   bucket: config.aws_user_files_s3_bucket,
-//   level: "private",
-//   region: 'us-east-1',  
-//   identityPoolId: config.aws_cognito_identity_pool_id
-// });
-
-// export const S3 = Storage
-
-// Subscribe to all gQLs
-// export const subs = {}
-// Object.keys(subscriptions).forEach(sub => {
-//   const subscription = API.graphql(
-//     graphqlOperation(subscriptions[sub])
-//   ).subscribe({
-//       next: (data) => console.log(data)
-//   });
-//   subs[sub] = subscription
-// })
-
-
 const MyCustomToast = ({ children, ...props }) => (
-  <div style={{zIndex:1, position: "absolute"}} >
+  <div style={{ zIndex:1, position: "absolute" }} >
     <DefaultToastContainer {...props}>
       {children}
     </DefaultToastContainer>
@@ -91,9 +30,11 @@ const MyCustomToast = ({ children, ...props }) => (
 ReactDOM.render(
   <Provider store={store}>
     <ToastProvider  components={{ ToastContainer: MyCustomToast }}>
-      <Router> 
-        <App />
-      </Router>
+      <CookiesProvider>
+        <Router> 
+          <App />
+        </Router>
+      </CookiesProvider>
     </ToastProvider>
   </Provider>,
 document.getElementById('root'));

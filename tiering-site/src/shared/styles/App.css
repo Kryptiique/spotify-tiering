@@ -1,17 +1,4 @@
 
-:root {
-  --primary: #88A57D;
-  --primary_dark: #507065;
-  --secondary: #28323B;
-  --secondary_mid: #1D252B;
-  --secondary_dark: #14181C;
-  --tertiary: #D7C097;
-  --quarnary: #F05553;
-  --background: #28323B;
-  --text:#fff;
-
-  --gutter: 20px;
-}
 
 /* -----------------------------------------------------
                     Animations 
@@ -75,6 +62,10 @@ p span, p a {
   float: right;
 }
 
+.left {
+  float: left;
+}
+
 .sep-h {
   width: 100%;
   margin-top: 15px;
@@ -113,7 +104,7 @@ div#react-confirm-alert{
 }
 
 .btn:hover {
-  filter: brightness(110%);
+  filter: brightness(var(--bright));
   color: var(--text);
   cursor: pointer;
 }

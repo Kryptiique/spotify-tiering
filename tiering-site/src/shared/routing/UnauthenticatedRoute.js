@@ -1,9 +1,10 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
+import { pages } from '../constants'
+
 /**
  * 
- * @since 0.3.1
  * @param {*} name 
  * @param {*} url 
  */
@@ -29,6 +30,7 @@ function querystring(name, url = window.location.href) {
  */
 export default ({ component: C, props: cProps, ...rest }) => {
   const redirect = querystring("redirect");
+  console.debug(cProps)
   return (
     <Route
       {...rest}
@@ -36,7 +38,7 @@ export default ({ component: C, props: cProps, ...rest }) => {
         !cProps.isAuthenticated
           ? <C {...props} {...cProps} />
           : <Redirect
-              to={redirect === "" || redirect === null ? "/" : redirect}
+              to={redirect === "" || redirect === null ? pages.profile : redirect}
             />}
     />
   );

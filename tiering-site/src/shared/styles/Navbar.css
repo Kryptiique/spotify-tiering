@@ -1,5 +1,5 @@
 .nav-header {
-  background-color: var(--primary);
+  background-color: var(--secondary);
   color: var(--text);
 
   position: relative;
@@ -22,9 +22,18 @@
 }
 
 .nav-header >*:hover{
-  background-color: #ffffff36;
-  filter: brightness(80%);
+  filter: brightness(var(--bright));
   text-decoration: none;
+  color:var(--text);
+}
+
+.nav-header a.logo {
+  color:transparent;
+}.nav-header a.logo:hover {
+  color:transparent;
+}.nav-header .logo img {
+  max-height: 40px;
+  width: 50%;
 }
 
 .nav-header .dropdown {

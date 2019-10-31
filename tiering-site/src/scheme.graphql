@@ -57,6 +57,8 @@ type User {
   threads: [Thread]
   # Alerts telling the user changes that have been made recently
   notifications: [Action]
+  # Whether or not the user is currently logged into the system
+  active: Boolean
 
   # PREFERENCES 
 

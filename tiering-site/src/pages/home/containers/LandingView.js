@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import Helmet from 'react-helmet'
-import logo from '../styles/spoofy logo.svg'
+import logo from '../../../shared/static/spoofy logo.svg'
 
 import { app_name } from '../../../shared/constants'
 import "../styles/LandingView.css";
