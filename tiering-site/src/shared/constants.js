@@ -24,7 +24,9 @@ export const sortDir = {
 export const initialState = {
   // User details
   user: {
-    name: '...'
+    name: '...',
+    feed: [],
+    circles: []
   },
 
   // page for circle

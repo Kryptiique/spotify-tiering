@@ -4,21 +4,20 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux';
 
 import { app_name } from '../../../shared/constants'
-import * as duplicatesActions from '../reducers/actions'
+import * as actions from '../reducers/actions'
 
-class ProcessingView extends Component {
+class PageView extends Component {
   constructor(props){
     super(props)
   }
 
   render(){
     return (
-      <div className="page">
+      <div className="pageName">
         <Helmet>
           <title>{ app_name }</title>
         </Helmet>
 
-        <h1>Image Processing</h1>
       </div>
     )
   }
@@ -26,15 +25,15 @@ class ProcessingView extends Component {
 
 const mapState = state => {
   return {
-    images: state.browser.images
+    state
   }
 }
 
 const mapDispatch = dispatch => ({
-  actions: bindActionCreators(duplicatesActions, dispatch)
+  actions: bindActionCreators(actions, dispatch)
 })
 
 export default connect(
   mapState,
   mapDispatch
-)(ProcessingView)
+)(PageView)

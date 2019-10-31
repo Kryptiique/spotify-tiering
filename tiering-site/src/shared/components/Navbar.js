@@ -42,7 +42,7 @@ class Navbar extends Component {
 
             {/* <Link to= { pages.circles }><i className="fas fa-play-circle"></i>Circles</Link> */}
             
-            {/* <div onClick={this.props.handleLogout}>Logout</div> */}
+            <div className='btn' onClick={ this.props.logout }>Logout</div> 
           </Fragment>
         : <Fragment>
             <Link to={ pages.login }>

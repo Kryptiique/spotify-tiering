@@ -40,24 +40,6 @@ p span, p a {
   position: relative;
 }
 
-.view {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-
-.page {
-  margin-left: 5rem;
-  margin-right: 5rem;
-}
-
-.page h1 {
-  text-align: center;
-  margin: 45px auto 25px;
-  color: var(--text);
-}
-
 .right {
   float: right;
 }
@@ -73,10 +55,6 @@ p span, p a {
   border-bottom: 1px solid var(--tertiary);
 }
 
-.modal-pnl .rc-progress-line {
-  margin: 35px 10px;
-}
-
 div#react-scrollbar >*:last-child>* {
   margin-left: 2px;
   background-color: var(--primary) !important;
@@ -89,6 +67,29 @@ div#react-confirm-alert{
   z-index: 50000;
   position: relative;
 }
+
+.jumbo{
+  border: solid 1px #949494;
+  border-radius: 6px;
+  background-color: #9494944d;
+  padding: 35px;
+  text-align: center;
+}
+
+.jumbo.error {
+  border: solid 1px #df0101;
+  background-color: #df01014d;
+}
+
+.jumbo.error:hover {
+  cursor: default;
+}
+
+
+
+/* -----------------------------------------------------
+                      Generic Buttons
+--------------------------------------------------------*/
 
 .btn {
   color: var(--text);
@@ -122,48 +123,22 @@ div#react-confirm-alert{
   display: list-item;
   list-style: none;
 }
-.btn.red {
-  background-color: #c41414;
+
+.btn.negative {
+  background-color: transparent;
+  border: solid 2px var(--primary);
 }
-.btn.green {
-  background-color: #30a830;
+
+.btn.negative:hover{
+  background-color: #88a57d29;
 }
+
+.btn.red { background-color: #c41414; } 
+.btn.green { background-color: #30a830; }
+
 .btn i {
   margin: auto 8px;
 }
-
-.btn[disabled]{
-  filter: saturate(20%) brightness(120%);
-  cursor: default;
-}
-
-.btn[disabled]:hover{
-  border: 0;
-}
-
-.jumbo{
-  border: solid 1px #949494;
-  border-radius: 6px;
-  background-color: #9494944d;
-  padding: 35px;
-  text-align: center;
-  box-shadow: 0 0 11px 0px #00000042;
-}
-
-.jumbo.error {
-  border: solid 1px #df0101;
-  border-radius: 6px;
-  background-color: #df01014d;
-  padding: 35px;
-  text-align: center;
-  box-shadow: 0 0 11px 0px #00000042;
-}
-
-.jumbo.error:hover {
-  cursor: default;
-}
-
-
 
 /* -----------------------------------------------------
                       React Tabs

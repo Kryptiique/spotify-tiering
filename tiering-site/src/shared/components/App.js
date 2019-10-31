@@ -72,8 +72,8 @@ class App extends Component {
    * @param {*} event
    */
   handleLogout = async event => {
-    this.props.cookies.removeCookie(cookies.refreshToken)
-    this.props.cookies.removeCookie(cookies.accessToken)
+    this.props.cookies.remove(cookies.refreshToken)
+    this.props.cookies.remove(cookies.accessToken)
     this.userHasAuthenticated(false);
     
     // tell the the server to log us out

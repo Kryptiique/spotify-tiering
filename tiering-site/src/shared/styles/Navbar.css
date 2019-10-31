@@ -17,6 +17,11 @@
   transition: 0.2s;
 }
 
+.nav-header > .btn {
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
 .nav-header > *.left {
   float: left;
 }
