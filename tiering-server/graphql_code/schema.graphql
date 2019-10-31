@@ -240,13 +240,13 @@ type Query {
   
 }
 
-type Mutation {
+# type Mutation {
 
-}
+# }
 
-type Subscription {
+# type Subscription {
 
-}
+# }
 
 
 # Utility ================================================================

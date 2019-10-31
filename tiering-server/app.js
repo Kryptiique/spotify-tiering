@@ -1,12 +1,20 @@
 
-var express = require('express') // Express web server framework
-var request = require('request') 
-var cors = require('cors')
-var querystring = require('querystring')
-var cookieParser = require('cookie-parser')
-var spotify_config = require('./spotify-config')
+const express = require('express') // Express web server framework
+const request = require('request') 
+const cors = require('cors')
+const querystring = require('querystring')
+const cookieParser = require('cookie-parser')
+const { ApolloServer } = require('apollo-server-express');
+const { gql } = require('apollo-server-express');
+const { importSchema } = require('graphql-import')
 
-var config = require('./config')
+
+const spotify_config = require('./spotify-config')
+const config = require('./config')
+// console.debug(importSchema('./graphql_code/schema.graphql'))
+const typeDefs = importSchema('graphql_code/schema.graphql')
+
+const resolvers = require('./graphql_code/resolvers')
 
 var redirect_uri = config.server_endpoint + 'callback' // redirect destination from OAuth
 console.debug('redir:', redirect_uri)
@@ -29,7 +37,6 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state'
 
 var app = express()
-
 
 // Build Scope:
 const scopes = [
@@ -56,6 +63,26 @@ app.use(express.static(__dirname + '/public'))
    .use(cors())
    .use(cookieParser())
 
+// GraphQL SETUP
+
+const server = new ApolloServer({ 
+  typeDefs,
+  resolvers ,
+  playground: {
+    endpoint: '/graphql',
+    settings:{
+      "editor.theme":"dark"
+    }
+  }
+});
+server.applyMiddleware({ app });
+
+
+// SPOTIFY AUTHINTICATION REQUEST HANDLING
+
+/**
+ * This operations handles logging into the system
+ */
 app.get('/login', function(req, res) {
   var state = generateRandomString(16)
   res.cookie(stateKey, state)
@@ -71,6 +98,10 @@ app.get('/login', function(req, res) {
     }))
 })
 
+/**
+ * This operation returns us from OAuth and redirects back to
+ * the main site
+ */
 app.get('/callback', function(req, res) {
 
   // your application requests refresh and access tokens
@@ -133,6 +164,10 @@ app.get('/callback', function(req, res) {
   }
 })
 
+/**
+ * This operation takes a refresh token and returns a new one 
+ * ... I think
+ */
 app.get('/refresh_token', function(req, res) {
   // requesting access token from refresh token
   var refresh_token = req.query.refresh_token
