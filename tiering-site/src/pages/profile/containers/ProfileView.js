@@ -45,6 +45,7 @@ class ProfileView extends Component {
               renderTabContent={ () => <TabContent /> }
             >
               
+              {/* Area displays recent activity across all circles */}
               <TabPane tab='Feed' key="1">
                 <Fragment>
                   { user.feed.length === 0
@@ -62,13 +63,16 @@ class ProfileView extends Component {
                 </Fragment>
               </TabPane>
 
+              {/* List of circles the user is participating in */}
               <TabPane tab='Circles' key='2'>
-                <div className='btn wide negative'>Create Circle</div>
+                <div className='btn wide negative'>Join</div>
+                <div className='btn wide'>Create</div>
               </TabPane>
 
             </Tabs>
           </div>
-
+          
+          {/* Subsection to display ads. Because why not. */}
           <div className='ads'>
 
           </div>

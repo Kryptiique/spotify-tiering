@@ -23,6 +23,8 @@ I will try to keep the server up and running whenever possible, but no promises.
 
 This allows easy flow of data between the data storage endpoint (which is currently a SQLite database) and the client frontend. For data such as playlist updates, comments, and ratings, the Client hooks into the server using websockets so that the data is live.
 
+To browse the schema and write test queries yourself, start the server locally and visit `http://localhost:8888/graphql` in your favorite browser. This will take you to Graph-iQL page, a graphical interface for testing out sending and receiving data. While you should definitely do this locally, please refrain from doing it on the actual site, as the mutations can be pretty damaging. We'd like for users NOT to be suddenly dropped from their circles, thank you very much.
+
 ### SQLite Database
 
 This stores all the information related to the operation of the app. The database is unmanaged for the most part
