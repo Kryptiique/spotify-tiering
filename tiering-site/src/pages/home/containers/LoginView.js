@@ -1,4 +1,3 @@
-import { Auth } from "aws-amplify"
 import React, { Component } from "react"
 import Helmet from 'react-helmet'
 import Tabs, { TabPane }  from 'rc-tabs'
@@ -16,7 +15,6 @@ import {
 import LoaderButton from "../../../shared/components/generic/LoaderButton"
 import { app_name } from '../../../shared/constants'
 import "../styles/Credentials.css"
-import 'spoofy logo.svg'
 
 /**
  * Page for handling user login
@@ -80,8 +78,8 @@ export default class LoginView extends Component {
     this.setState({ isLoading: true })
   
     try {
-      await Auth.signIn(this.state.email, this.state.password)
-      this.props.userHasAuthenticated(true)
+      // await Auth.signIn(this.state.email, this.state.password)
+      // this.props.userHasAuthenticated(true)
     } catch (e) {
       alert(e.message)
       this.setState({ isLoading: false })

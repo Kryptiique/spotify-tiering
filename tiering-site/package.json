@@ -1,12 +1,11 @@
 {
+  "author": "Julián McClinton",
   "name": "spoofy",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^3.1.1",
     "apollo-boost": "^0.4.4",
-    "aws-amplify": "1.1.36",
-    "aws-sdk": "2.517.0",
     "axios": "0.19.0",
     "bootstrap": "4.3.1",
     "chart.js": "2.8.0",

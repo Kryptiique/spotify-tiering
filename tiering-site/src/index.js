@@ -5,17 +5,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import { ToastProvider, DefaultToastContainer } from 'react-toast-notifications'
-import axios from 'axios'
+// import axios from 'axios'
 // import http from 'http'
 
 import 'rc-tabs/assets/index.css';
 import 'bootstrap/dist/css/bootstrap.css'
 
-// import Amplify from 'aws-amplify'
-// import Storage from '@aws-amplify/storage';
-// import config from './aws-exports'  
-
-import spotify_config from './shared/spotify-config'
 import App from './shared/components/App';
 import './shared/styles/index.css';
 import rootReducer from './shared/reducers/index'

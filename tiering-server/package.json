@@ -1,8 +1,8 @@
 {
-  "author": "Spotify",
-  "name": "web-api-auth-examples",
+  "author": "Julián McClinton",
+  "name": "spoofy-server",
   "description": "Basic examples of the Spotify authorization flows through OAuth 2",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "dependencies": {
     "apollo-server-express": "2.9.4",
     "cookie-parser": "^1.4.4",
@@ -22,7 +22,7 @@
     "winston": "3.2.1"
   },
   "scripts": {
-    "start": "nodemon ./app.js --exec babel-node",
+    "start": "nodemon ./app.js --exec",
     "test": "npm test",
     "lint": "eslint"
   },

@@ -5,7 +5,7 @@ type Circle {
   id: ID!
   # The name of the circle
   name: String!
-  # Songs active in th e playlist
+  # Songs active in the playlist
   playlist: [Song]
   # (deprecated) Number of songs currently active in the playlist
   songCount: Int
@@ -17,8 +17,12 @@ type Circle {
   users: [UCLink]
   # Active swaps between songs
   swaps: [Swap]
+  # link to the image on spotify
+  image: String!
   # Link to the active playlist on Spotify
   spotifyLink: String!
+  # List of changes made to the playlist over time
+  history: [Action]
 
   # SETTINGS
 
@@ -26,6 +30,12 @@ type Circle {
   swapCap: Int
   # Limit on the number of songs that can be added per session per user
   addCap: Int
+  # Whether or not changes can be made to the playlist
+  frozen: Boolean
+  # Whether the Playlist should freeze automatically
+  autoFreeze: Boolean
+  # Settings used for auto freezing the Playlist
+  freezeSettings: Blob 
   # Generated link to join the Circle
   joinLink: String
   # Whether the songs can be rated by the owner only
@@ -35,19 +45,23 @@ type Circle {
 
 type User {
   id: ID!
-  # Display name in the app
-  name: String
+  # Accumulative score from songs in all circles
+  reputation: Float
   # name as seen on spotify
-  spotifyUsername: String
+  username: String
   # link to the user's spotify account
   spotifyLink: String
   # circles the user is participating in
   circles: [UCLink]
   # list of message threads the user is participating in
   threads: [Thread]
+  # Alerts telling the user changes that have been made recently
+  notifications: [Action]
 
   # PREFERENCES 
 
+  # global display name, Overwrites
+  diaplayName: String
   # Field by which to sort songs  
   sortCategory: SortOrder
   # Sort sort order
@@ -62,6 +76,11 @@ type UCLink {
   id: ID!
   user: User
   circle: Circle
+  # Accumulative score for the user in that Circle,
+  # based on their picks of songs in the circle
+  reputation: Float
+  # Name displayed to other users within the group
+  diaplayName: String
 }
 
 # Singular spotify song
@@ -87,6 +106,25 @@ type Song {
   comments: [Comment]
 }
 
+# A way of keeping tabs on notifications and changes made
+# to the playlist
+type Action {
+  id: ID
+  # The User who made the action occur
+  owner: User!
+  # The circle the change was made in
+  circle: Circle
+  # Link to the image representing the action
+  image: String
+  # The body of the message
+  message: String!
+  # Internal link to the page corresponding to the action
+  link: String
+  # Date action was made; used for TTL
+  date: String!
+}
+
+# A request to replace one song in the playlist with another
 type Swap {
   id: ID!
   # The user requesting the swap
@@ -164,8 +202,7 @@ input CreateCircleInput {
 
 input CreateUserInput {
   id: ID
-  name: String!
-  spotifyUsername: String!
+  username: String!
   spotifyLink: String!
 }
 

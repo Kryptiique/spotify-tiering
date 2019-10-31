@@ -25,11 +25,19 @@ export const initialState = {
   // User details
   user: {
     theme: '',
+    profile_pic:'',
+    profile_link:'',
+    name: '',
+    circles: []
   },
 
   // page for circle
   circle: {
-    
+    users: [],
+    owner: undefined,
+    playlist: {
+      songs: []
+    }
   },
 
   // Store for contiaining Song data

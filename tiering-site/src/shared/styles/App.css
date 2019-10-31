@@ -37,14 +37,9 @@
 }
 
 
-
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn, 
-.btn.disabled:hover, .btn[disabled]:hover, fieldset[disabled] .btn:hover {
-  filter:saturate(0) !important;
-  pointer-events: none;
-  opacity: 1;
+p span, p a {
+  color:  var(--primary);
 }
-
 
 .full-anchor{
   position: absolute;
@@ -56,11 +51,6 @@
 
 .relative {
   position: relative;
-}
-
-.btm-anchor {
-  position: relative;
-  top:0;
 }
 
 .view {
@@ -118,7 +108,7 @@ div#react-confirm-alert{
   border: 0;
   border-radius: 0;
   -webkit-appearance: unset;
-
+  border-radius: 100px;
   transition: all 0.5s;
 }
 
@@ -126,6 +116,13 @@ div#react-confirm-alert{
   filter: brightness(110%);
   color: var(--text);
   cursor: pointer;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn, 
+.btn.disabled:hover, .btn[disabled]:hover, fieldset[disabled] .btn:hover {
+  filter:saturate(0) !important;
+  pointer-events: none;
+  opacity: 1;
 }
 
 .btn.wide{
@@ -175,6 +172,36 @@ div#react-confirm-alert{
   cursor: default;
 }
 
+
+
+/* -----------------------------------------------------
+                      React Tabs
+--------------------------------------------------------*/
+
+.rc-tabs.rc-tabs-top {
+  border:0;
+}
+
+.rc-tabs.rc-tabs-top .rc-tabs-bar{
+  margin-top: -20px;
+  margin-bottom: 2.2rem;
+  border-bottom: 0;
+}
+.rc-tabs-top .rc-tabs-ink-bar {
+  background-color: white;
+}
+.rc-tabs-tab-active.rc-tabs-tab{
+  color:white !important;
+}
+.rc-tabs-top .rc-tabs-tab {
+  font-size: 22px;
+  color: #858585;
+  padding-top: 12px;
+}
+
+.rc-tabs-tabpane {
+  overflow: hidden;
+}
 
 /* -----------------------------------------------------
                       Dropdown

@@ -1,7 +1,8 @@
-// import { Link } from "react-router-dom";
-import React, { Component } from "react";
+import React, { Component } from "react"
+import Helmet from 'react-helmet'
+import logo from '../styles/spoofy logo.svg'
 
-import { pages, app_name } from '../../../shared/constants'
+import { app_name } from '../../../shared/constants'
 import "../styles/LandingView.css";
 
 /**
@@ -10,24 +11,35 @@ import "../styles/LandingView.css";
  * @since 0.3.1
  */
 export default class LandingView extends Component {
-  renderLander() {
-    return (
-      <div className="lander">
-          <h1>{ app_name }</h1>
-          <p>You bet your ass!</p>
-        <div>
-         use the navbar to get started, mah boi
-       </div>
-      </div>
-    );
-  }
+  // constructor(props){
+  //   super(props)
+
+  // }
 
 /* This is what allows users to login and go straight to the system map page */
   render() {
     return (
-      <div className="Home">
-        {this.props.isAuthenticated ? this.props.history.push(pages.profile) 
-        : this.renderLander()}
+      <div className="lander">
+        <Helmet>
+          <title>{ app_name } | Spotify Tiering</title>
+        </Helmet>
+        <div className='body'>
+          <div className='logo'>
+            <img src={ logo } className="App-logo" alt="logo" />
+            <span>{ app_name.toUpperCase() }</span>
+          </div>
+          
+          <div className='form'>
+            <p>
+              { app_name } is an extension to Spotify that allows 
+              you to collaborate on a playlist by sharing songs and giving them <span>Tier Ratings! </span>
+               Compete in challenges and earn points to rise to the top of the
+              leaderboard! Yay!
+            </p>
+            <a className='btn wide' href={ 'http://localhost:8888/login' }>Spotify Login</a>
+          </div>
+          
+        </div>
       </div>
     );
   }

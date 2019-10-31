@@ -1,29 +1,13 @@
-import { Auth } from "aws-amplify";
 import React, { Component, Fragment} from "react";
 import { withRouter } from "react-router-dom";
 
 import Routes from "../routing/Routes";
-import { pages } from '../constants'
+// import { pages } from '../constants'
 import '../styles/App.css'
 
 // Global Components
 import Navbar from './Navbar'
 
-
-/*
- * To make our login information persist we need to store and load it 
- * from the browser session. Instead of using Cookies or Local Storage 
- * we use AWS Amplify that does this for us automatically and we just 
- * need to read from it and load it into our application state.
- * Amplify gives us a way to get the current user session using the 
- * Auth.currentSession() method. It returns a promise that resolves to 
- * the session object (if there is one).
- * 
- * We are going to load this when our app loads, with the function 
- * componentDidMount. Since Auth.currentSession() returns a promise, 
- * it means that we need to ensure that the rest of our app is only 
- * ready to go after this has been loaded.
- */
 
 
  /**
@@ -53,10 +37,9 @@ class App extends Component {
    */
   async componentDidMount() {
     try {
-      await Auth.currentSession();
-      this.userHasAuthenticated(true);
-    }
-    catch(e) {
+      // await Auth.currentSession();
+      // this.userHasAuthenticated(true);
+    } catch(e) {
       if (e !== 'No current user') {
         // alert(e);
       }
@@ -83,22 +66,15 @@ class App extends Component {
 
   /**
    * 
-   * AWS Amplify has a Auth.signOut() method that helps clear it out.
    * 
-   * If we didn't use this method below, we would only be removing the user 
-   * session from our app's state. But when the user refreshed the page,they 
-   * would be loading the user session from the browser local storage (using 
-   * Amplify), in effect logging them back in.
-   * @since 0.3.1
    * @param {*} event
    */
   handleLogout = async event => {
-    await Auth.signOut();
+    // await Auth.signOut();
   
-    this.userHasAuthenticated(false);
+    // this.userHasAuthenticated(false);
     
-    /* This redirects us back to the login page once the user logs out. */
-    this.props.history.push("/login"); 
+    // this.props.history.push(pages.landing); 
   }
 
   render() {
@@ -110,14 +86,14 @@ class App extends Component {
     return (
       !this.state.isAuthenticating &&
       <Fragment>
-        { !window.location.href.includes(pages.login) && 
+        { this.state.isAuthenticated && 
           <Navbar 
-            isAuthenticated={this.state.isAuthenticated} 
-            logout={this.handleLogout} 
+            isAuthenticated={ this.state.isAuthenticated } 
+            logout={ this.handleLogout } 
           />
         }
         
-          <Routes childProps={childProps} />
+          <Routes childProps={ childProps } />
       </Fragment>
     );
   }
