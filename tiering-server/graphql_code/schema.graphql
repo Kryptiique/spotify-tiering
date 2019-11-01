@@ -112,8 +112,10 @@ type Song {
   tier: Int
   # The link to the song on spotify
   spotifyLink: String!
-  # Comments added by users!
+  # Comments added by users
   comments(filter: CommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): CommentConnection
+  # A list of likes made by users
+  likes(filter: LikeFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): LikeConnection
 }
 
 # A way of keeping tabs on notifications and changes made
@@ -139,6 +141,8 @@ type Swap {
   id: ID!
   # The user requesting the swap
   author: User!
+  # the Circle in which the swap was made
+  circle: Circle
   # Date the swap was created
   date: String!
   # The song that is to be replaced
@@ -184,6 +188,17 @@ type Message {
   sender: User!
   # The timestamp when the message was sent
   dateSent: String!
+  # If the message was updated, this would be different from dateSent
+  updatedAt: String!
+}
+
+# 
+type Like {
+  id: ID!
+  # The song that was liked
+  song: Song!
+  # The user who liked it
+  user: User!
 }
 
 # Order by which songs can be sorted
@@ -202,7 +217,7 @@ input CreateCircleInput {
   id: ID
   name: String!
   description: String
-  ownerID: ID! # Id of the user 
+  ownerId: ID! # Id of the user 
   spotifyLink: String!
   swapCap: Int
   addCap: Int
@@ -226,19 +241,21 @@ input CreateUCLinkInput {
 input CreateSongInput {
   id: ID
   circleId: ID! # Id of the circle 
+  removedId: ID
   name: String!
   artist: String!
   album: String!
   albumArt: String
-  adderID: String! # Id of the user 
+  adderId: String! # Id of the user 
   spotifyLink: String!
   dateAdded: String!
 }
 
 input CreateActionInput {
   id: ID
-  ownerID: ID! # Id of the user 
-  circleID: ID! # Id of the circle 
+  ownerId: ID! # Id of the user 
+  circleId: ID! # Id of the circle 
+  notificationUserId: ID # Use for Links to users only
   image: String!
   message: String!
   date: String!
@@ -247,24 +264,25 @@ input CreateActionInput {
 
 input CreateSwapInput {
   id: ID
-  authorID: ID!
+  authorId: ID!
   date: String!
-  originalID: ID!  # Id of the song
-  replacement: ID! # Id of the new song
+  circleId: ID!
+  originalId: ID!  # Id of the song
+  replacementId: ID! # Id of the new song
 }
 
 input CreateCommentInput {
   id: ID
-  authorID: ID!
-  songID: ID!
+  authorId: ID!
+  songId: ID!
   date: String!
   body: String!
 }
 
 input CreateUTLinkInput {
   id: ID
-  userID: ID!
-  threadID: ID!
+  userId: ID!
+  threadId: ID!
 }
 
 input CreateThreadInput {
@@ -273,9 +291,82 @@ input CreateThreadInput {
 
 input CreateMessageInput {
   id: ID
-  threadID: ID!
-  senderID: ID
+  threadId: ID!
+  senderId: ID
   dateSent: String!
+}
+
+input CreateLikeInput {
+  id: ID
+  songId: ID!
+  userId: ID!
+}
+
+# Update Input Models ====================================================
+
+input UpdateCircleInput {
+  id: ID!
+  name: String
+  description: String
+  songCount: Int
+  ownerId: ID
+  swapCap: Int
+  addCap: Int
+  initialAddCap: Int
+  frozen: Boolean
+  autoFreeze: Boolean
+  freezeSettings: String
+  joinLink:String
+  jointEffort: Boolean
+}
+
+input UpdateUserInput {
+  id: ID!
+  displayName: String
+  reputation: Float
+  active: Boolean
+  sortCategory: String
+  sortDirection: String
+}
+
+input UpdateUCLinkInput {
+  id: ID!
+  reputation: Float
+  displayName: String!
+}
+
+input UpdateSongInput {
+  id: ID!
+  tier: Int
+  removedId:ID
+}
+
+input UpdateActionInput {
+  id: ID!
+  image: String
+  link: String
+}
+
+# input UpdateSwapInput {
+#   id: ID!
+# }
+
+input UpdateCommentInput {
+  id: ID!
+  body: String!
+}
+
+# input UpdateUTLinkInput {
+#   id: ID!
+# }
+
+# input UpdateThreadInput {
+#   id: ID!
+# }
+
+input UpdateMessageInput {
+  id: ID!
+  body: String!
 }
 
 # Filter Input Models ====================================================
@@ -303,7 +394,7 @@ input UserFilterInput {
 
 input UCLinkFilterInput {
   id: ModelIDFilterInput
-  reputation: ModelIntFilterInput
+  reputation: ModelFloatFilterInput
   and: [UCLinkFilterInput]
   or: [UCLinkFilterInput]
   not: UCLinkFilterInput
@@ -367,61 +458,19 @@ input ThreadFilterInput {
 
 input MessageFilterInput {
   id: ModelIDFilterInput
-  date: ModelStringFilterInput
+  dateSent: ModelStringFilterInput
   and: [MessageFilterInput]
   or: [MessageFilterInput]
   not: MessageFilterInput
 }
 
-# Update Input Models ====================================================
-
-input UpdateCircleInput {
-  id: ID!
-  name: String
-}
-
-input UpdateUserInput {
-  id: ID!
-}
-
-input UpdateUCLinkInput {
-  id: ID!
-  reputation: Int
-  displayName: String!
-}
-
-input UpdateSongInput {
-  id: ID!
-  tier: Int
-}
-
-input UpdateActionInput {
-  id: ID!
-  image: String
-  link: String
-
-}
-
-# input UpdateSwapInput {
-#   id: ID!
-# }
-
-input UpdateCommentInput {
-  id: ID!
-  body: String!
-}
-
-# input UpdateUTLinkInput {
-#   id: ID!
-# }
-
-# input UpdateThreadInput {
-#   id: ID!
-# }
-
-input UpdateMessageInput {
-  id: ID!
-  body: String!
+input LikeFilterInput {
+  id: ModelIDFilterInput
+  song: ModelStringFilterInput
+  user: ModelStringFilterInput
+  and: [LikeFilterInput]
+  or: [LikeFilterInput]
+  not: LikeFilterInput
 }
 
 # Connection Models ======================================================
@@ -481,6 +530,11 @@ type MessageConnection {
   nextToken: String
 }
 
+type LikeConnection {
+  items: [Like]
+  nextToken: String
+}
+
 
 # Mutations and Query ====================================================
 
@@ -506,6 +560,7 @@ type Query {
   listUTLinks(filter: UTLinkFilterInput, limit: Int, nextToken: String): UTLinkConnection
   listThreads(filter: ThreadFilterInput, limit: Int, nextToken: String): ThreadConnection
   listMessages(filter: MessageFilterInput, limit: Int, nextToken: String): MessageConnection
+  listLikes(filter: LikeFilterInput, limit: Int, nextToken: String): LikeConnection
 }
 
 type Mutation {
@@ -519,6 +574,7 @@ type Mutation {
   createUTLink(input: CreateUTLinkInput!): UTLink
   createThread(input: CreateThreadInput!): Thread
   createMessage(input: CreateMessageInput!): Message
+  createLike(input: CreateLikeInput!): Like
   
   updateCircle(input: UpdateCircleInput!): Circle
   updateUser(input: UpdateUserInput!): User
@@ -541,6 +597,7 @@ type Mutation {
   deleteUTLink(input: ModelDeleteInput!): UTLink
   deleteThread(input: ModelDeleteInput!): Thread
   deleteMessage(input: ModelDeleteInput!): Message
+  deleteLike(input: ModelDeleteInput!): Like
 }
 
 type Subscription {

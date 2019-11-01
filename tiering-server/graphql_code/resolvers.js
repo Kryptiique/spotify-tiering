@@ -10,6 +10,7 @@ const {
   UTLink,
   Thread,
   Message,
+  Like,
 } = require('./models')
 
 const Sequelize = require('sequelize')
@@ -32,10 +33,20 @@ function processFilter(filter){
   const where = {}
   Object.keys(filter).forEach(column => {
     Object.keys(filter[column]).forEach(key => {
-      where[column] = {[Op[key]]: filter[column][key]}
+      // This isn't entirely what we want
+      where[column] = { [Op[key]]: filter[column][key] }
     })
   })
   return where
+}
+
+/**
+ * Converts a date object into a human readable format
+ * of the form MM/DD/YYYY HH:MM:SS.MS
+ * @param {Date} date 
+ */
+function readableDate(date){
+  return `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
 }
 
 /**
@@ -125,6 +136,7 @@ const resolvers = {
     listUTLinks(_, req){ return listFunc(UTLink, req, defaultLimit) },
     listThreads(_, req){ return listFunc(Thread, req, defaultLimit) },
     listMessages(_, req){ return listFunc(Message, req, defaultLimit) },
+    listLikes(_, req){ return listFunc(Like, req, defaultLimit) },
   },
   Mutation: {
     // Creations
@@ -138,6 +150,7 @@ const resolvers = {
     createUTLink(_, req){ return UTLink.create(req.input) },
     createThread(_, req){ return Thread.create(req.input) },
     createMessage(_, req){ return Message.create(req.input) },
+    createLike(_, req){ return Like.create(req.input) },
 
     // Updates
     updateCircle(_, req){ return updateFunc(Circle, req) },
@@ -162,12 +175,152 @@ const resolvers = {
     deleteUTLink(_, req){ return deleteFunc(UTLink, req) },
     deleteThread(_, req){ return deleteFunc(Thread, req) },
     deleteMessage(_, req){ return deleteFunc(Message, req) },
+    deleteLike(_, req){ return deleteFunc(Like, req) },
   },
   Subscription: {
     somethingChanged: {
       subscribe: () => pubsub.asyncIterator([ SOMETHING_UPDATED, SOMETHING_CREATED, SOMETHING_REMOVED ]),
     },
-  }
+  },
+  Circle: {
+    playlist(circle) {
+      return circle.getPlaylist().then(items => {
+        return { items: items }
+      })
+    },
+    removed(circle) {
+      return circle.getRemoved().then(items => {
+        return { items: items }
+      })
+    },
+    owner(circle) {
+      return circle.getOwner()
+    },
+    users(circle) {
+      return circle.getUsers().then(items => {
+        return { items: items }
+      })
+    },
+    swaps(circle) {
+      return circle.getSwaps().then(items => {
+        return { items: items }
+      })
+    },
+    history(circle) {
+      return circle.getHistory().then(items => {
+        return { items: items }
+      })
+    },
+  },
+  User: {
+    circles(user) {
+      return user.getCircles().then(items => {
+        return { items: items }
+      })
+    },
+    threads(user) {
+      return user.getThreads().then(items => {
+        return { items: items }
+      })
+    },
+    notifications(user) {
+      return user.getNotifications().then(items => {
+        return { items: items }
+      })
+    },
+  },
+  UCLink: {
+    user(link) {
+      return link.getUser()
+    },
+    circle(link) {
+      return link.getCircle()
+    },
+  },
+  Song: {
+    adder(song) {
+      return song.getAdder()
+    },
+    circle(song) {
+      return song.getCircle()
+    },
+    comments(song) {
+      return song.getComments().then(items => {
+        return { items: items }
+      })
+    },
+    likes(song) {
+      return song.getLikes().then(items => {
+        return { items: items }
+      })
+    },
+  },
+  Action: {
+    circle(action) {
+      return action.getCircle()
+    },
+    owner(action) {
+      return action.getOwner()
+    },
+  },
+  Swap: {
+    author(swap) {
+      return swap.getAuthor()
+    },
+    circle(swap) {
+      return swap.getCircle()
+    },
+    original(swap) {
+      return swap.getOriginal()
+    },
+    replacement(swap) {
+      return swap.getReplacement()
+    },
+  },
+  Comment: {
+    author(comment) {
+      return comment.getAuthor()
+    },
+    song(comment) {
+      return comment.getSong()
+    },
+  },
+  UTLink: {
+    user(link) {
+      return link.getUser()
+    },
+    thread(link) {
+      return link.getThread()
+    },
+  },
+  Thread: {
+    users(thread){
+      return thread.getUsers().then(items => {
+        return {items: items}
+      })
+    },
+    messages(thread){
+      return thread.getMessages().then(items => {
+        return {items: items}
+      })
+    },
+  },
+  Message: {
+    thread(message) {
+      return message.getThread()
+    },
+    sender(message) {
+      return message.getSender()
+    },
+  },
+  Like: {
+    user(like) {
+      return like.getUser()
+    },
+    song(like) {
+      return like.getSong()
+    },
+  },
 }
 
 // export default resolvers
