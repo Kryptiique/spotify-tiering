@@ -231,10 +231,11 @@ const resolvers = {
   },
   UCLink: {
     user(link) {
-      return link.getUser()
+      return link.User()
     },
     circle(link) {
-      return link.getCircle()
+      // console.debug(link)
+      return link.Circle
     },
   },
   Song: {

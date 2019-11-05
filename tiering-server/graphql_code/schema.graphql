@@ -1,6 +1,9 @@
 
 # Models =====================================================================
 
+"""
+A collaboration group between users
+"""
 type Circle {
   id: ID!
   # The name of the circle
@@ -47,6 +50,10 @@ type Circle {
   jointEffort: Boolean
 }
 
+"""
+An individual spotify account tied
+to the system
+"""
 type User {
   id: ID!
   # name as seen on spotify
@@ -60,7 +67,7 @@ type User {
   # circles the user is participating in
   circles(filter: UCLinkFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): UCLinkConnection
   # list of message threads the user is participating in
-  threads(filter: ThreadFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ThreadConnection
+  threads(filter: UTLinkFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): UTLinkConnection
   # Alerts telling the user changes that have been made recently
   notifications(filter: ActionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ActionConnection
   # Whether or not the user is currently logged into the system
@@ -69,7 +76,7 @@ type User {
   # PREFERENCES 
 
   # global display name, Overwrites
-  diaplayName: String
+  displayName: String
   # Field by which to sort songs  
   sortCategory: SortOrder
   # Sort sort order
@@ -79,7 +86,9 @@ type User {
   # favorites: [Favorite]
 }
 
+"""
 # M:M link between Users and Circles
+"""
 type UCLink {
   id: ID!
   user: User
@@ -91,7 +100,9 @@ type UCLink {
   diaplayName: String
 }
 
+"""
 # Singular spotify song
+"""
 type Song {
   id: ID!
   # The circle where the song was added to
@@ -118,8 +129,10 @@ type Song {
   likes(filter: LikeFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): LikeConnection
 }
 
-# A way of keeping tabs on notifications and changes made
-# to the playlist
+"""
+A way of keeping tabs on notifications and changes made
+to the playlist
+"""
 type Action {
   id: ID
   # The User who made the action occur
@@ -136,7 +149,9 @@ type Action {
   date: String!
 }
 
-# A request to replace one song in the playlist with another
+"""
+A request to replace one song in the playlist with another
+"""
 type Swap {
   id: ID!
   # The user requesting the swap
@@ -151,6 +166,9 @@ type Swap {
   replacement: Song!
 }
 
+"""
+A message left by Users on Songs only
+"""
 type Comment {
   id: ID!
   # The user who wrote the comment
@@ -163,14 +181,18 @@ type Comment {
   body: String!
 }
 
-# M:M link between users and threads
+"""
+M:M link between users and threads
+"""
 type UTLink {
   id: ID!
   user: User
   thread: Thread
 }
 
-# A string of messages between users
+"""
+An ordered list of messages between users
+"""
 type Thread {
   id: ID!
   # The users who can view the thread
@@ -179,20 +201,28 @@ type Thread {
   messages(filter: MessageFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): MessageConnection
 }
 
-# Message between users
+"""
+A single message between users, existing in a thread
+only
+"""
 type Message {
   id: ID!
   # The thread in which the message was sent
   thread: Thread!
   # The user who sent the message
   sender: User!
+  # The body of the message
+  body: String!
   # The timestamp when the message was sent
   dateSent: String!
   # If the message was updated, this would be different from dateSent
   updatedAt: String!
 }
 
-# 
+"""
+A simple counter for whether others like the song's addition.
+This does not affect the song's tier rating
+"""
 type Like {
   id: ID!
   # The song that was liked
@@ -201,7 +231,9 @@ type Like {
   user: User!
 }
 
-# Order by which songs can be sorted
+"""
+Order by which songs can be sorted
+"""
 enum SortOrder {
   NAME
   ARTIST
@@ -219,6 +251,7 @@ input CreateCircleInput {
   description: String
   ownerId: ID! # Id of the user 
   spotifyLink: String!
+  image: String!
   swapCap: Int
   addCap: Int
   initialAddCap: Int
@@ -229,13 +262,14 @@ input CreateUserInput {
   username: String!
   profilePic: String!
   spotifyLink: String!
+  displayName: String!
 }
 
 input CreateUCLinkInput {
   id: ID
   linkCircleId: ID!
   linkUserId: ID! 
-  diaplayName: String
+  diaplayName: String!
 }
 
 input CreateSongInput {
@@ -293,6 +327,7 @@ input CreateMessageInput {
   id: ID
   threadId: ID!
   senderId: ID
+  body: String!
   dateSent: String!
 }
 

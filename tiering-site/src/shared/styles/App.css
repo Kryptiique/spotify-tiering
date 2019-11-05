@@ -48,12 +48,12 @@ p span, p a {
   float: left;
 }
 
-.sep-h {
-  width: 100%;
-  margin-top: 15px;
-  margin-bottom: 15px;
-  border-bottom: 1px solid var(--tertiary);
-}
+  .sep-h {
+    width: 100%;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--tertiary);
+  }
 
 div#react-scrollbar >*:last-child>* {
   margin-left: 2px;

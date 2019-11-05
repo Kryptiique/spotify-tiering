@@ -1,0 +1,5603 @@
+﻿type Action implements Node {
+  author(filter: UserFilter): User!
+  circle(filter: CircleFilter): Circle
+  createdAt: DateTime!
+  id: ID!
+  image: String
+  link: String
+  message: String!
+  notificationUser(filter: UserFilter): User!
+  updatedAt: DateTime!
+}
+
+input ActionauthorUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input ActioncircleCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+# A connection to a list of items.
+type ActionConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [ActionEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type ActionEdge {
+  # The item at the end of the edge.
+  node: Action!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input ActionFilter {
+  # Logical AND on all given filters.
+  AND: [ActionFilter!]
+
+  # Logical OR on all given filters.
+  OR: [ActionFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  image: String
+
+  # All values that are not equal to given value.
+  image_not: String
+
+  # All values that are contained in given list.
+  image_in: [String!]
+
+  # All values that are not contained in given list.
+  image_not_in: [String!]
+
+  # All values less than the given value.
+  image_lt: String
+
+  # All values less than or equal the given value.
+  image_lte: String
+
+  # All values greater than the given value.
+  image_gt: String
+
+  # All values greater than or equal the given value.
+  image_gte: String
+
+  # All values containing the given string.
+  image_contains: String
+
+  # All values not containing the given string.
+  image_not_contains: String
+
+  # All values starting with the given string.
+  image_starts_with: String
+
+  # All values not starting with the given string.
+  image_not_starts_with: String
+
+  # All values ending with the given string.
+  image_ends_with: String
+
+  # All values not ending with the given string.
+  image_not_ends_with: String
+  link: String
+
+  # All values that are not equal to given value.
+  link_not: String
+
+  # All values that are contained in given list.
+  link_in: [String!]
+
+  # All values that are not contained in given list.
+  link_not_in: [String!]
+
+  # All values less than the given value.
+  link_lt: String
+
+  # All values less than or equal the given value.
+  link_lte: String
+
+  # All values greater than the given value.
+  link_gt: String
+
+  # All values greater than or equal the given value.
+  link_gte: String
+
+  # All values containing the given string.
+  link_contains: String
+
+  # All values not containing the given string.
+  link_not_contains: String
+
+  # All values starting with the given string.
+  link_starts_with: String
+
+  # All values not starting with the given string.
+  link_not_starts_with: String
+
+  # All values ending with the given string.
+  link_ends_with: String
+
+  # All values not ending with the given string.
+  link_not_ends_with: String
+  message: String
+
+  # All values that are not equal to given value.
+  message_not: String
+
+  # All values that are contained in given list.
+  message_in: [String!]
+
+  # All values that are not contained in given list.
+  message_not_in: [String!]
+
+  # All values less than the given value.
+  message_lt: String
+
+  # All values less than or equal the given value.
+  message_lte: String
+
+  # All values greater than the given value.
+  message_gt: String
+
+  # All values greater than or equal the given value.
+  message_gte: String
+
+  # All values containing the given string.
+  message_contains: String
+
+  # All values not containing the given string.
+  message_not_contains: String
+
+  # All values starting with the given string.
+  message_starts_with: String
+
+  # All values not starting with the given string.
+  message_not_starts_with: String
+
+  # All values ending with the given string.
+  message_ends_with: String
+
+  # All values not ending with the given string.
+  message_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  author: UserFilter
+  circle: CircleFilter
+  notificationUser: UserFilter
+}
+
+input ActionnotificationUserUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+enum ActionOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  image_ASC
+  image_DESC
+  link_ASC
+  link_DESC
+  message_ASC
+  message_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type AddToActiveSwapsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  activeSwapsSwap: Swap
+  circleCircle: Circle
+  activeSwapsSwapEdge: SwapEdge
+  circleCircleEdge: CircleEdge
+}
+
+input AddToActiveSwapsSwapInput {
+  circleCircleId: ID!
+  activeSwapsSwapId: ID!
+  clientMutationId: String!
+}
+
+type AddToAdderPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  addedSongsSong: Song
+  adderUser: User
+  addedSongsSongEdge: SongEdge
+  adderUserEdge: UserEdge
+}
+
+input AddToAdderSongInput {
+  adderUserId: ID!
+  addedSongsSongId: ID!
+  clientMutationId: String!
+}
+
+input AddToAuthorCommentInput {
+  userUserId: ID!
+  commentsCommentId: ID!
+  clientMutationId: String!
+}
+
+type AddToAuthorPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  commentsComment: Comment
+  userUser: User
+  commentsCommentEdge: CommentEdge
+  userUserEdge: UserEdge
+}
+
+type AddToCirclesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circlesUCLink: UCLink
+  userUser: User
+  circlesUCLinkEdge: UCLinkEdge
+  userUserEdge: UserEdge
+}
+
+input AddToCirclesUCLinkInput {
+  userUserId: ID!
+  circlesUCLinkId: ID!
+  clientMutationId: String!
+}
+
+input AddToCommentsCommentInput {
+  songSongId: ID!
+  commentsCommentId: ID!
+  clientMutationId: String!
+}
+
+type AddToCommentsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  commentsComment: Comment
+  songSong: Song
+  commentsCommentEdge: CommentEdge
+  songSongEdge: SongEdge
+}
+
+input AddToHistoryActionInput {
+  circleCircleId: ID!
+  historyActionId: ID!
+  clientMutationId: String!
+}
+
+type AddToHistoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  historyAction: Action
+  circleCircle: Circle
+  historyActionEdge: ActionEdge
+  circleCircleEdge: CircleEdge
+}
+
+input AddToMessageOnThreadMessageInput {
+  threadThreadId: ID!
+  messagesMessageId: ID!
+  clientMutationId: String!
+}
+
+type AddToMessageOnThreadPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  messagesMessage: Message
+  threadThread: Thread
+  messagesMessageEdge: MessageEdge
+  threadThreadEdge: ThreadEdge
+}
+
+input AddToOriginalSwapInput {
+  originalSongSongId: ID!
+  originalSwapSwapId: ID!
+  clientMutationId: String!
+}
+
+type AddToOwnedCirclesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  ownerUser: User
+  ownedCirclesCircle: Circle
+  ownerUserEdge: UserEdge
+  ownedCirclesCircleEdge: CircleEdge
+}
+
+input AddToOwnedCirclesUserInput {
+  ownedCirclesCircleId: ID!
+  ownerUserId: ID!
+  clientMutationId: String!
+}
+
+input AddToPerformedActionOnUserActionInput {
+  authorUserId: ID!
+  performedActionsActionId: ID!
+  clientMutationId: String!
+}
+
+type AddToPerformedActionOnUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  performedActionsAction: Action
+  authorUser: User
+  performedActionsActionEdge: ActionEdge
+  authorUserEdge: UserEdge
+}
+
+type AddToPlaylistPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  playlistSong: Song
+  circleCircle: Circle
+  playlistSongEdge: SongEdge
+  circleCircleEdge: CircleEdge
+}
+
+input AddToPlaylistSongInput {
+  circleCircleId: ID!
+  playlistSongId: ID!
+  clientMutationId: String!
+}
+
+input AddToRemovedSongsCircleInput {
+  removedSongsSongId: ID!
+  circleRemovedCircleId: ID!
+  clientMutationId: String!
+}
+
+type AddToRemovedSongsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circleRemovedCircle: Circle
+  removedSongsSong: Song
+  circleRemovedCircleEdge: CircleEdge
+  removedSongsSongEdge: SongEdge
+}
+
+input AddToReplacementSwapInput {
+  replacementSongId: ID!
+  replacementSwapSwapId: ID!
+  clientMutationId: String!
+}
+
+input AddToSenderMessageInput {
+  senderUserId: ID!
+  messagesMessageId: ID!
+  clientMutationId: String!
+}
+
+type AddToSenderPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  messagesMessage: Message
+  senderUser: User
+  messagesMessageEdge: MessageEdge
+  senderUserEdge: UserEdge
+}
+
+input AddToSongLikesLikeInput {
+  songSongId: ID!
+  likesLikeId: ID!
+  clientMutationId: String!
+}
+
+type AddToSongLikesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  likesLike: Like
+  songSong: Song
+  likesLikeEdge: LikeEdge
+  songSongEdge: SongEdge
+}
+
+type AddToSwapOnUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  swapsSwap: Swap
+  authorUser: User
+  swapsSwapEdge: SwapEdge
+  authorUserEdge: UserEdge
+}
+
+input AddToSwapOnUserSwapInput {
+  authorUserId: ID!
+  swapsSwapId: ID!
+  clientMutationId: String!
+}
+
+type AddToThreadOnUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  threadsThread: Thread
+  usersUser: User
+  threadsThreadEdge: ThreadEdge
+  usersUserEdge: UserEdge
+}
+
+input AddToThreadOnUserThreadInput {
+  usersUserId: ID!
+  threadsThreadId: ID!
+  clientMutationId: String!
+}
+
+input AddToUserLikesLikeInput {
+  authorUserId: ID!
+  likedSongsLikeId: ID!
+  clientMutationId: String!
+}
+
+type AddToUserLikesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  likedSongsLike: Like
+  authorUser: User
+  likedSongsLikeEdge: LikeEdge
+  authorUserEdge: UserEdge
+}
+
+input AddToUserNotificationsActionInput {
+  notificationUserUserId: ID!
+  notificationsActionId: ID!
+  clientMutationId: String!
+}
+
+type AddToUserNotificationsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  notificationsAction: Action
+  notificationUserUser: User
+  notificationsActionEdge: ActionEdge
+  notificationUserUserEdge: UserEdge
+}
+
+type AddToUsersPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  usersUCLink: UCLink
+  circleCircle: Circle
+  usersUCLinkEdge: UCLinkEdge
+  circleCircleEdge: CircleEdge
+}
+
+input AddToUsersUCLinkInput {
+  circleCircleId: ID!
+  usersUCLinkId: ID!
+  clientMutationId: String!
+}
+
+type Circle implements Node {
+  activeSwaps(filter: SwapFilter, orderBy: SwapOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SwapConnection
+  addCap: Int
+  autoFreeze: Boolean
+  createdAt: DateTime!
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  history(filter: ActionFilter, orderBy: ActionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ActionConnection
+  id: ID!
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean!
+  name: String!
+  owner(filter: UserFilter): User!
+  playlist(filter: SongFilter, orderBy: SongOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection
+  removedSongs(filter: SongFilter, orderBy: SongOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int!
+  updatedAt: DateTime!
+  users(filter: UCLinkFilter, orderBy: UCLinkOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UCLinkConnection
+}
+
+input CircleactiveSwapsSwap {
+  authorId: ID
+  author: SwapauthorUser
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+  replacementId: ID
+  replacement: SwapreplacementSong
+}
+
+# A connection to a list of items.
+type CircleConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CircleEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type CircleEdge {
+  # The item at the end of the edge.
+  node: Circle!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input CircleFilter {
+  # Logical AND on all given filters.
+  AND: [CircleFilter!]
+
+  # Logical OR on all given filters.
+  OR: [CircleFilter!]
+  addCap: Int
+
+  # All values that are not equal to given value.
+  addCap_not: Int
+
+  # All values that are contained in given list.
+  addCap_in: [Int!]
+
+  # All values that are not contained in given list.
+  addCap_not_in: [Int!]
+
+  # All values less than the given value.
+  addCap_lt: Int
+
+  # All values less than or equal the given value.
+  addCap_lte: Int
+
+  # All values greater than the given value.
+  addCap_gt: Int
+
+  # All values greater than or equal the given value.
+  addCap_gte: Int
+  autoFreeze: Boolean
+
+  # All values that are not equal to given value.
+  autoFreeze_not: Boolean
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  description: String
+
+  # All values that are not equal to given value.
+  description_not: String
+
+  # All values that are contained in given list.
+  description_in: [String!]
+
+  # All values that are not contained in given list.
+  description_not_in: [String!]
+
+  # All values less than the given value.
+  description_lt: String
+
+  # All values less than or equal the given value.
+  description_lte: String
+
+  # All values greater than the given value.
+  description_gt: String
+
+  # All values greater than or equal the given value.
+  description_gte: String
+
+  # All values containing the given string.
+  description_contains: String
+
+  # All values not containing the given string.
+  description_not_contains: String
+
+  # All values starting with the given string.
+  description_starts_with: String
+
+  # All values not starting with the given string.
+  description_not_starts_with: String
+
+  # All values ending with the given string.
+  description_ends_with: String
+
+  # All values not ending with the given string.
+  description_not_ends_with: String
+  frozen: Boolean
+
+  # All values that are not equal to given value.
+  frozen_not: Boolean
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  image: String
+
+  # All values that are not equal to given value.
+  image_not: String
+
+  # All values that are contained in given list.
+  image_in: [String!]
+
+  # All values that are not contained in given list.
+  image_not_in: [String!]
+
+  # All values less than the given value.
+  image_lt: String
+
+  # All values less than or equal the given value.
+  image_lte: String
+
+  # All values greater than the given value.
+  image_gt: String
+
+  # All values greater than or equal the given value.
+  image_gte: String
+
+  # All values containing the given string.
+  image_contains: String
+
+  # All values not containing the given string.
+  image_not_contains: String
+
+  # All values starting with the given string.
+  image_starts_with: String
+
+  # All values not starting with the given string.
+  image_not_starts_with: String
+
+  # All values ending with the given string.
+  image_ends_with: String
+
+  # All values not ending with the given string.
+  image_not_ends_with: String
+  initialAddCap: Int
+
+  # All values that are not equal to given value.
+  initialAddCap_not: Int
+
+  # All values that are contained in given list.
+  initialAddCap_in: [Int!]
+
+  # All values that are not contained in given list.
+  initialAddCap_not_in: [Int!]
+
+  # All values less than the given value.
+  initialAddCap_lt: Int
+
+  # All values less than or equal the given value.
+  initialAddCap_lte: Int
+
+  # All values greater than the given value.
+  initialAddCap_gt: Int
+
+  # All values greater than or equal the given value.
+  initialAddCap_gte: Int
+  joinLink: String
+
+  # All values that are not equal to given value.
+  joinLink_not: String
+
+  # All values that are contained in given list.
+  joinLink_in: [String!]
+
+  # All values that are not contained in given list.
+  joinLink_not_in: [String!]
+
+  # All values less than the given value.
+  joinLink_lt: String
+
+  # All values less than or equal the given value.
+  joinLink_lte: String
+
+  # All values greater than the given value.
+  joinLink_gt: String
+
+  # All values greater than or equal the given value.
+  joinLink_gte: String
+
+  # All values containing the given string.
+  joinLink_contains: String
+
+  # All values not containing the given string.
+  joinLink_not_contains: String
+
+  # All values starting with the given string.
+  joinLink_starts_with: String
+
+  # All values not starting with the given string.
+  joinLink_not_starts_with: String
+
+  # All values ending with the given string.
+  joinLink_ends_with: String
+
+  # All values not ending with the given string.
+  joinLink_not_ends_with: String
+  jointEffort: Boolean
+
+  # All values that are not equal to given value.
+  jointEffort_not: Boolean
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  songCount: Int
+
+  # All values that are not equal to given value.
+  songCount_not: Int
+
+  # All values that are contained in given list.
+  songCount_in: [Int!]
+
+  # All values that are not contained in given list.
+  songCount_not_in: [Int!]
+
+  # All values less than the given value.
+  songCount_lt: Int
+
+  # All values less than or equal the given value.
+  songCount_lte: Int
+
+  # All values greater than the given value.
+  songCount_gt: Int
+
+  # All values greater than or equal the given value.
+  songCount_gte: Int
+  spotifyLink: String
+
+  # All values that are not equal to given value.
+  spotifyLink_not: String
+
+  # All values that are contained in given list.
+  spotifyLink_in: [String!]
+
+  # All values that are not contained in given list.
+  spotifyLink_not_in: [String!]
+
+  # All values less than the given value.
+  spotifyLink_lt: String
+
+  # All values less than or equal the given value.
+  spotifyLink_lte: String
+
+  # All values greater than the given value.
+  spotifyLink_gt: String
+
+  # All values greater than or equal the given value.
+  spotifyLink_gte: String
+
+  # All values containing the given string.
+  spotifyLink_contains: String
+
+  # All values not containing the given string.
+  spotifyLink_not_contains: String
+
+  # All values starting with the given string.
+  spotifyLink_starts_with: String
+
+  # All values not starting with the given string.
+  spotifyLink_not_starts_with: String
+
+  # All values ending with the given string.
+  spotifyLink_ends_with: String
+
+  # All values not ending with the given string.
+  spotifyLink_not_ends_with: String
+  swapCap: Int
+
+  # All values that are not equal to given value.
+  swapCap_not: Int
+
+  # All values that are contained in given list.
+  swapCap_in: [Int!]
+
+  # All values that are not contained in given list.
+  swapCap_not_in: [Int!]
+
+  # All values less than the given value.
+  swapCap_lt: Int
+
+  # All values less than or equal the given value.
+  swapCap_lte: Int
+
+  # All values greater than the given value.
+  swapCap_gt: Int
+
+  # All values greater than or equal the given value.
+  swapCap_gte: Int
+  swapTierThreshold: Int
+
+  # All values that are not equal to given value.
+  swapTierThreshold_not: Int
+
+  # All values that are contained in given list.
+  swapTierThreshold_in: [Int!]
+
+  # All values that are not contained in given list.
+  swapTierThreshold_not_in: [Int!]
+
+  # All values less than the given value.
+  swapTierThreshold_lt: Int
+
+  # All values less than or equal the given value.
+  swapTierThreshold_lte: Int
+
+  # All values greater than the given value.
+  swapTierThreshold_gt: Int
+
+  # All values greater than or equal the given value.
+  swapTierThreshold_gte: Int
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  activeSwaps_every: SwapFilter
+  activeSwaps_some: SwapFilter
+  activeSwaps_none: SwapFilter
+  history_every: ActionFilter
+  history_some: ActionFilter
+  history_none: ActionFilter
+  owner: UserFilter
+  playlist_every: SongFilter
+  playlist_some: SongFilter
+  playlist_none: SongFilter
+  removedSongs_every: SongFilter
+  removedSongs_some: SongFilter
+  removedSongs_none: SongFilter
+  users_every: UCLinkFilter
+  users_some: UCLinkFilter
+  users_none: UCLinkFilter
+}
+
+input CirclehistoryAction {
+  image: String
+  link: String
+  message: String!
+  authorId: ID
+  author: ActionauthorUser
+  notificationUserId: ID
+  notificationUser: ActionnotificationUserUser
+}
+
+enum CircleOrderBy {
+  addCap_ASC
+  addCap_DESC
+  autoFreeze_ASC
+  autoFreeze_DESC
+  createdAt_ASC
+  createdAt_DESC
+  description_ASC
+  description_DESC
+  freezeSettings_ASC
+  freezeSettings_DESC
+  frozen_ASC
+  frozen_DESC
+  id_ASC
+  id_DESC
+  image_ASC
+  image_DESC
+  initialAddCap_ASC
+  initialAddCap_DESC
+  joinLink_ASC
+  joinLink_DESC
+  jointEffort_ASC
+  jointEffort_DESC
+  name_ASC
+  name_DESC
+  songCount_ASC
+  songCount_DESC
+  spotifyLink_ASC
+  spotifyLink_DESC
+  swapCap_ASC
+  swapCap_DESC
+  swapTierThreshold_ASC
+  swapTierThreshold_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input CircleownerUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input CircleplaylistSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input CircleremovedSongsSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input CircleusersUCLink {
+  diaplayName: String
+  reputation: Float
+  userId: ID
+  user: UCLinkuserUser
+}
+
+type Comment implements Node {
+  createdAt: DateTime!
+  id: ID!
+  song(filter: SongFilter): Song
+  text: String!
+  updatedAt: DateTime!
+  user(filter: UserFilter): User
+}
+
+# A connection to a list of items.
+type CommentConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [CommentEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type CommentEdge {
+  # The item at the end of the edge.
+  node: Comment!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input CommentFilter {
+  # Logical AND on all given filters.
+  AND: [CommentFilter!]
+
+  # Logical OR on all given filters.
+  OR: [CommentFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  text: String
+
+  # All values that are not equal to given value.
+  text_not: String
+
+  # All values that are contained in given list.
+  text_in: [String!]
+
+  # All values that are not contained in given list.
+  text_not_in: [String!]
+
+  # All values less than the given value.
+  text_lt: String
+
+  # All values less than or equal the given value.
+  text_lte: String
+
+  # All values greater than the given value.
+  text_gt: String
+
+  # All values greater than or equal the given value.
+  text_gte: String
+
+  # All values containing the given string.
+  text_contains: String
+
+  # All values not containing the given string.
+  text_not_contains: String
+
+  # All values starting with the given string.
+  text_starts_with: String
+
+  # All values not starting with the given string.
+  text_not_starts_with: String
+
+  # All values ending with the given string.
+  text_ends_with: String
+
+  # All values not ending with the given string.
+  text_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  song: SongFilter
+  user: UserFilter
+}
+
+enum CommentOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input CommentsongSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input CommentuserUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input CreateAction {
+  image: String
+  link: String
+  message: String!
+  authorId: ID
+  author: ActionauthorUser
+  circleId: ID
+  circle: ActioncircleCircle
+  notificationUserId: ID
+  notificationUser: ActionnotificationUserUser
+}
+
+input CreateActionInput {
+  image: String
+  link: String
+  message: String!
+  authorId: ID
+  author: ActionauthorUser
+  circleId: ID
+  circle: ActioncircleCircle
+  notificationUserId: ID
+  notificationUser: ActionnotificationUserUser
+  clientMutationId: String!
+}
+
+type CreateActionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  action: Action
+  edge: ActionEdge
+  author: User
+  circle: Circle
+  notificationUser: User
+}
+
+input CreateCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+input CreateCircleInput {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+  clientMutationId: String!
+}
+
+type CreateCirclePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circle: Circle
+  edge: CircleEdge
+  owner: User
+}
+
+input CreateComment {
+  text: String!
+  songId: ID
+  song: CommentsongSong
+  userId: ID
+  user: CommentuserUser
+}
+
+input CreateCommentInput {
+  text: String!
+  songId: ID
+  song: CommentsongSong
+  userId: ID
+  user: CommentuserUser
+  clientMutationId: String!
+}
+
+type CreateCommentPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  comment: Comment
+  edge: CommentEdge
+  song: Song
+  user: User
+}
+
+input CreateFile {
+  name: String!
+}
+
+input CreateFileInput {
+  name: String!
+  clientMutationId: String!
+}
+
+type CreateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input CreateLike {
+  authorId: ID
+  author: LikeauthorUser
+  songId: ID
+  song: LikesongSong
+}
+
+input CreateLikeInput {
+  authorId: ID
+  author: LikeauthorUser
+  songId: ID
+  song: LikesongSong
+  clientMutationId: String!
+}
+
+type CreateLikePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  like: Like
+  edge: LikeEdge
+  author: User
+  song: Song
+}
+
+input CreateMessage {
+  text: String!
+  senderId: ID
+  sender: MessagesenderUser
+  threadId: ID
+  thread: MessagethreadThread
+}
+
+input CreateMessageInput {
+  text: String!
+  senderId: ID
+  sender: MessagesenderUser
+  threadId: ID
+  thread: MessagethreadThread
+  clientMutationId: String!
+}
+
+type CreateMessagePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  message: Message
+  edge: MessageEdge
+  sender: User
+  thread: Thread
+}
+
+input CreateSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input CreateSongInput {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+  clientMutationId: String!
+}
+
+type CreateSongPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  song: Song
+  edge: SongEdge
+  adder: User
+  circle: Circle
+  circleRemoved: Circle
+  originalSwap: Swap
+  replacementSwap: Swap
+}
+
+input CreateSwap {
+  authorId: ID
+  author: SwapauthorUser
+  circleId: ID
+  circle: SwapcircleCircle
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+  replacementId: ID
+  replacement: SwapreplacementSong
+}
+
+input CreateSwapInput {
+  authorId: ID
+  author: SwapauthorUser
+  circleId: ID
+  circle: SwapcircleCircle
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+  replacementId: ID
+  replacement: SwapreplacementSong
+  clientMutationId: String!
+}
+
+type CreateSwapPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  swap: Swap
+  edge: SwapEdge
+  author: User
+  circle: Circle
+  originalSong: Song
+  replacement: Song
+}
+
+input CreateThread {
+  messagesIds: [ID!]
+  messages: [ThreadmessagesMessage!]
+  usersIds: [ID!]
+  users: [ThreadusersUser!]
+}
+
+input CreateThreadInput {
+  messagesIds: [ID!]
+  messages: [ThreadmessagesMessage!]
+  usersIds: [ID!]
+  users: [ThreadusersUser!]
+  clientMutationId: String!
+}
+
+type CreateThreadPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  thread: Thread
+  edge: ThreadEdge
+}
+
+input CreateUCLink {
+  diaplayName: String
+  reputation: Float
+  circleId: ID
+  circle: UCLinkcircleCircle
+  userId: ID
+  user: UCLinkuserUser
+}
+
+input CreateUCLinkInput {
+  diaplayName: String
+  reputation: Float
+  circleId: ID
+  circle: UCLinkcircleCircle
+  userId: ID
+  user: UCLinkuserUser
+  clientMutationId: String!
+}
+
+type CreateUCLinkPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  uCLink: UCLink
+  edge: UCLinkEdge
+  circle: Circle
+  user: User
+}
+
+input CreateUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+# If authentication was successful the payload contains the user and a token. If unsuccessful this payload is null.
+type CreateUserPayload {
+  user: User
+  clientMutationId: String
+  viewer: Viewer!
+}
+
+scalar DateTime
+
+input DeleteActionInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteActionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  action: Action
+  edge: ActionEdge
+  author: User
+  circle: Circle
+  notificationUser: User
+  deletedId: ID
+}
+
+input DeleteCircleInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteCirclePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circle: Circle
+  edge: CircleEdge
+  owner: User
+  deletedId: ID
+}
+
+input DeleteCommentInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteCommentPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  comment: Comment
+  edge: CommentEdge
+  song: Song
+  user: User
+  deletedId: ID
+}
+
+input DeleteFileInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+  deletedId: ID
+}
+
+input DeleteLikeInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteLikePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  like: Like
+  edge: LikeEdge
+  author: User
+  song: Song
+  deletedId: ID
+}
+
+input DeleteMessageInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteMessagePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  message: Message
+  edge: MessageEdge
+  sender: User
+  thread: Thread
+  deletedId: ID
+}
+
+input DeleteSongInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteSongPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  song: Song
+  edge: SongEdge
+  adder: User
+  circle: Circle
+  circleRemoved: Circle
+  originalSwap: Swap
+  replacementSwap: Swap
+  deletedId: ID
+}
+
+input DeleteSwapInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteSwapPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  swap: Swap
+  edge: SwapEdge
+  author: User
+  circle: Circle
+  originalSong: Song
+  replacement: Song
+  deletedId: ID
+}
+
+input DeleteThreadInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteThreadPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  thread: Thread
+  edge: ThreadEdge
+  deletedId: ID
+}
+
+input DeleteUCLinkInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteUCLinkPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  uCLink: UCLink
+  edge: UCLinkEdge
+  circle: Circle
+  user: User
+  deletedId: ID
+}
+
+input DeleteUserInput {
+  id: ID!
+  clientMutationId: String!
+}
+
+type DeleteUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+  deletedId: ID
+}
+
+type File implements Node {
+  contentType: String!
+  createdAt: DateTime!
+  id: ID!
+  name: String!
+  secret: String!
+  size: Int!
+  updatedAt: DateTime!
+  url: String!
+}
+
+# A connection to a list of items.
+type FileConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [FileEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type FileEdge {
+  # The item at the end of the edge.
+  node: File!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input FileFilter {
+  # Logical AND on all given filters.
+  AND: [FileFilter!]
+
+  # Logical OR on all given filters.
+  OR: [FileFilter!]
+  contentType: String
+
+  # All values that are not equal to given value.
+  contentType_not: String
+
+  # All values that are contained in given list.
+  contentType_in: [String!]
+
+  # All values that are not contained in given list.
+  contentType_not_in: [String!]
+
+  # All values less than the given value.
+  contentType_lt: String
+
+  # All values less than or equal the given value.
+  contentType_lte: String
+
+  # All values greater than the given value.
+  contentType_gt: String
+
+  # All values greater than or equal the given value.
+  contentType_gte: String
+
+  # All values containing the given string.
+  contentType_contains: String
+
+  # All values not containing the given string.
+  contentType_not_contains: String
+
+  # All values starting with the given string.
+  contentType_starts_with: String
+
+  # All values not starting with the given string.
+  contentType_not_starts_with: String
+
+  # All values ending with the given string.
+  contentType_ends_with: String
+
+  # All values not ending with the given string.
+  contentType_not_ends_with: String
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  secret: String
+
+  # All values that are not equal to given value.
+  secret_not: String
+
+  # All values that are contained in given list.
+  secret_in: [String!]
+
+  # All values that are not contained in given list.
+  secret_not_in: [String!]
+
+  # All values less than the given value.
+  secret_lt: String
+
+  # All values less than or equal the given value.
+  secret_lte: String
+
+  # All values greater than the given value.
+  secret_gt: String
+
+  # All values greater than or equal the given value.
+  secret_gte: String
+
+  # All values containing the given string.
+  secret_contains: String
+
+  # All values not containing the given string.
+  secret_not_contains: String
+
+  # All values starting with the given string.
+  secret_starts_with: String
+
+  # All values not starting with the given string.
+  secret_not_starts_with: String
+
+  # All values ending with the given string.
+  secret_ends_with: String
+
+  # All values not ending with the given string.
+  secret_not_ends_with: String
+  size: Int
+
+  # All values that are not equal to given value.
+  size_not: Int
+
+  # All values that are contained in given list.
+  size_in: [Int!]
+
+  # All values that are not contained in given list.
+  size_not_in: [Int!]
+
+  # All values less than the given value.
+  size_lt: Int
+
+  # All values less than or equal the given value.
+  size_lte: Int
+
+  # All values greater than the given value.
+  size_gt: Int
+
+  # All values greater than or equal the given value.
+  size_gte: Int
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  url: String
+
+  # All values that are not equal to given value.
+  url_not: String
+
+  # All values that are contained in given list.
+  url_in: [String!]
+
+  # All values that are not contained in given list.
+  url_not_in: [String!]
+
+  # All values less than the given value.
+  url_lt: String
+
+  # All values less than or equal the given value.
+  url_lte: String
+
+  # All values greater than the given value.
+  url_gt: String
+
+  # All values greater than or equal the given value.
+  url_gte: String
+
+  # All values containing the given string.
+  url_contains: String
+
+  # All values not containing the given string.
+  url_not_contains: String
+
+  # All values starting with the given string.
+  url_starts_with: String
+
+  # All values not starting with the given string.
+  url_not_starts_with: String
+
+  # All values ending with the given string.
+  url_ends_with: String
+
+  # All values not ending with the given string.
+  url_not_ends_with: String
+}
+
+enum FileOrderBy {
+  contentType_ASC
+  contentType_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  secret_ASC
+  secret_DESC
+  size_ASC
+  size_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  url_ASC
+  url_DESC
+}
+
+input InvokeFunctionInput {
+  name: String!
+  input: String!
+  clientMutationId: String
+}
+
+type InvokeFunctionPayload {
+  result: String!
+  clientMutationId: String
+}
+
+# Raw JSON value
+scalar Json
+
+# A simple counter for whether others like the song's addition. This does not affect the song's tier rating
+type Like implements Node {
+  author(filter: UserFilter): User
+  createdAt: DateTime!
+  id: ID!
+  song(filter: SongFilter): Song
+}
+
+input LikeauthorUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+# A connection to a list of items.
+type LikeConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [LikeEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type LikeEdge {
+  # The item at the end of the edge.
+  node: Like!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input LikeFilter {
+  # Logical AND on all given filters.
+  AND: [LikeFilter!]
+
+  # Logical OR on all given filters.
+  OR: [LikeFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  author: UserFilter
+  song: SongFilter
+}
+
+enum LikeOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+}
+
+input LikesongSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+type Message implements Node {
+  createdAt: DateTime!
+  id: ID!
+  sender(filter: UserFilter): User
+  text: String!
+  thread(filter: ThreadFilter): Thread
+  updatedAt: DateTime!
+}
+
+# A connection to a list of items.
+type MessageConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [MessageEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type MessageEdge {
+  # The item at the end of the edge.
+  node: Message!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input MessageFilter {
+  # Logical AND on all given filters.
+  AND: [MessageFilter!]
+
+  # Logical OR on all given filters.
+  OR: [MessageFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  text: String
+
+  # All values that are not equal to given value.
+  text_not: String
+
+  # All values that are contained in given list.
+  text_in: [String!]
+
+  # All values that are not contained in given list.
+  text_not_in: [String!]
+
+  # All values less than the given value.
+  text_lt: String
+
+  # All values less than or equal the given value.
+  text_lte: String
+
+  # All values greater than the given value.
+  text_gt: String
+
+  # All values greater than or equal the given value.
+  text_gte: String
+
+  # All values containing the given string.
+  text_contains: String
+
+  # All values not containing the given string.
+  text_not_contains: String
+
+  # All values starting with the given string.
+  text_starts_with: String
+
+  # All values not starting with the given string.
+  text_not_starts_with: String
+
+  # All values ending with the given string.
+  text_ends_with: String
+
+  # All values not ending with the given string.
+  text_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  sender: UserFilter
+  thread: ThreadFilter
+}
+
+enum MessageOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  text_ASC
+  text_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input MessagesenderUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input MessagethreadThread {
+  messagesIds: [ID!]
+  messages: [ThreadmessagesMessage!]
+  usersIds: [ID!]
+  users: [ThreadusersUser!]
+}
+
+type Mutation {
+  createAction(input: CreateActionInput!): CreateActionPayload
+  createCircle(input: CreateCircleInput!): CreateCirclePayload
+  createComment(input: CreateCommentInput!): CreateCommentPayload
+  createFile(input: CreateFileInput!): CreateFilePayload
+  createLike(input: CreateLikeInput!): CreateLikePayload
+  createMessage(input: CreateMessageInput!): CreateMessagePayload
+  createSong(input: CreateSongInput!): CreateSongPayload
+  createSwap(input: CreateSwapInput!): CreateSwapPayload
+  createThread(input: CreateThreadInput!): CreateThreadPayload
+  createUCLink(input: CreateUCLinkInput!): CreateUCLinkPayload
+  updateAction(input: UpdateActionInput!): UpdateActionPayload
+  updateCircle(input: UpdateCircleInput!): UpdateCirclePayload
+  updateComment(input: UpdateCommentInput!): UpdateCommentPayload
+  updateFile(input: UpdateFileInput!): UpdateFilePayload
+  updateLike(input: UpdateLikeInput!): UpdateLikePayload
+  updateMessage(input: UpdateMessageInput!): UpdateMessagePayload
+  updateSong(input: UpdateSongInput!): UpdateSongPayload
+  updateSwap(input: UpdateSwapInput!): UpdateSwapPayload
+  updateThread(input: UpdateThreadInput!): UpdateThreadPayload
+  updateUCLink(input: UpdateUCLinkInput!): UpdateUCLinkPayload
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+  updateOrCreateAction(input: UpdateOrCreateActionInput!): UpdateOrCreateActionPayload
+  updateOrCreateCircle(input: UpdateOrCreateCircleInput!): UpdateOrCreateCirclePayload
+  updateOrCreateComment(input: UpdateOrCreateCommentInput!): UpdateOrCreateCommentPayload
+  updateOrCreateFile(input: UpdateOrCreateFileInput!): UpdateOrCreateFilePayload
+  updateOrCreateLike(input: UpdateOrCreateLikeInput!): UpdateOrCreateLikePayload
+  updateOrCreateMessage(input: UpdateOrCreateMessageInput!): UpdateOrCreateMessagePayload
+  updateOrCreateSong(input: UpdateOrCreateSongInput!): UpdateOrCreateSongPayload
+  updateOrCreateSwap(input: UpdateOrCreateSwapInput!): UpdateOrCreateSwapPayload
+  updateOrCreateThread(input: UpdateOrCreateThreadInput!): UpdateOrCreateThreadPayload
+  updateOrCreateUCLink(input: UpdateOrCreateUCLinkInput!): UpdateOrCreateUCLinkPayload
+  updateOrCreateUser(input: UpdateOrCreateUserInput!): UpdateOrCreateUserPayload
+  deleteAction(input: DeleteActionInput!): DeleteActionPayload
+  deleteCircle(input: DeleteCircleInput!): DeleteCirclePayload
+  deleteComment(input: DeleteCommentInput!): DeleteCommentPayload
+  deleteFile(input: DeleteFileInput!): DeleteFilePayload
+  deleteLike(input: DeleteLikeInput!): DeleteLikePayload
+  deleteMessage(input: DeleteMessageInput!): DeleteMessagePayload
+  deleteSong(input: DeleteSongInput!): DeleteSongPayload
+  deleteSwap(input: DeleteSwapInput!): DeleteSwapPayload
+  deleteThread(input: DeleteThreadInput!): DeleteThreadPayload
+  deleteUCLink(input: DeleteUCLinkInput!): DeleteUCLinkPayload
+  deleteUser(input: DeleteUserInput!): DeleteUserPayload
+  setOriginal(input: AddToOriginalSwapInput!): SetOriginalPayload
+  setReplacement(input: AddToReplacementSwapInput!): SetReplacementPayload
+  unsetOriginal(input: UnsetOriginalSwapInput!): UnsetOriginalPayload
+  unsetReplacement(input: UnsetReplacementSwapInput!): UnsetReplacementPayload
+  addToActiveSwaps(input: AddToActiveSwapsSwapInput!): AddToActiveSwapsPayload
+  addToAdder(input: AddToAdderSongInput!): AddToAdderPayload
+  addToAuthor(input: AddToAuthorCommentInput!): AddToAuthorPayload
+  addToCircles(input: AddToCirclesUCLinkInput!): AddToCirclesPayload
+  addToComments(input: AddToCommentsCommentInput!): AddToCommentsPayload
+  addToHistory(input: AddToHistoryActionInput!): AddToHistoryPayload
+  addToMessageOnThread(input: AddToMessageOnThreadMessageInput!): AddToMessageOnThreadPayload
+  addToOwnedCircles(input: AddToOwnedCirclesUserInput!): AddToOwnedCirclesPayload
+  addToPerformedActionOnUser(input: AddToPerformedActionOnUserActionInput!): AddToPerformedActionOnUserPayload
+  addToPlaylist(input: AddToPlaylistSongInput!): AddToPlaylistPayload
+  addToRemovedSongs(input: AddToRemovedSongsCircleInput!): AddToRemovedSongsPayload
+  addToSender(input: AddToSenderMessageInput!): AddToSenderPayload
+  addToSongLikes(input: AddToSongLikesLikeInput!): AddToSongLikesPayload
+  addToSwapOnUser(input: AddToSwapOnUserSwapInput!): AddToSwapOnUserPayload
+  addToThreadOnUser(input: AddToThreadOnUserThreadInput!): AddToThreadOnUserPayload
+  addToUserLikes(input: AddToUserLikesLikeInput!): AddToUserLikesPayload
+  addToUserNotifications(input: AddToUserNotificationsActionInput!): AddToUserNotificationsPayload
+  addToUsers(input: AddToUsersUCLinkInput!): AddToUsersPayload
+  removeFromActiveSwaps(input: RemoveFromActiveSwapsSwapInput!): RemoveFromActiveSwapsPayload
+  removeFromAdder(input: RemoveFromAdderSongInput!): RemoveFromAdderPayload
+  removeFromAuthor(input: RemoveFromAuthorCommentInput!): RemoveFromAuthorPayload
+  removeFromCircles(input: RemoveFromCirclesUCLinkInput!): RemoveFromCirclesPayload
+  removeFromComments(input: RemoveFromCommentsCommentInput!): RemoveFromCommentsPayload
+  removeFromHistory(input: RemoveFromHistoryActionInput!): RemoveFromHistoryPayload
+  removeFromMessageOnThread(input: RemoveFromMessageOnThreadMessageInput!): RemoveFromMessageOnThreadPayload
+  removeFromPlaylist(input: RemoveFromPlaylistSongInput!): RemoveFromPlaylistPayload
+  removeFromRemovedSongs(input: RemoveFromRemovedSongsCircleInput!): RemoveFromRemovedSongsPayload
+  removeFromSender(input: RemoveFromSenderMessageInput!): RemoveFromSenderPayload
+  removeFromSongLikes(input: RemoveFromSongLikesLikeInput!): RemoveFromSongLikesPayload
+  removeFromSwapOnUser(input: RemoveFromSwapOnUserSwapInput!): RemoveFromSwapOnUserPayload
+  removeFromThreadOnUser(input: RemoveFromThreadOnUserThreadInput!): RemoveFromThreadOnUserPayload
+  removeFromUserLikes(input: RemoveFromUserLikesLikeInput!): RemoveFromUserLikesPayload
+  removeFromUsers(input: RemoveFromUsersUCLinkInput!): RemoveFromUsersPayload
+  createUser(input: SignupUserInput!): CreateUserPayload!
+  invokeFunction(input: InvokeFunctionInput!): InvokeFunctionPayload
+}
+
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
+}
+
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
+type Query {
+  viewer: Viewer!
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+type RemoveFromActiveSwapsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  activeSwapsSwap: Swap
+  circleCircle: Circle
+  activeSwapsSwapEdge: SwapEdge
+  circleCircleEdge: CircleEdge
+}
+
+input RemoveFromActiveSwapsSwapInput {
+  circleCircleId: ID!
+  activeSwapsSwapId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromAdderPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  addedSongsSong: Song
+  adderUser: User
+  addedSongsSongEdge: SongEdge
+  adderUserEdge: UserEdge
+}
+
+input RemoveFromAdderSongInput {
+  adderUserId: ID!
+  addedSongsSongId: ID!
+  clientMutationId: String!
+}
+
+input RemoveFromAuthorCommentInput {
+  userUserId: ID!
+  commentsCommentId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromAuthorPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  commentsComment: Comment
+  userUser: User
+  commentsCommentEdge: CommentEdge
+  userUserEdge: UserEdge
+}
+
+type RemoveFromCirclesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circlesUCLink: UCLink
+  userUser: User
+  circlesUCLinkEdge: UCLinkEdge
+  userUserEdge: UserEdge
+}
+
+input RemoveFromCirclesUCLinkInput {
+  userUserId: ID!
+  circlesUCLinkId: ID!
+  clientMutationId: String!
+}
+
+input RemoveFromCommentsCommentInput {
+  songSongId: ID!
+  commentsCommentId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromCommentsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  commentsComment: Comment
+  songSong: Song
+  commentsCommentEdge: CommentEdge
+  songSongEdge: SongEdge
+}
+
+input RemoveFromHistoryActionInput {
+  circleCircleId: ID!
+  historyActionId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromHistoryPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  historyAction: Action
+  circleCircle: Circle
+  historyActionEdge: ActionEdge
+  circleCircleEdge: CircleEdge
+}
+
+input RemoveFromMessageOnThreadMessageInput {
+  threadThreadId: ID!
+  messagesMessageId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromMessageOnThreadPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  messagesMessage: Message
+  threadThread: Thread
+  messagesMessageEdge: MessageEdge
+  threadThreadEdge: ThreadEdge
+}
+
+type RemoveFromPlaylistPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  playlistSong: Song
+  circleCircle: Circle
+  playlistSongEdge: SongEdge
+  circleCircleEdge: CircleEdge
+}
+
+input RemoveFromPlaylistSongInput {
+  circleCircleId: ID!
+  playlistSongId: ID!
+  clientMutationId: String!
+}
+
+input RemoveFromRemovedSongsCircleInput {
+  removedSongsSongId: ID!
+  circleRemovedCircleId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromRemovedSongsPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circleRemovedCircle: Circle
+  removedSongsSong: Song
+  circleRemovedCircleEdge: CircleEdge
+  removedSongsSongEdge: SongEdge
+}
+
+input RemoveFromSenderMessageInput {
+  senderUserId: ID!
+  messagesMessageId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromSenderPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  messagesMessage: Message
+  senderUser: User
+  messagesMessageEdge: MessageEdge
+  senderUserEdge: UserEdge
+}
+
+input RemoveFromSongLikesLikeInput {
+  songSongId: ID!
+  likesLikeId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromSongLikesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  likesLike: Like
+  songSong: Song
+  likesLikeEdge: LikeEdge
+  songSongEdge: SongEdge
+}
+
+type RemoveFromSwapOnUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  swapsSwap: Swap
+  authorUser: User
+  swapsSwapEdge: SwapEdge
+  authorUserEdge: UserEdge
+}
+
+input RemoveFromSwapOnUserSwapInput {
+  authorUserId: ID!
+  swapsSwapId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromThreadOnUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  threadsThread: Thread
+  usersUser: User
+  threadsThreadEdge: ThreadEdge
+  usersUserEdge: UserEdge
+}
+
+input RemoveFromThreadOnUserThreadInput {
+  usersUserId: ID!
+  threadsThreadId: ID!
+  clientMutationId: String!
+}
+
+input RemoveFromUserLikesLikeInput {
+  authorUserId: ID!
+  likedSongsLikeId: ID!
+  clientMutationId: String!
+}
+
+type RemoveFromUserLikesPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  likedSongsLike: Like
+  authorUser: User
+  likedSongsLikeEdge: LikeEdge
+  authorUserEdge: UserEdge
+}
+
+type RemoveFromUsersPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  usersUCLink: UCLink
+  circleCircle: Circle
+  usersUCLinkEdge: UCLinkEdge
+  circleCircleEdge: CircleEdge
+}
+
+input RemoveFromUsersUCLinkInput {
+  circleCircleId: ID!
+  usersUCLinkId: ID!
+  clientMutationId: String!
+}
+
+type SetOriginalPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  originalSwapSwap: Swap
+  originalSongSong: Song
+  originalSwapSwapEdge: SwapEdge
+  originalSongSongEdge: SongEdge
+}
+
+type SetReplacementPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  replacementSwapSwap: Swap
+  replacementSong: Song
+  replacementSwapSwapEdge: SwapEdge
+  replacementSongEdge: SongEdge
+}
+
+input SignupUserInput {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+  clientMutationId: String!
+}
+
+# Singular spotify song
+type Song implements Node {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean!
+  adder(filter: UserFilter): User
+  album: String!
+  albumArt: String!
+  artist: String!
+  circle(filter: CircleFilter): Circle
+  circleRemoved(filter: CircleFilter): Circle
+  comments(filter: CommentFilter, orderBy: CommentOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection
+  createdAt: DateTime!
+  id: ID!
+  likes(filter: LikeFilter, orderBy: LikeOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection
+  name: String!
+  originalSwap(filter: SwapFilter): Swap
+  replacementSwap(filter: SwapFilter): Swap
+  spotifyLink: String!
+  tier: Int
+  updatedAt: DateTime!
+}
+
+input SongadderUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input SongcircleCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+input SongcircleRemovedCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+input SongcommentsComment {
+  text: String!
+  userId: ID
+  user: CommentuserUser
+}
+
+# A connection to a list of items.
+type SongConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [SongEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type SongEdge {
+  # The item at the end of the edge.
+  node: Song!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input SongFilter {
+  # Logical AND on all given filters.
+  AND: [SongFilter!]
+
+  # Logical OR on all given filters.
+  OR: [SongFilter!]
+  active: Boolean
+
+  # All values that are not equal to given value.
+  active_not: Boolean
+  album: String
+
+  # All values that are not equal to given value.
+  album_not: String
+
+  # All values that are contained in given list.
+  album_in: [String!]
+
+  # All values that are not contained in given list.
+  album_not_in: [String!]
+
+  # All values less than the given value.
+  album_lt: String
+
+  # All values less than or equal the given value.
+  album_lte: String
+
+  # All values greater than the given value.
+  album_gt: String
+
+  # All values greater than or equal the given value.
+  album_gte: String
+
+  # All values containing the given string.
+  album_contains: String
+
+  # All values not containing the given string.
+  album_not_contains: String
+
+  # All values starting with the given string.
+  album_starts_with: String
+
+  # All values not starting with the given string.
+  album_not_starts_with: String
+
+  # All values ending with the given string.
+  album_ends_with: String
+
+  # All values not ending with the given string.
+  album_not_ends_with: String
+  albumArt: String
+
+  # All values that are not equal to given value.
+  albumArt_not: String
+
+  # All values that are contained in given list.
+  albumArt_in: [String!]
+
+  # All values that are not contained in given list.
+  albumArt_not_in: [String!]
+
+  # All values less than the given value.
+  albumArt_lt: String
+
+  # All values less than or equal the given value.
+  albumArt_lte: String
+
+  # All values greater than the given value.
+  albumArt_gt: String
+
+  # All values greater than or equal the given value.
+  albumArt_gte: String
+
+  # All values containing the given string.
+  albumArt_contains: String
+
+  # All values not containing the given string.
+  albumArt_not_contains: String
+
+  # All values starting with the given string.
+  albumArt_starts_with: String
+
+  # All values not starting with the given string.
+  albumArt_not_starts_with: String
+
+  # All values ending with the given string.
+  albumArt_ends_with: String
+
+  # All values not ending with the given string.
+  albumArt_not_ends_with: String
+  artist: String
+
+  # All values that are not equal to given value.
+  artist_not: String
+
+  # All values that are contained in given list.
+  artist_in: [String!]
+
+  # All values that are not contained in given list.
+  artist_not_in: [String!]
+
+  # All values less than the given value.
+  artist_lt: String
+
+  # All values less than or equal the given value.
+  artist_lte: String
+
+  # All values greater than the given value.
+  artist_gt: String
+
+  # All values greater than or equal the given value.
+  artist_gte: String
+
+  # All values containing the given string.
+  artist_contains: String
+
+  # All values not containing the given string.
+  artist_not_contains: String
+
+  # All values starting with the given string.
+  artist_starts_with: String
+
+  # All values not starting with the given string.
+  artist_not_starts_with: String
+
+  # All values ending with the given string.
+  artist_ends_with: String
+
+  # All values not ending with the given string.
+  artist_not_ends_with: String
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  name: String
+
+  # All values that are not equal to given value.
+  name_not: String
+
+  # All values that are contained in given list.
+  name_in: [String!]
+
+  # All values that are not contained in given list.
+  name_not_in: [String!]
+
+  # All values less than the given value.
+  name_lt: String
+
+  # All values less than or equal the given value.
+  name_lte: String
+
+  # All values greater than the given value.
+  name_gt: String
+
+  # All values greater than or equal the given value.
+  name_gte: String
+
+  # All values containing the given string.
+  name_contains: String
+
+  # All values not containing the given string.
+  name_not_contains: String
+
+  # All values starting with the given string.
+  name_starts_with: String
+
+  # All values not starting with the given string.
+  name_not_starts_with: String
+
+  # All values ending with the given string.
+  name_ends_with: String
+
+  # All values not ending with the given string.
+  name_not_ends_with: String
+  spotifyLink: String
+
+  # All values that are not equal to given value.
+  spotifyLink_not: String
+
+  # All values that are contained in given list.
+  spotifyLink_in: [String!]
+
+  # All values that are not contained in given list.
+  spotifyLink_not_in: [String!]
+
+  # All values less than the given value.
+  spotifyLink_lt: String
+
+  # All values less than or equal the given value.
+  spotifyLink_lte: String
+
+  # All values greater than the given value.
+  spotifyLink_gt: String
+
+  # All values greater than or equal the given value.
+  spotifyLink_gte: String
+
+  # All values containing the given string.
+  spotifyLink_contains: String
+
+  # All values not containing the given string.
+  spotifyLink_not_contains: String
+
+  # All values starting with the given string.
+  spotifyLink_starts_with: String
+
+  # All values not starting with the given string.
+  spotifyLink_not_starts_with: String
+
+  # All values ending with the given string.
+  spotifyLink_ends_with: String
+
+  # All values not ending with the given string.
+  spotifyLink_not_ends_with: String
+  tier: Int
+
+  # All values that are not equal to given value.
+  tier_not: Int
+
+  # All values that are contained in given list.
+  tier_in: [Int!]
+
+  # All values that are not contained in given list.
+  tier_not_in: [Int!]
+
+  # All values less than the given value.
+  tier_lt: Int
+
+  # All values less than or equal the given value.
+  tier_lte: Int
+
+  # All values greater than the given value.
+  tier_gt: Int
+
+  # All values greater than or equal the given value.
+  tier_gte: Int
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  adder: UserFilter
+  circle: CircleFilter
+  circleRemoved: CircleFilter
+  comments_every: CommentFilter
+  comments_some: CommentFilter
+  comments_none: CommentFilter
+  likes_every: LikeFilter
+  likes_some: LikeFilter
+  likes_none: LikeFilter
+  originalSwap: SwapFilter
+  replacementSwap: SwapFilter
+}
+
+input SonglikesLike {
+  authorId: ID
+  author: LikeauthorUser
+}
+
+enum SongOrderBy {
+  active_ASC
+  active_DESC
+  album_ASC
+  album_DESC
+  albumArt_ASC
+  albumArt_DESC
+  artist_ASC
+  artist_DESC
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
+  spotifyLink_ASC
+  spotifyLink_DESC
+  tier_ASC
+  tier_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input SongoriginalSwapSwap {
+  authorId: ID
+  author: SwapauthorUser
+  circleId: ID
+  circle: SwapcircleCircle
+  replacementId: ID
+  replacement: SwapreplacementSong
+}
+
+input SongreplacementSwapSwap {
+  authorId: ID
+  author: SwapauthorUser
+  circleId: ID
+  circle: SwapcircleCircle
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+}
+
+# Field by which to sort songs by default
+enum SortCategory {
+  NAME
+  ARTIST
+  ALBUM
+  LENGTH
+  RATING
+  DATEADDED
+}
+
+# User-default sorting order; Ascending or Descending order
+enum SortOrder {
+  ASC
+  DESC
+}
+
+type Swap implements Node {
+  author(filter: UserFilter): User
+  circle(filter: CircleFilter): Circle
+  createdAt: DateTime!
+  id: ID!
+  originalSong(filter: SongFilter): Song
+  replacement(filter: SongFilter): Song
+  updatedAt: DateTime!
+}
+
+input SwapauthorUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input SwapcircleCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+# A connection to a list of items.
+type SwapConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [SwapEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type SwapEdge {
+  # The item at the end of the edge.
+  node: Swap!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input SwapFilter {
+  # Logical AND on all given filters.
+  AND: [SwapFilter!]
+
+  # Logical OR on all given filters.
+  OR: [SwapFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  author: UserFilter
+  circle: CircleFilter
+  originalSong: SongFilter
+  replacement: SongFilter
+}
+
+enum SwapOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input SwaporiginalSongSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input SwapreplacementSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+type Thread implements Node {
+  createdAt: DateTime!
+  id: ID!
+  messages(filter: MessageFilter, orderBy: MessageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection
+  users(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection
+}
+
+# A connection to a list of items.
+type ThreadConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [ThreadEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type ThreadEdge {
+  # The item at the end of the edge.
+  node: Thread!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input ThreadFilter {
+  # Logical AND on all given filters.
+  AND: [ThreadFilter!]
+
+  # Logical OR on all given filters.
+  OR: [ThreadFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  messages_every: MessageFilter
+  messages_some: MessageFilter
+  messages_none: MessageFilter
+  users_every: UserFilter
+  users_some: UserFilter
+  users_none: UserFilter
+}
+
+input ThreadmessagesMessage {
+  text: String!
+  senderId: ID
+  sender: MessagesenderUser
+}
+
+enum ThreadOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  id_ASC
+  id_DESC
+}
+
+input ThreadusersUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+type UCLink implements Node {
+  circle(filter: CircleFilter): Circle
+  createdAt: DateTime!
+  diaplayName: String
+  id: ID!
+  reputation: Float
+  updatedAt: DateTime!
+  user(filter: UserFilter): User
+}
+
+input UCLinkcircleCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+# A connection to a list of items.
+type UCLinkConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UCLinkEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type UCLinkEdge {
+  # The item at the end of the edge.
+  node: UCLink!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input UCLinkFilter {
+  # Logical AND on all given filters.
+  AND: [UCLinkFilter!]
+
+  # Logical OR on all given filters.
+  OR: [UCLinkFilter!]
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  diaplayName: String
+
+  # All values that are not equal to given value.
+  diaplayName_not: String
+
+  # All values that are contained in given list.
+  diaplayName_in: [String!]
+
+  # All values that are not contained in given list.
+  diaplayName_not_in: [String!]
+
+  # All values less than the given value.
+  diaplayName_lt: String
+
+  # All values less than or equal the given value.
+  diaplayName_lte: String
+
+  # All values greater than the given value.
+  diaplayName_gt: String
+
+  # All values greater than or equal the given value.
+  diaplayName_gte: String
+
+  # All values containing the given string.
+  diaplayName_contains: String
+
+  # All values not containing the given string.
+  diaplayName_not_contains: String
+
+  # All values starting with the given string.
+  diaplayName_starts_with: String
+
+  # All values not starting with the given string.
+  diaplayName_not_starts_with: String
+
+  # All values ending with the given string.
+  diaplayName_ends_with: String
+
+  # All values not ending with the given string.
+  diaplayName_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  reputation: Float
+
+  # All values that are not equal to given value.
+  reputation_not: Float
+
+  # All values that are contained in given list.
+  reputation_in: [Float!]
+
+  # All values that are not contained in given list.
+  reputation_not_in: [Float!]
+
+  # All values less than the given value.
+  reputation_lt: Float
+
+  # All values less than or equal the given value.
+  reputation_lte: Float
+
+  # All values greater than the given value.
+  reputation_gt: Float
+
+  # All values greater than or equal the given value.
+  reputation_gte: Float
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  circle: CircleFilter
+  user: UserFilter
+}
+
+enum UCLinkOrderBy {
+  createdAt_ASC
+  createdAt_DESC
+  diaplayName_ASC
+  diaplayName_DESC
+  id_ASC
+  id_DESC
+  reputation_ASC
+  reputation_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+input UCLinkuserUser {
+  active: Boolean
+  diaplayName: String
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+type UnsetOriginalPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  originalSwapSwap: Swap
+  originalSongSong: Song
+  originalSwapSwapEdge: SwapEdge
+  originalSongSongEdge: SongEdge
+}
+
+input UnsetOriginalSwapInput {
+  originalSongSongId: ID!
+  originalSwapSwapId: ID!
+  clientMutationId: String!
+}
+
+type UnsetReplacementPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  replacementSwapSwap: Swap
+  replacementSong: Song
+  replacementSwapSwapEdge: SwapEdge
+  replacementSongEdge: SongEdge
+}
+
+input UnsetReplacementSwapInput {
+  replacementSongId: ID!
+  replacementSwapSwapId: ID!
+  clientMutationId: String!
+}
+
+input UpdateAction {
+  id: ID!
+  image: String
+  link: String
+  message: String
+  authorId: ID
+  author: ActionauthorUser
+  circleId: ID
+  circle: ActioncircleCircle
+  notificationUserId: ID
+  notificationUser: ActionnotificationUserUser
+}
+
+input UpdateActionInput {
+  id: ID!
+  image: String
+  link: String
+  message: String
+  authorId: ID
+  author: ActionauthorUser
+  circleId: ID
+  circle: ActioncircleCircle
+  notificationUserId: ID
+  notificationUser: ActionnotificationUserUser
+  clientMutationId: String!
+}
+
+type UpdateActionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  action: Action
+  edge: ActionEdge
+  author: User
+  circle: Circle
+  notificationUser: User
+}
+
+input UpdateCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  id: ID!
+  image: String
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String
+  songCount: Int
+  spotifyLink: String
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+input UpdateCircleInput {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  id: ID!
+  image: String
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String
+  songCount: Int
+  spotifyLink: String
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  ownerId: ID
+  owner: CircleownerUser
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+  clientMutationId: String!
+}
+
+type UpdateCirclePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circle: Circle
+  edge: CircleEdge
+  owner: User
+}
+
+input UpdateComment {
+  id: ID!
+  text: String
+  songId: ID
+  song: CommentsongSong
+  userId: ID
+  user: CommentuserUser
+}
+
+input UpdateCommentInput {
+  id: ID!
+  text: String
+  songId: ID
+  song: CommentsongSong
+  userId: ID
+  user: CommentuserUser
+  clientMutationId: String!
+}
+
+type UpdateCommentPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  comment: Comment
+  edge: CommentEdge
+  song: Song
+  user: User
+}
+
+input UpdateFile {
+  id: ID!
+  name: String
+}
+
+input UpdateFileInput {
+  id: ID!
+  name: String
+  clientMutationId: String!
+}
+
+type UpdateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input UpdateLike {
+  id: ID!
+  authorId: ID
+  author: LikeauthorUser
+  songId: ID
+  song: LikesongSong
+}
+
+input UpdateLikeInput {
+  id: ID!
+  authorId: ID
+  author: LikeauthorUser
+  songId: ID
+  song: LikesongSong
+  clientMutationId: String!
+}
+
+type UpdateLikePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  like: Like
+  edge: LikeEdge
+  author: User
+  song: Song
+}
+
+input UpdateMessage {
+  id: ID!
+  text: String
+  senderId: ID
+  sender: MessagesenderUser
+  threadId: ID
+  thread: MessagethreadThread
+}
+
+input UpdateMessageInput {
+  id: ID!
+  text: String
+  senderId: ID
+  sender: MessagesenderUser
+  threadId: ID
+  thread: MessagethreadThread
+  clientMutationId: String!
+}
+
+type UpdateMessagePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  message: Message
+  edge: MessageEdge
+  sender: User
+  thread: Thread
+}
+
+input UpdateOrCreateActionInput {
+  update: UpdateAction!
+  create: CreateAction!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateActionPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  action: Action
+  edge: ActionEdge
+  author: User
+  circle: Circle
+  notificationUser: User
+}
+
+input UpdateOrCreateCircleInput {
+  update: UpdateCircle!
+  create: CreateCircle!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateCirclePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  circle: Circle
+  edge: CircleEdge
+  owner: User
+}
+
+input UpdateOrCreateCommentInput {
+  update: UpdateComment!
+  create: CreateComment!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateCommentPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  comment: Comment
+  edge: CommentEdge
+  song: Song
+  user: User
+}
+
+input UpdateOrCreateFileInput {
+  update: UpdateFile!
+  create: CreateFile!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateFilePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  file: File
+  edge: FileEdge
+}
+
+input UpdateOrCreateLikeInput {
+  update: UpdateLike!
+  create: CreateLike!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateLikePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  like: Like
+  edge: LikeEdge
+  author: User
+  song: Song
+}
+
+input UpdateOrCreateMessageInput {
+  update: UpdateMessage!
+  create: CreateMessage!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateMessagePayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  message: Message
+  edge: MessageEdge
+  sender: User
+  thread: Thread
+}
+
+input UpdateOrCreateSongInput {
+  update: UpdateSong!
+  create: CreateSong!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateSongPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  song: Song
+  edge: SongEdge
+  adder: User
+  circle: Circle
+  circleRemoved: Circle
+  originalSwap: Swap
+  replacementSwap: Swap
+}
+
+input UpdateOrCreateSwapInput {
+  update: UpdateSwap!
+  create: CreateSwap!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateSwapPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  swap: Swap
+  edge: SwapEdge
+  author: User
+  circle: Circle
+  originalSong: Song
+  replacement: Song
+}
+
+input UpdateOrCreateThreadInput {
+  update: UpdateThread!
+  create: CreateThread!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateThreadPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  thread: Thread
+  edge: ThreadEdge
+}
+
+input UpdateOrCreateUCLinkInput {
+  update: UpdateUCLink!
+  create: CreateUCLink!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateUCLinkPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  uCLink: UCLink
+  edge: UCLinkEdge
+  circle: Circle
+  user: User
+}
+
+input UpdateOrCreateUserInput {
+  update: UpdateUser!
+  create: CreateUser!
+  clientMutationId: String!
+}
+
+type UpdateOrCreateUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+}
+
+input UpdateSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String
+  albumArt: String
+  artist: String
+  id: ID!
+  name: String
+  spotifyLink: String
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input UpdateSongInput {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String
+  albumArt: String
+  artist: String
+  id: ID!
+  name: String
+  spotifyLink: String
+  tier: Int
+  adderId: ID
+  adder: SongadderUser
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+  clientMutationId: String!
+}
+
+type UpdateSongPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  song: Song
+  edge: SongEdge
+  adder: User
+  circle: Circle
+  circleRemoved: Circle
+  originalSwap: Swap
+  replacementSwap: Swap
+}
+
+input UpdateSwap {
+  id: ID!
+  authorId: ID
+  author: SwapauthorUser
+  circleId: ID
+  circle: SwapcircleCircle
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+  replacementId: ID
+  replacement: SwapreplacementSong
+}
+
+input UpdateSwapInput {
+  id: ID!
+  authorId: ID
+  author: SwapauthorUser
+  circleId: ID
+  circle: SwapcircleCircle
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+  replacementId: ID
+  replacement: SwapreplacementSong
+  clientMutationId: String!
+}
+
+type UpdateSwapPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  swap: Swap
+  edge: SwapEdge
+  author: User
+  circle: Circle
+  originalSong: Song
+  replacement: Song
+}
+
+input UpdateThread {
+  id: ID!
+  messagesIds: [ID!]
+  messages: [ThreadmessagesMessage!]
+  usersIds: [ID!]
+  users: [ThreadusersUser!]
+}
+
+input UpdateThreadInput {
+  id: ID!
+  messagesIds: [ID!]
+  messages: [ThreadmessagesMessage!]
+  usersIds: [ID!]
+  users: [ThreadusersUser!]
+  clientMutationId: String!
+}
+
+type UpdateThreadPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  thread: Thread
+  edge: ThreadEdge
+}
+
+input UpdateUCLink {
+  diaplayName: String
+  id: ID!
+  reputation: Float
+  circleId: ID
+  circle: UCLinkcircleCircle
+  userId: ID
+  user: UCLinkuserUser
+}
+
+input UpdateUCLinkInput {
+  diaplayName: String
+  id: ID!
+  reputation: Float
+  circleId: ID
+  circle: UCLinkcircleCircle
+  userId: ID
+  user: UCLinkuserUser
+  clientMutationId: String!
+}
+
+type UpdateUCLinkPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  uCLink: UCLink
+  edge: UCLinkEdge
+  circle: Circle
+  user: User
+}
+
+input UpdateUser {
+  active: Boolean
+  diaplayName: String
+  id: ID!
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+}
+
+input UpdateUserInput {
+  active: Boolean
+  diaplayName: String
+  id: ID!
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  username: String
+  addedSongsIds: [ID!]
+  addedSongs: [UseraddedSongsSong!]
+  circlesIds: [ID!]
+  circles: [UsercirclesUCLink!]
+  commentsIds: [ID!]
+  comments: [UsercommentsComment!]
+  likedSongsIds: [ID!]
+  likedSongs: [UserlikedSongsLike!]
+  messagesIds: [ID!]
+  messages: [UsermessagesMessage!]
+  notificationsIds: [ID!]
+  notifications: [UsernotificationsAction!]
+  ownedCirclesIds: [ID!]
+  ownedCircles: [UserownedCirclesCircle!]
+  performedActionsIds: [ID!]
+  performedActions: [UserperformedActionsAction!]
+  swapsIds: [ID!]
+  swaps: [UserswapsSwap!]
+  threadsIds: [ID!]
+  threads: [UserthreadsThread!]
+  clientMutationId: String!
+}
+
+type UpdateUserPayload {
+  viewer: Viewer!
+  clientMutationId: String!
+  user: User
+  edge: UserEdge
+}
+
+type User implements Node {
+  active: Boolean
+  addedSongs(filter: SongFilter, orderBy: SongOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection
+  circles(filter: UCLinkFilter, orderBy: UCLinkOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UCLinkConnection
+  comments(filter: CommentFilter, orderBy: CommentOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection
+  createdAt: DateTime!
+  diaplayName: String
+  id: ID!
+  likedSongs(filter: LikeFilter, orderBy: LikeOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection
+  messages(filter: MessageFilter, orderBy: MessageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection
+  notifications(filter: ActionFilter, orderBy: ActionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ActionConnection
+  ownedCircles(filter: CircleFilter, orderBy: CircleOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CircleConnection
+  performedActions(filter: ActionFilter, orderBy: ActionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ActionConnection
+  profilePic: String
+  reputation: Float
+
+  # Field by which to sort songs by default
+  sortCategory: SortCategory
+
+  # User-default sorting order; Ascending or Descending order
+  sortOrder: SortOrder
+  spotifyLink: String
+  swaps(filter: SwapFilter, orderBy: SwapOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SwapConnection
+  threads(filter: ThreadFilter, orderBy: ThreadOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ThreadConnection
+  updatedAt: DateTime!
+  username: String
+}
+
+input UseraddedSongsSong {
+  # Whether the song is actually in the Spotify playlist.
+  active: Boolean
+  album: String!
+  albumArt: String!
+  artist: String!
+  name: String!
+  spotifyLink: String!
+  tier: Int
+  circleId: ID
+  circle: SongcircleCircle
+  circleRemovedId: ID
+  circleRemoved: SongcircleRemovedCircle
+  originalSwapId: ID
+  originalSwap: SongoriginalSwapSwap
+  replacementSwapId: ID
+  replacementSwap: SongreplacementSwapSwap
+  commentsIds: [ID!]
+  comments: [SongcommentsComment!]
+  likesIds: [ID!]
+  likes: [SonglikesLike!]
+}
+
+input UsercirclesUCLink {
+  diaplayName: String
+  reputation: Float
+  circleId: ID
+  circle: UCLinkcircleCircle
+}
+
+input UsercommentsComment {
+  text: String!
+  songId: ID
+  song: CommentsongSong
+}
+
+# A connection to a list of items.
+type UserConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [UserEdge]
+
+  # Count of filtered result set without considering pagination arguments
+  count: Int!
+}
+
+# An edge in a connection.
+type UserEdge {
+  # The item at the end of the edge.
+  node: User!
+
+  # A cursor for use in pagination.
+  cursor: String!
+}
+
+input UserFilter {
+  # Logical AND on all given filters.
+  AND: [UserFilter!]
+
+  # Logical OR on all given filters.
+  OR: [UserFilter!]
+  active: Boolean
+
+  # All values that are not equal to given value.
+  active_not: Boolean
+  createdAt: DateTime
+
+  # All values that are not equal to given value.
+  createdAt_not: DateTime
+
+  # All values that are contained in given list.
+  createdAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  createdAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  createdAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  createdAt_lte: DateTime
+
+  # All values greater than the given value.
+  createdAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  createdAt_gte: DateTime
+  diaplayName: String
+
+  # All values that are not equal to given value.
+  diaplayName_not: String
+
+  # All values that are contained in given list.
+  diaplayName_in: [String!]
+
+  # All values that are not contained in given list.
+  diaplayName_not_in: [String!]
+
+  # All values less than the given value.
+  diaplayName_lt: String
+
+  # All values less than or equal the given value.
+  diaplayName_lte: String
+
+  # All values greater than the given value.
+  diaplayName_gt: String
+
+  # All values greater than or equal the given value.
+  diaplayName_gte: String
+
+  # All values containing the given string.
+  diaplayName_contains: String
+
+  # All values not containing the given string.
+  diaplayName_not_contains: String
+
+  # All values starting with the given string.
+  diaplayName_starts_with: String
+
+  # All values not starting with the given string.
+  diaplayName_not_starts_with: String
+
+  # All values ending with the given string.
+  diaplayName_ends_with: String
+
+  # All values not ending with the given string.
+  diaplayName_not_ends_with: String
+  id: ID
+
+  # All values that are not equal to given value.
+  id_not: ID
+
+  # All values that are contained in given list.
+  id_in: [ID!]
+
+  # All values that are not contained in given list.
+  id_not_in: [ID!]
+
+  # All values less than the given value.
+  id_lt: ID
+
+  # All values less than or equal the given value.
+  id_lte: ID
+
+  # All values greater than the given value.
+  id_gt: ID
+
+  # All values greater than or equal the given value.
+  id_gte: ID
+
+  # All values containing the given string.
+  id_contains: ID
+
+  # All values not containing the given string.
+  id_not_contains: ID
+
+  # All values starting with the given string.
+  id_starts_with: ID
+
+  # All values not starting with the given string.
+  id_not_starts_with: ID
+
+  # All values ending with the given string.
+  id_ends_with: ID
+
+  # All values not ending with the given string.
+  id_not_ends_with: ID
+  profilePic: String
+
+  # All values that are not equal to given value.
+  profilePic_not: String
+
+  # All values that are contained in given list.
+  profilePic_in: [String!]
+
+  # All values that are not contained in given list.
+  profilePic_not_in: [String!]
+
+  # All values less than the given value.
+  profilePic_lt: String
+
+  # All values less than or equal the given value.
+  profilePic_lte: String
+
+  # All values greater than the given value.
+  profilePic_gt: String
+
+  # All values greater than or equal the given value.
+  profilePic_gte: String
+
+  # All values containing the given string.
+  profilePic_contains: String
+
+  # All values not containing the given string.
+  profilePic_not_contains: String
+
+  # All values starting with the given string.
+  profilePic_starts_with: String
+
+  # All values not starting with the given string.
+  profilePic_not_starts_with: String
+
+  # All values ending with the given string.
+  profilePic_ends_with: String
+
+  # All values not ending with the given string.
+  profilePic_not_ends_with: String
+  reputation: Float
+
+  # All values that are not equal to given value.
+  reputation_not: Float
+
+  # All values that are contained in given list.
+  reputation_in: [Float!]
+
+  # All values that are not contained in given list.
+  reputation_not_in: [Float!]
+
+  # All values less than the given value.
+  reputation_lt: Float
+
+  # All values less than or equal the given value.
+  reputation_lte: Float
+
+  # All values greater than the given value.
+  reputation_gt: Float
+
+  # All values greater than or equal the given value.
+  reputation_gte: Float
+  sortCategory: SortCategory
+
+  # All values that are not equal to given value.
+  sortCategory_not: SortCategory
+
+  # All values that are contained in given list.
+  sortCategory_in: [SortCategory!]
+
+  # All values that are not contained in given list.
+  sortCategory_not_in: [SortCategory!]
+  sortOrder: SortOrder
+
+  # All values that are not equal to given value.
+  sortOrder_not: SortOrder
+
+  # All values that are contained in given list.
+  sortOrder_in: [SortOrder!]
+
+  # All values that are not contained in given list.
+  sortOrder_not_in: [SortOrder!]
+  spotifyLink: String
+
+  # All values that are not equal to given value.
+  spotifyLink_not: String
+
+  # All values that are contained in given list.
+  spotifyLink_in: [String!]
+
+  # All values that are not contained in given list.
+  spotifyLink_not_in: [String!]
+
+  # All values less than the given value.
+  spotifyLink_lt: String
+
+  # All values less than or equal the given value.
+  spotifyLink_lte: String
+
+  # All values greater than the given value.
+  spotifyLink_gt: String
+
+  # All values greater than or equal the given value.
+  spotifyLink_gte: String
+
+  # All values containing the given string.
+  spotifyLink_contains: String
+
+  # All values not containing the given string.
+  spotifyLink_not_contains: String
+
+  # All values starting with the given string.
+  spotifyLink_starts_with: String
+
+  # All values not starting with the given string.
+  spotifyLink_not_starts_with: String
+
+  # All values ending with the given string.
+  spotifyLink_ends_with: String
+
+  # All values not ending with the given string.
+  spotifyLink_not_ends_with: String
+  updatedAt: DateTime
+
+  # All values that are not equal to given value.
+  updatedAt_not: DateTime
+
+  # All values that are contained in given list.
+  updatedAt_in: [DateTime!]
+
+  # All values that are not contained in given list.
+  updatedAt_not_in: [DateTime!]
+
+  # All values less than the given value.
+  updatedAt_lt: DateTime
+
+  # All values less than or equal the given value.
+  updatedAt_lte: DateTime
+
+  # All values greater than the given value.
+  updatedAt_gt: DateTime
+
+  # All values greater than or equal the given value.
+  updatedAt_gte: DateTime
+  username: String
+
+  # All values that are not equal to given value.
+  username_not: String
+
+  # All values that are contained in given list.
+  username_in: [String!]
+
+  # All values that are not contained in given list.
+  username_not_in: [String!]
+
+  # All values less than the given value.
+  username_lt: String
+
+  # All values less than or equal the given value.
+  username_lte: String
+
+  # All values greater than the given value.
+  username_gt: String
+
+  # All values greater than or equal the given value.
+  username_gte: String
+
+  # All values containing the given string.
+  username_contains: String
+
+  # All values not containing the given string.
+  username_not_contains: String
+
+  # All values starting with the given string.
+  username_starts_with: String
+
+  # All values not starting with the given string.
+  username_not_starts_with: String
+
+  # All values ending with the given string.
+  username_ends_with: String
+
+  # All values not ending with the given string.
+  username_not_ends_with: String
+  addedSongs_every: SongFilter
+  addedSongs_some: SongFilter
+  addedSongs_none: SongFilter
+  circles_every: UCLinkFilter
+  circles_some: UCLinkFilter
+  circles_none: UCLinkFilter
+  comments_every: CommentFilter
+  comments_some: CommentFilter
+  comments_none: CommentFilter
+  likedSongs_every: LikeFilter
+  likedSongs_some: LikeFilter
+  likedSongs_none: LikeFilter
+  messages_every: MessageFilter
+  messages_some: MessageFilter
+  messages_none: MessageFilter
+  notifications_every: ActionFilter
+  notifications_some: ActionFilter
+  notifications_none: ActionFilter
+  ownedCircles_every: CircleFilter
+  ownedCircles_some: CircleFilter
+  ownedCircles_none: CircleFilter
+  performedActions_every: ActionFilter
+  performedActions_some: ActionFilter
+  performedActions_none: ActionFilter
+  swaps_every: SwapFilter
+  swaps_some: SwapFilter
+  swaps_none: SwapFilter
+  threads_every: ThreadFilter
+  threads_some: ThreadFilter
+  threads_none: ThreadFilter
+}
+
+input UserlikedSongsLike {
+  songId: ID
+  song: LikesongSong
+}
+
+input UsermessagesMessage {
+  text: String!
+  threadId: ID
+  thread: MessagethreadThread
+}
+
+input UsernotificationsAction {
+  image: String
+  link: String
+  message: String!
+  authorId: ID
+  author: ActionauthorUser
+  circleId: ID
+  circle: ActioncircleCircle
+}
+
+enum UserOrderBy {
+  active_ASC
+  active_DESC
+  createdAt_ASC
+  createdAt_DESC
+  diaplayName_ASC
+  diaplayName_DESC
+  id_ASC
+  id_DESC
+  profilePic_ASC
+  profilePic_DESC
+  reputation_ASC
+  reputation_DESC
+  sortCategory_ASC
+  sortCategory_DESC
+  sortOrder_ASC
+  sortOrder_DESC
+  spotifyLink_ASC
+  spotifyLink_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  username_ASC
+  username_DESC
+}
+
+input UserownedCirclesCircle {
+  addCap: Int
+  autoFreeze: Boolean
+  description: String
+  freezeSettings: Json
+  frozen: Boolean
+  image: String!
+  initialAddCap: Int
+  joinLink: String
+
+  # Whether the songs can be rated by the owner only or all participants
+  jointEffort: Boolean
+  name: String!
+  songCount: Int
+  spotifyLink: String!
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+
+  # Maximum tier value of Songs that a Swap can be made on. If 0, swaps can be made on all Songs
+  swapTierThreshold: Int
+  activeSwapsIds: [ID!]
+  activeSwaps: [CircleactiveSwapsSwap!]
+  historyIds: [ID!]
+  history: [CirclehistoryAction!]
+  playlistIds: [ID!]
+  playlist: [CircleplaylistSong!]
+  removedSongsIds: [ID!]
+  removedSongs: [CircleremovedSongsSong!]
+  usersIds: [ID!]
+  users: [CircleusersUCLink!]
+}
+
+input UserperformedActionsAction {
+  image: String
+  link: String
+  message: String!
+  circleId: ID
+  circle: ActioncircleCircle
+  notificationUserId: ID
+  notificationUser: ActionnotificationUserUser
+}
+
+input UserswapsSwap {
+  circleId: ID
+  circle: SwapcircleCircle
+  originalSongId: ID
+  originalSong: SwaporiginalSongSong
+  replacementId: ID
+  replacement: SwapreplacementSong
+}
+
+input UserthreadsThread {
+  messagesIds: [ID!]
+  messages: [ThreadmessagesMessage!]
+  usersIds: [ID!]
+  users: [ThreadusersUser!]
+}
+
+# This is the famous Relay viewer object
+type Viewer {
+  allActions(filter: ActionFilter, orderBy: ActionOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ActionConnection!
+  allCircles(filter: CircleFilter, orderBy: CircleOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CircleConnection!
+  allComments(filter: CommentFilter, orderBy: CommentOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): CommentConnection!
+  allFiles(filter: FileFilter, orderBy: FileOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
+  allLikes(filter: LikeFilter, orderBy: LikeOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection!
+  allMessages(filter: MessageFilter, orderBy: MessageOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
+  allSongs(filter: SongFilter, orderBy: SongOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SongConnection!
+  allSwaps(filter: SwapFilter, orderBy: SwapOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): SwapConnection!
+  allThreads(filter: ThreadFilter, orderBy: ThreadOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): ThreadConnection!
+  allUCLinks(filter: UCLinkFilter, orderBy: UCLinkOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UCLinkConnection!
+  allUsers(filter: UserFilter, orderBy: UserOrderBy, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  user: User
+  Action(id: ID): Action
+  Circle(id: ID, joinLink: String): Circle
+  Comment(id: ID): Comment
+  File(id: ID, secret: String, url: String): File
+  Like(id: ID): Like
+  Message(id: ID): Message
+  Song(id: ID): Song
+  Swap(id: ID): Swap
+  Thread(id: ID): Thread
+  UCLink(id: ID): UCLink
+  User(id: ID): User
+  id: ID!
+}
