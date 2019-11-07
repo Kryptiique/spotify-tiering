@@ -1,0 +1,49 @@
+
+
+@media all and (min-width: 480px) {
+  .lander {
+    background-image: url(./splash.png);
+    background-size:cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+    padding: 60px 0;
+  }
+  
+  .lander .body {
+    max-width: 472px;
+    margin: 0;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .lander .logo {
+    margin: auto 4rem 3rem;
+  }
+
+  .lander .logo img {
+    width: 55px;
+    height: 100%;
+  }
+  
+  .lander .logo span {
+    font-family: "Arial Black", Gadget, sans-serif;
+    font-size: 2.5rem;
+    vertical-align: middle;
+    margin-left: 20px;
+  }
+
+  .lander .form {
+    background-color: #14181C;
+    opacity: .72;
+    padding: 50px;
+    box-shadow: 0 0 16px 2px #101010b8;
+  }
+
+  .lander .form p {
+    margin-bottom: 2.5rem;
+  }
+  
+}

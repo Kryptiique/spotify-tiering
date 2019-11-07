@@ -1,0 +1,14 @@
+
+  {
+    "development": {
+      "extensionId":"hoaaejpnpjanhahaieaoomjbgbcnilna",
+      "api": {
+        "main": " https://qcupy8xv69.execute-api.us-east-1.amazonaws.com/dev"
+      }
+    }, 
+    "production": {
+      "api": {
+        "main":" https://qcupy8xv69.execute-api.us-east-1.amazonaws.com/prod"
+      }
+    }
+  }

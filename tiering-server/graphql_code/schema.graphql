@@ -1,0 +1,711 @@
+
+# Models =====================================================================
+
+"""
+A collaboration group between users
+"""
+type Circle {
+  id: ID!
+  # The name of the circle
+  name: String!
+  # Text describing the circle
+  description: String
+  # Songs active in the playlist
+  playlist(filter: SongFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): SongConnection
+  # (deprecated) Number of songs currently active in the playlist
+  songCount: Int
+  # Songs removed from the playlist
+  removed(filter: SongFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): SongConnection
+  # User currently managing the circle
+  owner: User!
+  # Users participating in the rating
+  users(filter: UCLinkFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): UCLinkConnection
+  # Active swaps between songs
+  swaps(filter: SwapFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): SwapConnection
+  # link to the image on spotify
+  image: String!
+  # Link to the active playlist on Spotify
+  spotifyLink: String!
+  # List of changes made to the playlist over time
+  history(filter: ActionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ActionConnection
+
+  # SETTINGS
+
+  # Limit on the number of swaps that can be made per session per user
+  swapCap: Int
+  # Limit on the number of songs that can be added per session per user
+  addCap: Int
+  # Limit on the number of songs new users can add
+  initialAddCap: Int
+  # Whether or not changes can be made to the playlist
+  frozen: Boolean
+  # Whether the Playlist should freeze automatically
+  autoFreeze: Boolean
+  # Settings used for auto freezing the Playlist
+  freezeSettings: String 
+  # Generated link to join the Circle
+  joinLink: String
+  # Whether the songs can be rated by the owner only
+  # or all participants
+  jointEffort: Boolean
+}
+
+"""
+An individual spotify account tied
+to the system
+"""
+type User {
+  id: ID!
+  # name as seen on spotify
+  username: String
+  # Link to the user's profile pic
+  profilePic: String
+  # Accumulative score from songs in all circles
+  reputation: Float
+  # link to the user's spotify account
+  spotifyLink: String
+  # circles the user is participating in
+  circles(filter: UCLinkFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): UCLinkConnection
+  # list of message threads the user is participating in
+  threads(filter: UTLinkFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): UTLinkConnection
+  # Alerts telling the user changes that have been made recently
+  notifications(filter: ActionFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ActionConnection
+  # Whether or not the user is currently logged into the system
+  active: Boolean
+
+  # PREFERENCES 
+
+  # global display name, Overwrites
+  displayName: String
+  # Field by which to sort songs  
+  sortCategory: SortOrder
+  # Sort sort order
+  sortDirection: ModelSortDirection
+  
+  # Songs the user enjoys from a specific circle
+  # favorites: [Favorite]
+}
+
+"""
+# M:M link between Users and Circles
+"""
+type UCLink {
+  id: ID!
+  user: User
+  circle: Circle
+  # Accumulative score for the user in that Circle,
+  # based on their picks of songs in the circle
+  reputation: Float
+  # Name displayed to other users within the group
+  diaplayName: String
+}
+
+"""
+# Singular spotify song
+"""
+type Song {
+  id: ID!
+  # The circle where the song was added to
+  circle: Circle
+  # The user who added the song to the playlist
+  adder: User!
+  # The name of the song
+  name: String!
+  # The name of the artist
+  artist: String!
+  # The name of the album
+  album: String!
+  # Link to the album's cover art
+  albumArt: String!
+  # date song was added to the circle's playlist
+  dateAdded: String!
+  # Rating given by owner or by all users
+  tier: Int
+  # The link to the song on spotify
+  spotifyLink: String!
+  # Comments added by users
+  comments(filter: CommentFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): CommentConnection
+  # A list of likes made by users
+  likes(filter: LikeFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): LikeConnection
+}
+
+"""
+A way of keeping tabs on notifications and changes made
+to the playlist
+"""
+type Action {
+  id: ID
+  # The User who made the action occur
+  owner: User!
+  # The circle the change was made in
+  circle: Circle
+  # Link to the image representing the action
+  image: String
+  # The body of the message
+  message: String!
+  # Internal link to the page corresponding to the action
+  link: String
+  # Date action was made; used for TTL
+  date: String!
+}
+
+"""
+A request to replace one song in the playlist with another
+"""
+type Swap {
+  id: ID!
+  # The user requesting the swap
+  author: User!
+  # the Circle in which the swap was made
+  circle: Circle
+  # Date the swap was created
+  date: String!
+  # The song that is to be replaced
+  original: Song!
+  # The song to replace the original
+  replacement: Song!
+}
+
+"""
+A message left by Users on Songs only
+"""
+type Comment {
+  id: ID!
+  # The user who wrote the comment
+  author: User!
+  # The song on which the comment was made
+  song: Song!
+  # The date the comment was created
+  date: String!
+  # The main text of the comment
+  body: String!
+}
+
+"""
+M:M link between users and threads
+"""
+type UTLink {
+  id: ID!
+  user: User
+  thread: Thread
+}
+
+"""
+An ordered list of messages between users
+"""
+type Thread {
+  id: ID!
+  # The users who can view the thread
+  users(filter: UserFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): UserConnection
+  # The thread of messages sent through the system
+  messages(filter: MessageFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): MessageConnection
+}
+
+"""
+A single message between users, existing in a thread
+only
+"""
+type Message {
+  id: ID!
+  # The thread in which the message was sent
+  thread: Thread!
+  # The user who sent the message
+  sender: User!
+  # The body of the message
+  body: String!
+  # The timestamp when the message was sent
+  dateSent: String!
+  # If the message was updated, this would be different from dateSent
+  updatedAt: String!
+}
+
+"""
+A simple counter for whether others like the song's addition.
+This does not affect the song's tier rating
+"""
+type Like {
+  id: ID!
+  # The song that was liked
+  song: Song!
+  # The user who liked it
+  user: User!
+}
+
+"""
+Order by which songs can be sorted
+"""
+enum SortOrder {
+  NAME
+  ARTIST
+  ALBUM
+  LENGTH
+  RATING
+  DATEADDED
+}
+
+# Creaion Input Models =====================================================
+
+input CreateCircleInput {
+  id: ID
+  name: String!
+  description: String
+  ownerId: ID! # Id of the user 
+  spotifyLink: String!
+  image: String!
+  swapCap: Int
+  addCap: Int
+  initialAddCap: Int
+}
+
+input CreateUserInput {
+  id: ID
+  username: String!
+  profilePic: String!
+  spotifyLink: String!
+  displayName: String!
+}
+
+input CreateUCLinkInput {
+  id: ID
+  linkCircleId: ID!
+  linkUserId: ID! 
+  diaplayName: String!
+}
+
+input CreateSongInput {
+  id: ID
+  circleId: ID! # Id of the circle 
+  removedId: ID
+  name: String!
+  artist: String!
+  album: String!
+  albumArt: String
+  adderId: String! # Id of the user 
+  spotifyLink: String!
+  dateAdded: String!
+}
+
+input CreateActionInput {
+  id: ID
+  ownerId: ID! # Id of the user 
+  circleId: ID! # Id of the circle 
+  notificationUserId: ID # Use for Links to users only
+  image: String!
+  message: String!
+  date: String!
+  link: String
+}
+
+input CreateSwapInput {
+  id: ID
+  authorId: ID!
+  date: String!
+  circleId: ID!
+  originalId: ID!  # Id of the song
+  replacementId: ID! # Id of the new song
+}
+
+input CreateCommentInput {
+  id: ID
+  authorId: ID!
+  songId: ID!
+  date: String!
+  body: String!
+}
+
+input CreateUTLinkInput {
+  id: ID
+  userId: ID!
+  threadId: ID!
+}
+
+input CreateThreadInput {
+  id: ID
+}
+
+input CreateMessageInput {
+  id: ID
+  threadId: ID!
+  senderId: ID
+  body: String!
+  dateSent: String!
+}
+
+input CreateLikeInput {
+  id: ID
+  songId: ID!
+  userId: ID!
+}
+
+# Update Input Models ====================================================
+
+input UpdateCircleInput {
+  id: ID!
+  name: String
+  description: String
+  songCount: Int
+  ownerId: ID
+  swapCap: Int
+  addCap: Int
+  initialAddCap: Int
+  frozen: Boolean
+  autoFreeze: Boolean
+  freezeSettings: String
+  joinLink:String
+  jointEffort: Boolean
+}
+
+input UpdateUserInput {
+  id: ID!
+  displayName: String
+  reputation: Float
+  active: Boolean
+  sortCategory: String
+  sortDirection: String
+}
+
+input UpdateUCLinkInput {
+  id: ID!
+  reputation: Float
+  displayName: String!
+}
+
+input UpdateSongInput {
+  id: ID!
+  tier: Int
+  removedId:ID
+}
+
+input UpdateActionInput {
+  id: ID!
+  image: String
+  link: String
+}
+
+# input UpdateSwapInput {
+#   id: ID!
+# }
+
+input UpdateCommentInput {
+  id: ID!
+  body: String!
+}
+
+# input UpdateUTLinkInput {
+#   id: ID!
+# }
+
+# input UpdateThreadInput {
+#   id: ID!
+# }
+
+input UpdateMessageInput {
+  id: ID!
+  body: String!
+}
+
+# Filter Input Models ====================================================
+
+input CircleFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  songCount: ModelIntFilterInput
+  jointEffort: ModelBooleanFilterInput
+  and: [CircleFilterInput]
+  or: [CircleFilterInput]
+  not: CircleFilterInput
+}
+
+input UserFilterInput {
+  id: ModelIDFilterInput
+  name: ModelStringFilterInput
+  userName: ModelStringFilterInput
+  reputation: ModelFloatFilterInput
+  active: ModelBooleanFilterInput
+  and: [UserFilterInput]
+  or: [UserFilterInput]
+  not: UserFilterInput
+}
+
+input UCLinkFilterInput {
+  id: ModelIDFilterInput
+  reputation: ModelFloatFilterInput
+  and: [UCLinkFilterInput]
+  or: [UCLinkFilterInput]
+  not: UCLinkFilterInput
+}
+
+input SongFilterInput {
+  id: ModelIDFilterInput
+  dateAdded: ModelStringFilterInput
+  artist: ModelStringFilterInput
+  album: ModelStringFilterInput
+  tier: ModelIntFilterInput
+  adder: ModelStringFilterInput
+  and: [SongFilterInput]
+  or: [SongFilterInput]
+  not: SongFilterInput
+}
+
+input SwapFilterInput {
+  id: ModelIDFilterInput
+  date: ModelStringFilterInput
+  author: ModelStringFilterInput
+  orginal: ModelStringFilterInput
+  replacement: ModelStringFilterInput
+  and: [SwapFilterInput]
+  or: [SwapFilterInput]
+  not: SwapFilterInput
+}
+
+input ActionFilterInput {
+  id: ModelIDFilterInput
+  date: ModelStringFilterInput
+  author: ModelStringFilterInput
+  and: [ActionFilterInput]
+  or: [ActionFilterInput]
+  not: ActionFilterInput
+}
+
+input CommentFilterInput {
+  id: ModelIDFilterInput
+  date: ModelStringFilterInput
+  author: ModelStringFilterInput
+  and: [CommentFilterInput]
+  or: [CommentFilterInput]
+  not: CommentFilterInput
+}
+
+input UTLinkFilterInput {
+  id: ModelIDFilterInput
+  thread: ModelIDFilterInput
+  and: [UTLinkFilterInput]
+  or: [UTLinkFilterInput]
+  not: UTLinkFilterInput
+}
+
+input ThreadFilterInput {
+  id: ModelIDFilterInput
+  and: [ThreadFilterInput]
+  or: [ThreadFilterInput]
+  not: ThreadFilterInput
+}
+
+input MessageFilterInput {
+  id: ModelIDFilterInput
+  dateSent: ModelStringFilterInput
+  and: [MessageFilterInput]
+  or: [MessageFilterInput]
+  not: MessageFilterInput
+}
+
+input LikeFilterInput {
+  id: ModelIDFilterInput
+  song: ModelStringFilterInput
+  user: ModelStringFilterInput
+  and: [LikeFilterInput]
+  or: [LikeFilterInput]
+  not: LikeFilterInput
+}
+
+# Connection Models ======================================================
+
+# 1:M Connections usually don't connect directly to the objects they refer
+# to. This is so that we are able to perform better filtering on the objects
+
+type CircleConnection {
+  items: [Circle]
+  nextToken: String
+}
+
+type UserConnection {
+  items: [User]
+  nextToken: String
+}
+
+type UCLinkConnection {
+  items: [UCLink]
+  nextToken: String
+}
+
+type SongConnection {
+  items: [Song]
+  nextToken: String
+}
+
+
+type ActionConnection {
+  items: [Action]
+  nextToken: String
+}
+
+type SwapConnection {
+  items: [Swap]
+  nextToken: String
+}
+
+type CommentConnection {
+  items: [Comment]
+  nextToken: String
+}
+
+type UTLinkConnection {
+  items: [UTLink]
+  nextToken: String
+}
+
+
+type ThreadConnection {
+  items: [Thread]
+  nextToken: String
+}
+
+type MessageConnection {
+  items: [Message]
+  nextToken: String
+}
+
+type LikeConnection {
+  items: [Like]
+  nextToken: String
+}
+
+
+# Mutations and Query ====================================================
+
+type Query {
+  getCircle(id: ID!): Circle
+  getUser(id: ID!): User
+  getUCLink(id: ID!): UCLink
+  getSong(id: ID!): Song
+  getAction(id: ID!): Action
+  getSwap(id: ID!): Swap
+  getComment(id: ID!): Comment
+  getUTLink(id: ID!): UTLink
+  getThread(id: ID!): Thread
+  getMessage(id: ID!): Message
+
+  listCircles(filter: CircleFilterInput, limit: Int, nextToken: String): CircleConnection
+  listUsers(filter: UserFilterInput, limit: Int, nextToken: String): UserConnection
+  listUCLinks(filter: UCLinkFilterInput, limit: Int, nextToken: String): UCLinkConnection
+  listSongs(filter: SongFilterInput, limit: Int, nextToken: String): SongConnection
+  listActions(filter: ActionFilterInput, limit: Int, nextToken: String): ActionConnection
+  listSwaps(filter: SwapFilterInput, limit: Int, nextToken: String): SwapConnection
+  listComments(filter: CommentFilterInput, limit: Int, nextToken: String): CommentConnection
+  listUTLinks(filter: UTLinkFilterInput, limit: Int, nextToken: String): UTLinkConnection
+  listThreads(filter: ThreadFilterInput, limit: Int, nextToken: String): ThreadConnection
+  listMessages(filter: MessageFilterInput, limit: Int, nextToken: String): MessageConnection
+  listLikes(filter: LikeFilterInput, limit: Int, nextToken: String): LikeConnection
+}
+
+type Mutation {
+  createCircle(input: CreateCircleInput!): Circle
+  createUser(input: CreateUserInput!): User
+  createUCLink(input: CreateUCLinkInput!): UCLink
+  createSong(input: CreateSongInput!): Song
+  createAction(input: CreateActionInput!): Action
+  createSwap(input: CreateSwapInput!): Swap
+  createComment(input: CreateCommentInput!): Comment
+  createUTLink(input: CreateUTLinkInput!): UTLink
+  createThread(input: CreateThreadInput!): Thread
+  createMessage(input: CreateMessageInput!): Message
+  createLike(input: CreateLikeInput!): Like
+  
+  updateCircle(input: UpdateCircleInput!): Circle
+  updateUser(input: UpdateUserInput!): User
+  updateUCLink(input: UpdateUCLinkInput!): UCLink
+  updateSong(input: UpdateSongInput!): Song
+  updateAction(input: UpdateActionInput!): Action
+  # updateSwap(input: UpdateSwapInput!): Swap
+  updateComment(input: UpdateCommentInput!): Comment
+  # updateUTLink(input: UpdateUTLinkInput!): UTLink
+  # updateThread(input: UpdateThreadInput!): Thread
+  updateMessage(input: UpdateMessageInput!): Message
+
+  deleteCircle(input: ModelDeleteInput!): Circle
+  deleteUser(input: ModelDeleteInput!): User
+  deleteUCLink(input: ModelDeleteInput!): UCLink
+  deleteSong(input: ModelDeleteInput!): Song
+  deleteAction(input: ModelDeleteInput!): Action
+  deleteSwap(input: ModelDeleteInput!): Swap
+  deleteComment(input: ModelDeleteInput!): Comment
+  deleteUTLink(input: ModelDeleteInput!): UTLink
+  deleteThread(input: ModelDeleteInput!): Thread
+  deleteMessage(input: ModelDeleteInput!): Message
+  deleteLike(input: ModelDeleteInput!): Like
+}
+
+type Subscription {
+  somethingChanged: Result
+}
+
+type Result {
+  id: String
+}
+
+
+# Utility ================================================================
+
+input ModelDeleteInput {
+  id: ID!
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+input ModelStringFilterInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+}
+
+input ModelIDFilterInput {
+  ne: ID!
+  eq: ID!
+  le: ID!
+  lt: ID!
+  ge: ID!
+  gt: ID!
+  contains: ID!
+  notContains: ID!
+  between: [ID!]
+  beginsWith: ID!
+}
+
+input ModelIntFilterInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  contains: Int
+  notContains: Int
+  between: [Int]
+}
+
+input ModelFloatFilterInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  contains: Float
+  notContains: Float
+  between: [Float]
+}
+
+input ModelBooleanFilterInput {
+  ne: Boolean
+  eq: Boolean
+}

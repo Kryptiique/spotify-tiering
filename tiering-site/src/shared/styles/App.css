@@ -1,0 +1,463 @@
+
+
+/* -----------------------------------------------------
+                    Animations 
+--------------------------------------------------------*/
+
+.spin {
+  /* background: */
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg); }
+  to { transform: scale(1) rotate(360deg); }
+}
+
+
+/* -----------------------------------------------------
+                    Generic CSS 
+--------------------------------------------------------*/
+
+.hidden {
+  display: none;
+}
+
+
+p span, p a {
+  color:  var(--primary);
+}
+
+.full-anchor{
+  position: absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+}
+
+.relative {
+  position: relative;
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.sep-h {
+  width: 100%;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--tertiary);
+}
+
+.pic {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.Authenticator {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  z-index: 100;
+  width: 100px;
+  transform: translate(-50%, -50%);
+}
+.Authenticator img {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  z-index: -1;
+  width: 90%;
+}
+
+div#react-scrollbar >*:last-child>* {
+  margin-left: 2px;
+  background-color: var(--primary) !important;
+}
+div#react-scrollbar-horiz >*:last-child>* {
+  background-color: var(--primary) !important;
+}
+
+div#react-confirm-alert{
+  z-index: 50000;
+  position: relative;
+}
+
+.jumbo{
+  border: solid 1px #949494;
+  border-radius: 6px;
+  background-color: #9494944d;
+  padding: 35px;
+  text-align: center;
+}
+
+.jumbo.error {
+  border: solid 1px #df0101;
+  background-color: #df01014d;
+}
+
+.jumbo.error:hover {
+  cursor: default;
+}
+
+
+
+/* -----------------------------------------------------
+                      Generic Buttons
+--------------------------------------------------------*/
+
+.btn {
+  color: var(--text);
+  background-color: var(--primary_dark);
+
+  padding: 10px;
+  text-decoration: none;
+  border: 0;
+  border-radius: 0;
+  -webkit-appearance: unset;
+  border-radius: 100px;
+  transition: all 0.5s;
+}
+
+.btn:hover {
+  filter: brightness(var(--bright));
+  color: var(--text);
+  cursor: pointer;
+}
+
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn, 
+.btn.disabled:hover, .btn[disabled]:hover, fieldset[disabled] .btn:hover {
+  filter:saturate(0) !important;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.btn.wide{
+  padding: 10px 40px;
+  text-align: center;
+  display: list-item;
+  list-style: none;
+}
+
+.btn.negative {
+  background-color: transparent;
+  border: solid 2px var(--primary);
+}
+
+.btn.negative:hover{
+  background-color: #88a57d29;
+}
+
+.btn.red { background-color: #c41414; } 
+.btn.green { background-color: #30a830; }
+
+.btn i {
+  margin: auto 8px;
+}
+
+/* -----------------------------------------------------
+                      React Tabs
+--------------------------------------------------------*/
+
+.rc-tabs.rc-tabs-top {
+  border:0;
+}
+
+.rc-tabs.rc-tabs-top .rc-tabs-bar{
+  margin-top: -20px;
+  margin-bottom: 2.2rem;
+  border-bottom: 0;
+}
+.rc-tabs-top .rc-tabs-ink-bar {
+  background-color: white;
+}
+.rc-tabs-tab-active.rc-tabs-tab{
+  color:white !important;
+}
+.rc-tabs-top .rc-tabs-tab {
+  font-size: 22px;
+  color: #858585;
+  padding-top: 12px;
+}
+
+.rc-tabs-tabpane {
+  overflow: hidden;
+}
+
+/* -----------------------------------------------------
+                      Dropdown
+--------------------------------------------------------*/
+
+.dropdown {
+  position: relative;
+  background-color: white;
+  color: black;
+  padding: 7px 14px;
+  border-radius: 25px;
+  margin: 14px auto;
+  min-width:150px;
+}
+
+.dropdown:hover{
+  cursor: default;
+}
+
+.dropdown.up ul{
+  position: absolute;
+  margin-top: 1px;
+  bottom: 100%;
+  margin-bottom: 35px;
+}
+
+.dropdown span i {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #d8d8d8;
+  padding: 0px 15px 0px 10px;
+  border-radius: 0 20px 20px 0;
+  box-shadow: -4px 0px 4px #00000063;
+} .dropdown span i:before{
+  position: relative;
+  top: 32%;
+}
+
+
+.dropdown span i:hover {
+  cursor: pointer;
+  filter:  brightness(115%);
+}
+
+.dropdown .collision {
+  margin: auto -35px;
+  position: relative;
+}
+
+.dropdown ul {
+  display: none;
+  background-color: #2f343a;
+  color:var(--text);
+  padding: 8px;
+  margin: 14px 25px;
+  border-radius: 20px;
+  box-shadow: 0 0 13px 1px #0000006b;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+}
+
+.dropdown ul[open]{
+  display: block;
+}
+
+.dropdown ul li {
+  margin: 0 -8px 5px;
+  padding: 4px 18px 6px;
+  list-style: none;
+}
+
+.dropdown ul li:hover {
+  background-color: #2f343a;
+  filter:brightness(115%);
+  cursor: pointer;
+}
+
+
+/* -----------------------------------------------------
+                      Modal
+--------------------------------------------------------*/
+
+.ReactModalPortal h1,
+.ReactModalPortal h2,
+.ReactModalPortal h3,
+.ReactModalPortal h4,
+.ReactModalPortal h5 {
+  text-align: center;
+  margin-bottom: 25px;
+  margin-top: -15px;
+}
+
+.ReactModalPortal input {
+  border-radius: 20px;
+  border: 0;
+  padding: 5px 10px;
+}
+
+.ReactModalPortal label {
+  margin-right: 15px;
+}
+
+.ReactModal__Content.ReactModal__Content--after-open {
+  overflow: visible !important;
+}
+
+.react-confirm-alert-overlay {
+  background-color: #000c;
+}
+
+.react-confirm-alert-body {
+  background-color: var(--background);
+  color: var(--text);
+  border-radius: 20px;
+}
+
+.react-confirm-alert-button-group {
+  text-align: center;
+  display: block;
+}
+
+.react-confirm-alert-button-group > button {
+  background-color: var(--primary);
+  color: var(--text);
+  border-radius: 50px;
+  font-size: inherit;
+  transition: filter 0.2s;
+}
+
+.react-confirm-alert-button-group > button:hover {
+  filter:brightness(115%);
+}
+
+/* -----------------------------------------------------
+                      Context Menu
+--------------------------------------------------------*/
+
+nav.react-contextmenu{
+  z-index: 100000;
+  padding: 10px 0;
+  background-color: var(--background);
+  border-radius: 17px;
+}
+
+.react-contextmenu-wrapper {
+  height: 100%;
+}
+
+nav.react-contextmenu {
+  max-width: 150px;
+}
+
+nav.react-contextmenu > *:first-child {
+  padding-top: 0;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+nav.react-contextmenu > *[aria-orientation="horizontal"]{
+  padding: 0;
+  margin: 0 9px;
+  border-top: solid 1px #c3c3c361;
+  border-bottom: solid 1px #3e3e3e61;
+}
+nav.react-contextmenu > *[aria-orientation="horizontal"]:hover, 
+nav.react-contextmenu > *:first-child:hover{
+  cursor: default;
+  filter: brightness(100%)
+}
+
+nav.react-contextmenu > *{
+  padding: 10px 20px;
+  margin: 4px 0;
+  background-color: var(--background);
+  transition: filter 0.2s;
+} 
+nav.react-contextmenu > *:hover{
+  filter:brightness(120%);
+  cursor: pointer;
+}
+
+nav.react-contextmenu > * i{
+  margin-right: 8px
+}
+
+
+/* -----------------------------------------------------
+                      Autosuggest
+--------------------------------------------------------*/
+
+.react-autosuggest__suggestions-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.react-autosuggest__suggestions-container ul {
+
+  background-color: #0000006e;
+  border: solid 1px black;
+  width: 100%;
+}
+
+.react-autosuggest__suggestions-container ul li {
+  list-style: none;
+}
+
+
+/* -----------------------------------------------------
+                      Tool bar
+--------------------------------------------------------*/
+
+.actions {
+  display: flex;
+}
+
+.actions > * {
+  margin: 0 5px;
+}
+
+.actions > label {
+  vertical-align: middle;
+  margin: auto 12px auto 22px;
+}
+
+.actions > input {
+  border: 0;
+  border-radius: 50px;
+  padding: 7px 14px;
+  width: 100%;
+}
+
+.grp {
+  display: flex;
+}
+
+.grp > * {
+  margin-right: 3px;
+  border-radius: 0;
+}
+
+.grp > * i {
+  font-size: 21px;
+  padding: 2px;
+}
+
+.grid-size .active {
+  filter: saturate(25%);
+}
+
+.grid-size .active:hover {
+  filter: brightness(100%);
+  cursor: default;
+}
+
+.grp > * :hover{
+  border-radius: 0 !important;
+}
+
+.grp > *:last-child {
+  border-radius:  0 10px 10px 0;
+}
+
+.grp > *:first-child {
+  border-radius: 10px 0 0 10px;
+}
