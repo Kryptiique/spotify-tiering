@@ -26,15 +26,13 @@ function querystring(name, url = window.location.href) {
 
 /**
  * 
- * @since 0.3.1
  */
 export default ({ component: C, props: cProps, ...rest }) => {
   const redirect = querystring("redirect");
-  console.debug(cProps)
   return (
     <Route
       {...rest}
-      render={props =>
+      render={props => 
         !cProps.isAuthenticated
           ? <C {...props} {...cProps} />
           : <Redirect

@@ -4,9 +4,13 @@ import { bindActionCreators } from 'redux'
 import Helmet from 'react-helmet'
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
+import _ from 'lodash'
 
 import * as userActions from '../../../shared/reducers/user/actions'
+import { spotifyAPI } from '../../../index'
+import { userExists, createUser } from '../../../shared/functions/graphql/operations'
 import { pages, app_name, cookies } from '../../../shared/constants'
+import { urlId } from '../../../shared/functions/static'
 import "../styles/Credentials.css"
 
 
@@ -30,29 +34,43 @@ class LoginView extends Component {
     cookies: instanceOf(Cookies).isRequired
   };
 
-  componentDidMount(){
+  async componentDidMount(){
     // Check querystring for Spotify Access token
     const params = getHashParams()
     
     // If access token is invalid, redirect to the homepage
-    if(!params.access_token){
-      this.props.history.push(pages.login); 
+    if(!params.a){
+      this.props.history.push(pages.landing); 
     } else {
       var user = {
-        token: params.access_token,
-        refreshToken: params.refresh_token
+        token: params.a,
+        refreshToken: params.t,
+        displayName: params.d,
+        spotifyLink: params.s,
+        profilePic: params.p,
+        username: params.u
       }
 
-      // Store it in cookies so we can accses it later!
-      
-      this.props.cookies.set(cookies.accessToken, 
-        params.access_token, { path: pages.landing });
-      this.props.cookies.set(cookies.refreshToken, 
-        params.refresh_token, { path: pages.landing });
+      var db_user = await userExists(user.username)
+      if(!db_user) {
+        // create a user
+        db_user = await createUser(user)
+        // If creating a user failed, return to login...
+        // if(!db_user) this.props.history.push(pages.landing)
+      }
+      user = _.merge(user, db_user)
 
-      console.debug(user)
+      // Store it in cookies so we can accses it later
+      this.props.cookies.set(cookies.accessToken, 
+        user.token, { path: pages.landing, maxAge: 3600 });
+      this.props.cookies.set(cookies.refreshToken, 
+        params.refresh_token, { path: pages.landing, maxAge: 3600 });
+      this.props.cookies.set(cookies.user,
+        user.id, { path: pages.landing, maxAge: 3600})
+      spotifyAPI.setAccessToken(params.access_token)
+
       this.props.actions.loginUser(user)
-      // this.props.history.push(pages.profile); 
+      this.props.history.push(urlId(pages.profile, user.id));
     }
   }
   

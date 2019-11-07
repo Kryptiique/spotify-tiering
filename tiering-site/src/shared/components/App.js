@@ -2,7 +2,13 @@ import React, { Component, Fragment} from "react"
 import { withRouter } from "react-router-dom";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
+import * as userActions from '../reducers/user/actions'
+import Authenticator from './Authenticator'
+import { spotifyAPI } from '../../index'
+import { getUser } from '../functions/graphql/operations'
 import Routes from "../routing/Routes";
 import { cookies, pages } from '../constants'
 import '../styles/App.css'
@@ -29,16 +35,19 @@ class App extends Component {
   
     this.state = {
       isAuthenticated: false,
-      isAuthenticating: true
+      /**
+       * if the user refreshed the page and we don't have their information
+       * loaded, tell the app we're reloading it so it doesn't redirect us out of
+       * the app
+       */
+      isAuthenticating: true,
+      
     };
   }
 
   /**
    * All this does is load the current session. If it loads, then it 
-   * updates the isAuthenticating flag once the process is complete. 
-   * The .currentSession() method throws an error No current user if 
-   * nobody is currently logged in. We don’t want to show this error to users 
-   * when they load up our app and are not signed in.
+   * updates the isAuthenticating flag once the process is complete.
    */
   async componentDidMount() {
     try {
@@ -46,14 +55,10 @@ class App extends Component {
     } catch(e) {
       console.error('Error loading cookies\n', e)
       
+      /* This initializes the isAuthenticated flag in the App’s state. */
+      this.setState({ isAuthenticating: false });
     }
-  
-    /* This initializes the isAuthenticated flag in the App’s state. */
-    this.setState({ isAuthenticating: false });
   }
-
-  /* ^^ 
-  */
     
 
   /**
@@ -74,6 +79,7 @@ class App extends Component {
   handleLogout = async event => {
     this.props.cookies.remove(cookies.refreshToken)
     this.props.cookies.remove(cookies.accessToken)
+    this.props.cookies.remove(cookies.user)
     this.userHasAuthenticated(false);
     
     // tell the the server to log us out
@@ -81,19 +87,29 @@ class App extends Component {
     this.props.history.push(pages.landing); 
   }
 
-  currentSession(){
-    // const [cookies, setCookie] = useCookies([cookies.accessToken]);
+  async currentSession(){
+    this.setState({ refreshing: true })
     const access_token = this.props.cookies.get(cookies.accessToken)
     const refresh_token = this.props.cookies.get(cookies.refreshToken)
+    const user_id = this.props.cookies.get(cookies.user)
     
-    if(access_token && refresh_token){
-      this.userHasAuthenticated(true);
+    if(access_token !== undefined &&
+      refresh_token !== undefined && 
+      user_id !== undefined){
+      var user = await getUser(user_id)
+      if(user) {
+        spotifyAPI.setAccessToken(access_token)
+        this.props.actions.loginUser(user)
+        this.setState({ isAuthenticating: false, isAuthenticated: true });
+      }
     }
   }
 
   render() {
+    
     const childProps = {
       isAuthenticated: this.state.isAuthenticated,
+      isAuthenticating: this.state.isAuthenticating,
       userHasAuthenticated: this.userHasAuthenticated
     };
 
@@ -108,19 +124,37 @@ class App extends Component {
     // l.substr(l.indexOf('/')) === '/',
     // !this.state.isAuthenticated)
     return (
-      !this.state.isAuthenticating &&
       <Fragment>
-        { !hideNav && 
-          <Navbar 
-            isAuthenticated={ this.state.isAuthenticated } 
-            logout={ this.handleLogout } 
-          />
+        { this.state.isAuthenticating &&
+          <Authenticator/>
         }
-        
-        <Routes childProps={ childProps } />
+          
+          
+        { !this.state.isAuthenticating &&
+          <Fragment>
+            { !hideNav && 
+              <Navbar 
+                isAuthenticated={ this.state.isAuthenticated } 
+                logout={ this.handleLogout } 
+              />
+            }
+            
+            <Routes childProps={ childProps } />
+          </Fragment>
+        }
       </Fragment>
+      
     )
   }
 } 
 
-export default withRouter(withCookies(App));
+const mapState = () => ({ lol: 'lol' })
+const mapDispatch = dispatch => ({
+  actions: bindActionCreators(userActions, dispatch),
+})
+
+export default connect(
+  mapState,
+  mapDispatch
+)(withRouter(withCookies(App)))
+

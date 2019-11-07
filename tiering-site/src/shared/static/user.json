@@ -1,0 +1,16 @@
+{ "country": "US",
+  "display_name": "kryptique",
+  "email": "jaykmcclinton@gmail.com",
+  "explicit_content": { "filter_enabled": false, "filter_locked": false },
+  "external_urls": { "spotify": "https://open.spotify.com/user/kryptique" },
+  "followers": { "href": null, "total": 1 },
+  "href": "https://api.spotify.com/v1/users/kryptique",
+  "id": "kryptique",
+  "images":
+   [ { "height": null,
+       "url":
+        "https://profile-images.scdn.co/images/userprofile/default/ec715d12bc1ec054b77a409f362c70e907f3f267",
+       "width": null } ],
+  "product": "premium",
+  "type": "user",
+  "uri": "spotify:user:kryptique" }

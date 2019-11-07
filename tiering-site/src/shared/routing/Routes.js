@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 /* For each new page you want to route to, 
 import it at the top and then add an AuthenticatedRoute path like below */
 
-// import AppliedRoute from "./AppliedRoute";
+import AppliedRoute from "./AppliedRoute";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
@@ -24,7 +24,7 @@ import LoginView from "../../pages/home/containers/LoginView";
 export default ({ childProps }) =>
   <Switch>
     <UnauthenticatedRoute path={ pages.landing } exact component={ LandingView } props={ childProps } />
-    <UnauthenticatedRoute path={ pages.login } exact component={ LoginView } props={ childProps } />
+    <AppliedRoute path={ pages.login } exact component={ LoginView } props={ childProps } />
     {/* <AuthenticatedRoute path={ pages.song } exact component={ SongView } props={ childProps } /> */}
     {/* <AuthenticatedRoute path={ pages.circle } exact component={ CircleView } props={ childProps } /> */}
     {/* <AuthenticatedRoute path={ pages.circleSettings } exact component={ circleSettings } props={ childProps } /> */}

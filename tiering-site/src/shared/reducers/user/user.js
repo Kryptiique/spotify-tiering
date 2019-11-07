@@ -15,9 +15,7 @@ export default function userReducer(state = initialState.user, action) {
 
   switch(action.type){
     case actions.LOGIN_USER:
-      newState = Object.assign (newState, )
-
-      console.debug(newState)
+      newState = Object.assign (newState, action.user)
       return newState
 
     case actions.REFRESH_TOKEN:

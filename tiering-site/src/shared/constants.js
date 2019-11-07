@@ -24,9 +24,7 @@ export const sortDir = {
 export const initialState = {
   // User details
   user: {
-    name: '...',
-    feed: [],
-    circles: []
+    displayName: '...',
   },
 
   // page for circle
@@ -55,9 +53,8 @@ export const pages = {
   circles: '/cicles/',
   circle: '/circles/:circleid/',
   circleSettings: '/circles/settings/:circleid/',
-  // comment: '/song/comment',
   profile: '/user/:userid/',
-  my_profile: 'user/profile',
+  // my_profile: 'user/profile',
   song: '/song/:songid'
 }
 
@@ -66,7 +63,8 @@ export const pages = {
  */
 export const cookies = {
   accessToken: 'access_token',
-  refreshToken: 'refresh_token'
+  refreshToken: 'refresh_token',
+  user: 'userid'
 }
 
 /**
@@ -115,8 +113,6 @@ export const modalStyle = {
 
 // Load local debug information
 
-
-
 /**
  * Attempts to load test files into memory. Returns true on success, false on
  * failure.
@@ -127,10 +123,8 @@ export const modalStyle = {
 function loadFiles(){
   try{
     // const localEnvInfo = require('../../amplify/.config/local-env-info.json')
-    const env = "test"
-    global.gImageList = require(`./static/${env}/imageList.json`)
-    global.gTagList = require(`./static/${env}/taglist.json`)
-    global.gBatchList = require(`./static/${env}/batchList.json`)
+    // const env = "test"
+    // global.gList = require(`./static/${env}/list.json`)
   } catch(e) {
     console.warn(e)
     return false

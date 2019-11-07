@@ -17,7 +17,7 @@ import './shared/styles/index.css';
 import rootReducer from './shared/reducers/index'
 import _spotifyAPI from 'spotify-web-api-js'
 
-const spotifyAPI = new _spotifyAPI()
+export const spotifyAPI = new _spotifyAPI()
 
 // Amplify.configure(config)
 const store = createStore(rootReducer)

@@ -29,10 +29,17 @@ class ProfileView extends Component {
 
         <div className='main'>
           <div className='prof'>
-            <div className='pic' style={{backgroundImage: `${ user.profile_pic }`}}></div>
+            <div className='pic' style={{backgroundImage: `url(${ user.profilePic })`}}></div>
             <div className='info'>
               <p>Reputation:  <span>{ user.reputation }</span></p>
-              <p>Spotify Username: <span>{ user.username }</span></p>
+              <p>Spotify Username: 
+                  <span>
+                      { user.username }
+                <a href={ user.spotifyLink }>
+                  <i className='fas fa-sign-out-alt'></i>
+                </a>
+                  </span>
+              </p>
             </div>
           </div>
 
@@ -87,6 +94,8 @@ class ProfileView extends Component {
 
 const mapState = state => {
   var { user } = state
+  if(user.feed === undefined) user.feed = []
+  if(user.circles === undefined) user.circles = []
   
   return {
     user: user,

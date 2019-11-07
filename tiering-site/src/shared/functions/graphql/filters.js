@@ -23,3 +23,23 @@ export const findUserSongs = (userId, circleId) => ({
     } 
   }
 })
+
+/**
+ * Filter for checking if a User exists in the system
+ * @param {string} username 
+ */
+export const userExists = (username) => ({
+  filter: {
+    username
+  }
+})
+
+/**
+ * Filter for retrieving a user based on a unique ID
+ * @param {string} id 
+ */
+export const userIdFilter = id => ({
+  filter: {
+    id
+  }
+})

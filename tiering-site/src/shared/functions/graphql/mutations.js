@@ -13,7 +13,9 @@
  * that acts as a guideline for the JSON objects we will be receiving!
  */
 
-/** Mutation query for when User creates a new circle!
+/** Mutation query for when a User creates a new circle. This Operation is
+ * only valid if there is a Current User. Meaning, you can't spam create a
+ * bunch of Circles OwO
  * @param {string} ownerID The id of the user creating the circle
  * @param {string} name The name of the circle being created
  * @param {string} description The description of the circle. Can be empty, but not undefined
@@ -44,6 +46,36 @@ export const CreateCircle =
 }`
 
 /**
+ * User signs up to our service!
+ * NOTE: This has a potential security risk
+ * 
+ * @param {string} displayName The display name of the User
+ * @param {string} spotifyLink The link to the User's account on Spotify
+ * @param {string} profilePic The URL to the User's profile picture
+ * @param {string} username The actual Spotify username of the User
+ */
+export const AddUser =
+`mutation AddUser(
+  $username: String!
+  $displayName: String!
+  $spotifyLink: String!
+  $profilePic: String!
+){
+  createUser(
+    displayName: $displayName
+    spotifyLink: $spotifyLink
+    profilePic: $profilePic
+    username: $username
+  ){
+    id
+    displayName
+    userName
+    spotifyLink
+    profilePic
+  }
+}`
+
+/**
  * Update the rating of the Song. Operation is only valid if either of the
  * following are true:
  * (1.) The current User is the Owner of the Circle
@@ -68,12 +100,16 @@ export const RateSong =
 
 /**
  * Update the User's repuatation within the circle
+ * @param {string} id The id of the UCLink to update
+ * @param {number} reputation The new value of the reputation
+ * @param {string} userId Just an insurance, not really necessary
+ * @returns The time the Link was updated.
  */
 export const UpdateReputation = 
 `mutation UpdateReputation(
 	$id: ID!
   $reputation: Float!
-  $userId: ID!
+  $userId: ID
 ){
   updateUCLink(
 		id: $id

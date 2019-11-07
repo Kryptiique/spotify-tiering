@@ -136,6 +136,24 @@ query GetSong(
   }
 }`
 
+/**
+ * Retrieving a single or list of users from the database. The amount
+ * is determined by whether a Unique field is used in the filter.
+ * Operation is only valid for logged in Users.
+ */
+export const GetUser = 
+`query GetUser(
+  $filter: UserFilter!
+){
+  allUsers(filter: $filter){
+    id
+    username
+    displayName
+    reputation
+    profilePic
+    spotifyLink
+  }
+}`
 
 /**
  * Retrieves the link between a User and a Circle.

@@ -5,7 +5,7 @@ const cors = require('cors')
 const querystring = require('querystring')
 const cookieParser = require('cookie-parser')
 const { ApolloServer } = require('apollo-server-express');
-const { gql } = require('apollo-server-express');
+// const { gql } = require('apollo-server-express');
 const { importSchema } = require('graphql-import')
 
 
@@ -144,16 +144,21 @@ app.get('/callback', function(req, res) {
         }
 
         // use the access token to access the Spotify Web API
-        request.get(options, function(error, response, body) {
-          console.log(body)
-        })
-
-        // we can also pass the token to the browser to make requests from there
-        res.redirect(`${ config.client_endpoint }/#` +
+        request.get(options, function(error, response, user) {
+          const profilePic = (user.images.length == 0)
+            ? undefined : user.images[0].url
+          
+          // we can also pass the token to the browser to make requests from there
+          res.redirect(`${ config.client_endpoint }/#` +
           querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
+            a: access_token,
+            t: refresh_token,
+            d: user.display_name,
+            s: user.external_urls.spotify,
+            u: user.id,
+            p: profilePic
           }))
+        })
       } else {
         res.redirect(`${ config.client_endpoint }/#` +
           querystring.stringify({

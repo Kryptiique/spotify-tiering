@@ -10,6 +10,17 @@ export function ProperNoun(s){
 }
 
 /**
+ * Replaces the ID indicator portion of a url with the passed ID
+ * @param {string} url 
+ * @param {string} id 
+ */
+export function urlId(url, id){
+  const s = url.substr(url.indexOf(':'), url.lastIndexOf('/') - url.indexOf(':'))
+  return url.replace(s, id)
+}
+
+
+/**
  * Converts a hex string (#XXXXXX) to RGB
  * @param {String} hex 
  */
