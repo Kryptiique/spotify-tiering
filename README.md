@@ -8,7 +8,7 @@ Spoofy is a webapp where you and your friends can share and rate songs together 
 
 ```.../spotify-tiering/tiering-server ```
 
-This part of the application handles OAuth flow requests through Spotify as well as accessing the app's database with [GraphQL](https://graphql.org/). The server is authorized to access the Spotify OAuth flow that is tied to this app specifically using Julián McClinton's account, and must be reconfigured if maintained by someone else. Please note that the app is setup for **NON COMMERCIAL USE**.
+This part of the application handles OAuth flow requests through Spotify. (Used to also handle GraphQL requests, but this has changed in favor of GraphCool) The server is authorized to access the Spotify OAuth flow that is tied to this app specifically using Julián McClinton's account, and must be reconfigured if maintained by someone else. Please note that the app is setup for **NON COMMERCIAL USE**.
 
 More information on how Spotify's OAuth works can be found [here](https://developer.spotify.com/documentation/general/guides/authorization-guide/#authorization-code-flow).
 
@@ -21,9 +21,11 @@ I will try to keep the server up and running whenever possible, but no promises.
 
 ### GraphQL
 
-This allows easy flow of data between the data storage endpoint (which is currently a SQLite database) and the client frontend. For data such as playlist updates, comments, and ratings, the Client hooks into the server using websockets so that the data is live.
+Setup using [GraphCool](https://www.graph.cool/), the [GraphQL](https://graphql.org/) portion of the app acts as the main storage. Using a SQL database, the GraphCool endpoint allows the client frontend to easily retrieve data using a query language instead of through REST API requests. Additonally, it uses authentication to prevent specifi mutations from being made by unauthorized users (not currently utilized). For live data such as playlist updates, comments, and ratings, the Client hooks into the GraphCool server using websockets so that the data is live. Here is a graphical representation of the schema:
 
-To browse the schema and write test queries yourself, start the server locally and visit `http://localhost:8888/graphql` in your favorite browser. This will take you to Graph-iQL page, a graphical interface for testing out sending and receiving data. While you should definitely do this locally, please refrain from doing it on the actual site, as the mutations can be pretty damaging. We'd like for users NOT to be suddenly dropped from their circles, thank you very much.
+![gql_schema.png](https://github.com/Kryptiique/spotify-tiering/blob/develop/docs/graphql%20schema.png)
+
+I have [included a file](https://github.com/Kryptiique/spotify-tiering/blob/develop/tiering-site/src/shared/functions/graphql/operations.js) that simplifies interaction betwenn the GraphQL endpoint to all the different mutations that can be performed, so take a look at that.
 
 ### SQLite Database
 
