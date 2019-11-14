@@ -26,6 +26,13 @@
 
 p span, p a {
   color:  var(--primary);
+  transition: filter 0.2s;
+}
+
+p a:hover{
+  filter:brightness(calc(1.5*var(--bright)));
+  color:  var(--primary);
+  text-decoration: none;
 }
 
 .full-anchor{

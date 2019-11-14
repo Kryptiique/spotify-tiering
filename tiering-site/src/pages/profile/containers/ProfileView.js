@@ -7,18 +7,57 @@ import TabContent from 'rc-tabs/lib/TabContent'
 // import { bindActionCreators } from 'redux';
 
 // import * as profileActions from '../actions'
+import { circleExists } from '../../../shared/functions/graphql/operations'
 import { app_name } from '../../../shared/constants';
 import '../styles/ProfileView.css'
 import banner from '../styles/banner.png'
 
 class ProfileView extends Component {
-  // constructor(props){
-  //   super(props)
-  // }
+  constructor(props){
+    super(props)
+
+    this.state = {
+      createOpen: false,
+      name: '',
+      spotifyLink: '',
+      newPlayList: true,
+      image: '',
+      public: false
+    }
+  }
+
+  showCreateCircle(){
+    this.resetCircleModal(true)
+  }
+  
+  /** Resets the Components state to have default
+   * values for parameters when creating a new Circle
+   */
+  resetCircleModal(visible){
+    this.setState({
+      createOpen: visible,
+      name: '',
+      spotifyLink: '',
+      newPlayList: true,
+      image: '',
+      public: false
+    })
+  }
+
+  /**
+   * r
+   */
+  validateCreate(){
+    return this.state.name.length > 0
+  }
+
+  checkCircleNameCollision(){
+    
+  }
 
   render(){
     const { user } = this.props
-    console.debug(this.props)
+    
     return (
       <div className="profile">
         <Helmet>
@@ -34,10 +73,10 @@ class ProfileView extends Component {
               <p>Reputation:  <span>{ user.reputation }</span></p>
               <p>Spotify Username: 
                   <span>
-                      { user.username }
-                <a href={ user.spotifyLink }>
-                  <i className='fas fa-sign-out-alt'></i>
-                </a>
+                    <a href={ user.spotifyLink } target="_blank" rel='noopener noreferrer'>
+                      { ` ${ user.username } ` }
+                      {/* <i className='fas fa-sign-out-alt'></i> */}
+                    </a>
                   </span>
               </p>
             </div>
@@ -73,7 +112,7 @@ class ProfileView extends Component {
               {/* List of circles the user is participating in */}
               <TabPane tab='Circles' key='2'>
                 <div className='btn wide negative'>Join</div>
-                <div className='btn wide'>Create</div>
+                <div className='btn wide' onClick={() => this.showCreateCircle() }>Create</div>
               </TabPane>
 
             </Tabs>

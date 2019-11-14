@@ -3,12 +3,14 @@
     "development": {
       "extensionId":"hoaaejpnpjanhahaieaoomjbgbcnilna",
       "api": {
-        "main": " https://qcupy8xv69.execute-api.us-east-1.amazonaws.com/dev"
+        "graphql": "https://api.graph.cool/simple/v1/Spoofy",
+        "graphql_subscriptions": "wss://subscriptions.us-west-2.graph.cool/v1/Spoofy"
       }
     }, 
     "production": {
       "api": {
-        "main":" https://qcupy8xv69.execute-api.us-east-1.amazonaws.com/prod"
+        "graphql": "https://api.graph.cool/simple/v1/Spoofy-prod",
+        "graphql_subscriptions": "wss://subscriptions.us-west-2.graph.cool/v1/Spoofy-prod"
       }
     }
   }

@@ -1,5 +1,6 @@
 import _ from 'lodash'
 
+export const GC_AUTH_TOKEN = 'auth_token'
 export const app_name = 'Spoofy'
 
 /**

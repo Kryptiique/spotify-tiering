@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux'
 
 import * as userActions from '../reducers/user/actions'
 import Authenticator from './Authenticator'
+// import SpotifyCard from './SpotifyCard'
 import { spotifyAPI } from '../../index'
 import { getUser } from '../functions/graphql/operations'
 import Routes from "../routing/Routes";
@@ -88,7 +89,6 @@ class App extends Component {
   }
 
   async currentSession(){
-    this.setState({ refreshing: true })
     const access_token = this.props.cookies.get(cookies.accessToken)
     const refresh_token = this.props.cookies.get(cookies.refreshToken)
     const user_id = this.props.cookies.get(cookies.user)
@@ -101,8 +101,13 @@ class App extends Component {
         spotifyAPI.setAccessToken(access_token)
         this.props.actions.loginUser(user)
         this.setState({ isAuthenticating: false, isAuthenticated: true });
+        return
       }
     }
+
+    // If no user was found either on the database or locally, 
+    // then we couldn't authenticate
+    this.setState({ isAuthenticating: false, isAuthenticated: false });
   }
 
   render() {
@@ -140,6 +145,7 @@ class App extends Component {
             }
             
             <Routes childProps={ childProps } />
+            {/* <SpotifyCard /> */}
           </Fragment>
         }
       </Fragment>

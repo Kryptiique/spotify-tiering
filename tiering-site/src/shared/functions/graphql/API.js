@@ -1,35 +1,87 @@
 import { graphqlOperation } from 'aws-amplify'
 import axios from 'axios'
+import { 
+  Network, 
+  Store, 
+  Environment, 
+  RecordResource 
+} from 'relay-runtime'
+import SubscriptionClient from 'subscriptions-transport-ws'
 
+import { GC_AUTH_TOKEN }from '../../constants'
 import * as queries from './queries'
 import * as mutations from './mutations'
 import * as filters from './filters'
 
-/** The endpoint at which the GQL server is running */
-export const gqlEndpoint = 'https://api.graph.cool/simple/v1/Spoofy'
 
+/** All queries, mutations, and filters we user for GraphQL */
 export const gql = {
   queries,
   mutations,
   filters,
+}
 
+const store = new Store(new RecordResource())
+const fetchQuery = (operation, variables) => {
+  return axios({
+    url: global.gConfig.api.graphql,
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/jsonn',
+      'Authorization': `Bearer ${ localStorage.getItem(GC_AUTH_TOKEN) }`
+    },
+    body: JSON.stringify({
+      query: operation.text,
+      variables,
+    })
+  }).then(response => {
+    return response
+  })
 }
 
 /**
+ * Setup the object used for handling subscriptions through
+ * a web socket
+ * @param {*} config 
+ * @param {*} variables The query variables
+ * @param {*} cacheConfig 
+ * @param {*} observer 
+ */
+const setupSubscription = (config, variables, cacheConfig, observer) => {
+  const query = config.text
+
+  const subscriptionClient = new SubscriptionClient(global.gConfig.api.graphql_subscriptions,
+    { reconnect: true })
+  subscriptionClient.subscribe({query, variables}, (error, result) => {
+    observer.onNext({data: result})
+  })
+}
+
+const network = Network.create(fetchQuery, setupSubscription)
+export const environment = new Environment({
+  network,
+  store,
+})
+
+/**
  * Root API for creating POST requests to GQL using Axios.
+ * This was created with AWS API in mind, but can be replaced with
+ * React-Relay stuff
  */
 const API = {
   graphql: (op) => {
    return axios({
-     method:'post',
-     url: gqlEndpoint,
-     headers: {
-       'Content-Type': 'application/json'
-     },
-     data: op,
-     transformResponse: axios.defaults.transformResponse.concat((data) => {
-       return data.data
-     })
+      method:'post',
+      /** The endpoint at which the GQL server is running */
+      url: global.gConfig.api.graphql,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: op,
+      transformResponse: axios.defaults.transformResponse.concat((data) => {
+        return data.data
+      })
    })
  }
 }
@@ -49,3 +101,10 @@ const gqlReq = (query, args) => {
 }
 
 export default gqlReq
+
+/** Exactly the same as a regular query request, except does not return a
+ * promise. Instead, it returns the response from the the server
+ */
+export async function gqlReqSync (query, args) {
+  return await API.graphql(graphqlOperation(query, args))
+}

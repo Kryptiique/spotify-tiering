@@ -22,6 +22,11 @@ export async function userExists (username) {
   })
 }
 
+/**
+ * Retrieves a user by the given id. Result is undefined if there is no User with that
+ * id in the database
+ * @param {string} id 
+ */
 export async function getUser(id) {
   return await gqlReq( gql.queries.GetUser, gql.filters.userIdFilter(id) ).then(res => {
     if(res.data.allUsers.length === 0) return undefined
@@ -37,8 +42,44 @@ export async function getUser(id) {
  */
 export async function createUser (user) {
   return await gqlReq( gql.mutations.AddUser, user).then(res => {
-    console.debug(res)
     return res.data.createUser
+  }).catch(err => {
+    console.error(err)
+    return undefined
+  })
+}
+
+/**
+ * Checks if a Circle exists in the database with the given name. Circle names must be
+ * unique, so if this returns true you should not attempt to make a new one with that
+ * name. ;)
+ * @param {string} name
+ */
+export async function circleExists(name){
+  return await gqlReq( gql.getCircle, {
+    filter: {
+      name
+    }
+  }).then(res => {
+    console.debug(res)
+    if(res.data.allCircles.length === 0) return undefined
+    return res.data.allCircles[0]
+  }).catch(error => {
+    console.error(error)
+    return undefined
+  })
+}
+
+/**
+ * Create a new circle in the database. 
+ * @param {*} circle 
+ * @returns Returns the id of the circle that was created if no error occured.
+ * Otherwise returns undefined.
+ */
+export async function createCircle(circle){
+  return await gqlReq( gql.mutations.CreateCircle, circle).then(res => {
+    console.debug(res)
+    return res.data.createCircle
   }).catch(err => {
     console.error(err)
     return undefined
