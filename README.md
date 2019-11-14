@@ -1,5 +1,7 @@
 # Spoofy Tiering
 
+[logo.svg](https://github.com/Kryptiique/spotify-tiering/blob/develop/tiering-site/src/shared/static/spoofy%20logo%20site.svg)
+
 Spoofy is a webapp where you and your friends can share and rate songs together using Spotify. Users can create "Circles", invite their friends to join, then add songs to start assigning "Tier" ratings to. 
 
 *NOTE: users must have a Spotify account to use Spoofy.
